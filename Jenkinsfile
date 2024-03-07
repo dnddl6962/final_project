@@ -83,9 +83,9 @@ pipeline {
 						}
 					}
 				}
-                stage("Update Application") {
-                    /* other service */
-                }
+                // stage("Update Application") {
+                //     /* other service */
+                // }
 			}
 		}
     }
