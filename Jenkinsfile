@@ -36,7 +36,7 @@ pipeline {
 						stage("Build Image") {
 							steps {
 								dir('./ecrpush')
-								{
+								script{
                                     sh "docker build -t ${imageName}:${tagName} ."
 								}
 							}
