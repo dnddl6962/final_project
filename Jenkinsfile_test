@@ -13,41 +13,52 @@ pipeline {
 	}
 
 	stages {
-		stage("Checkout") {
-			steps {
-				checkout scm
-				sh "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com"
-			}
-			post {
-				success {
-                    echo "The Checkout stage successfully."
+		stage("Build Image") {
+            steps {
+                // GitHub에서 코드를 가져오면서 ecrpush 디렉토리로 이동하고 해당 디렉토리에서 Dockerfile을 사용하여 도커 이미지 빌드
+                checkout([$class: 'GitSCM',
+                          branches: [[name: 'main']],
+                          doGenerateSubmoduleConfigurations: false,
+                          extensions: [[$class: 'SubmoduleOption', recursiveSubmodules: false]],
+                          submoduleCfg: [],
+                          userRemoteConfigs: [[url: 'https://github.com/dnddl6962/final_project.git']]])
+
+                dir('ecrpush') {
+                    script {
+                        sh "docker build -t ${imageName}:${tagName} ."
+                    }
+                }
+            }
+            post {
+                success {
+                    echo "The Build Image stage successfully."
                 }
                 failure {
-                    echo "The Checkout stage failed."
+                    echo "The Build Image stage failed."
                 }
-			}
-		}
+            }
+        }
 
         stage("Main pipeline") {
 			failFast true
 			parallel {
 				stage("Update Images") {
 					stages {
-						stage("Build Image") {
-							steps {
-								script {
-                                    sh "docker build -t ${imageName}:${tagName} ."
-								}
-							}
-							post {
-								success {
-									echo "The Build Image stage successfully."
-								}
-								failure {
-									echo "The Build Image stage failed."
-								}
-							}
-						}
+						// stage("Build Image") {
+						// 	steps {
+						// 		script {
+                        //             sh "docker build -t ${imageName}:${tagName} ."
+						// 		}
+						// 	}
+						// 	post {
+						// 		success {
+						// 			echo "The Build Image stage successfully."
+						// 		}
+						// 		failure {
+						// 			echo "The Build Image stage failed."
+						// 		}
+						// 	}
+						// }
 						stage("Tag an Push Image") {
 							steps {
 								script {
