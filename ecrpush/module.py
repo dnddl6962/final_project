@@ -34,7 +34,8 @@ class TitanicProcessor:
         self.df['Sex'] = self.df['Sex'].map(sex_mapping)
 
     def fill_age(self):
-        self.df['Age'].fillna(self.df['Age'].median(), inplace=True)
+        # self.df['Age'].fillna(self.df['Age'].median(), inplace=True)
+        self.df['Age'].fillna(self.df['Age'].mode(), inplace=True)
 
     def add_check_column(self):
         self.df['Check'] = np.where((self.df['Sex']=='Male') & (self.df['Age']>=10) & (self.df['Age']<20), 'O', 'X')
