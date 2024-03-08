@@ -9,7 +9,7 @@ pipeline {
 		    AWS_ACCOUNT_ID = credentials("AWS_ACCOUNT_ID")
 			AWS_ACCESS_KEY_ID = credentials("AWS_ACCESS_KEY_ID")
 			AWS_SECRET_ACCESS_KEY = credentials("AWS_SECRET_ACCESS_KEY")
-			SUBNET_ID = credentials("SUBNET_IDS")
+			SUBNET_IDS = credentials("SUBNET_IDS")
 			SECURITY_GROUP_ID = credentials("SECURITY_GROUP_ID")
 			TASK_FAMILY = "shine-s3rds"
 		    IMAGE_URL = "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}"
