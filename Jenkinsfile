@@ -101,7 +101,7 @@ pipeline {
 									def taskDefinition = """
 									{
 									"family": "${TASK_FAMILY}",
-									"taskRoleArn" : arn:aws:iam::${AWS_ACCOUNT_ID}:user/Bigdata5_project_1
+									"taskRoleArn" : arn:aws:iam::${AWS_ACCOUNT_ID}:role/Bigdata5_project_1
 									"containerDefinitions": 
 										{
 										"name": "${imageName}",
