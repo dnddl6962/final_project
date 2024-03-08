@@ -121,7 +121,7 @@ pipeline {
 						stage("Run ECS Task") {
 							steps {
 								script {
-									sh "aws ecs run-task --cluster your-ecs-cluster --task-definition ${TASK_FAMILY} --launch-type FARGATE --network-configuration 'awsvpcConfiguration={subnets=[${SUBNET_ID}],securityGroups=[${SECURITY_GROUP_ID}]}'"
+									sh "aws ecs run-task --cluster your-ecs-cluster --task-definition ${TASK_FAMILY} --launch-type FARGATE --network-configuration 'awsvpcConfiguration={subnets=[${SUBNET_IDS}],securityGroups=[${SECURITY_GROUP_ID}]}'"
 								}
 							}
 						}
