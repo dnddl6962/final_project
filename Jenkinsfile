@@ -131,7 +131,7 @@ pipeline {
 								}
 							}
 						}
-						
+
 						stage("Clean Image") {
 							steps {
 								script {
