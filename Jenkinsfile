@@ -103,8 +103,8 @@ pipeline {
 									"family": "${TASK_FAMILY}",
 									"containerDefinitions": [
 										{
-										"name": "${IMAGE_NAME}",
-										"image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${IMAGE_NAME}:${TAG_NAME}",
+										"name": "${imageName}",
+										"image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}",
 										"cpu": 256,
 										"memory": 512,
 										"essential": true
@@ -112,7 +112,6 @@ pipeline {
 									]
 									}
 									"""
-
 									sh "echo '${taskDefinition}' > taskDefinition.json"
 									sh "aws ecs register-task-definition --cli-input-json file://taskDefinition.json"
 								}
