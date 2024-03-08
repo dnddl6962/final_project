@@ -80,7 +80,6 @@ pipeline {
 						stage("Tag an Push Image") {
 							steps {
 								script {
-									sh "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 466844206835.dkr.ecr.ap-northeast-2.amazonaws.com"
 									sh "aws ecr describe-repositories --repository-names ${imageName} || aws ecr create-repository --repository-name ${imageName}"
 									sh "docker tag ${imageName}:${tagName} ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}"
 									sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}"
@@ -103,8 +102,8 @@ pipeline {
 									"family": "${TASK_FAMILY}",
 									"containerDefinitions": [
 										{
-										"name": "${IMAGE_NAME}",
-										"image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${IMAGE_NAME}:${TAG_NAME}",
+										"name": "${imageName}",
+										"image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}",
 										"cpu": 256,
 										"memory": 512,
 										"essential": true
