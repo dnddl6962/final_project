@@ -12,6 +12,7 @@ pipeline {
 			SUBNET_IDS = credentials("SUBNET_IDS")
 			SECURITY_GROUP_ID = credentials("SECURITY_GROUP_ID")
 			TASK_FAMILY = "shine-s3rds"
+			CLUSTER_NAME ="TestCluster"
 		    IMAGE_URL = "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}"
 	}
   
@@ -121,7 +122,7 @@ pipeline {
 						stage("Run ECS Task") {
 							steps {
 								script {
-									sh "aws ecs run-task --cluster your-ecs-cluster --task-definition ${TASK_FAMILY} --launch-type FARGATE --network-configuration 'awsvpcConfiguration={subnets=[${SUBNET_IDS}],securityGroups=[${SECURITY_GROUP_ID}]}'"
+									sh "aws ecs run-task --cluster y${CLUSTER_NAME} --task-definition ${TASK_FAMILY} --launch-type FARGATE --network-configuration 'awsvpcConfiguration={subnets=[${SUBNET_IDS}],securityGroups=[${SECURITY_GROUP_ID}]}'"
 								}
 							}
 						}
