@@ -101,6 +101,11 @@ pipeline {
 									def taskDefinition = """
 									{
 									"family": "${TASK_FAMILY}",
+									"cpu": "256",
+									"memory": "512",
+									"networkMode": "awsvpc",
+									"executionRoleArn": "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy",
+									"requiresCompatibilities": ["FARGATE"],
 									"containerDefinitions": [
 										{
 										"name": "${imageName}",
@@ -126,6 +131,7 @@ pipeline {
 								}
 							}
 						}
+						
 						stage("Clean Image") {
 							steps {
 								script {
