@@ -100,16 +100,16 @@ pipeline {
 								script {
 									def taskDefinition = """
 									{
-									"family": "${TASK_FAMILY}"
-									"containerDefinitions": 
+									"family": "${TASK_FAMILY}",
+									"containerDefinitions": [
 										{
-										"name": "${imageName}",
-										"image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}",
+										"name": "${IMAGE_NAME}",
+										"image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${IMAGE_NAME}:${TAG_NAME}",
 										"cpu": 256,
 										"memory": 512,
 										"essential": true
 										}
-									
+									]
 									}
 									"""
 
