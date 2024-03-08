@@ -102,22 +102,22 @@ pipeline {
 								script {
 									def taskDefinition = """
 									{
-									"family": "${TASK_FAMILY}",
-									"executionRoleArn":"${EXECUTION_ROLE_ARN}",
-									"networkMode":"awsvpc"
-									"containerDefinitions": [
-										{
-										"name": "${imageName}",
-										"image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}",
-										"essential": true
-										}
-									],
-									"volumes": [],
-									"networkMode": "awsvpc",
-									"memory": "3 GB",
-									"cpu": "1 vCPU",
-									"requiresCompatibilities": ["FARGATE"]
-							
+										"requiresCompatibilities": [
+											"FARGATE"
+										],
+										"family": "${TASK_FAMILY}",
+										"containerDefinitions": [
+											{
+												"name": "${imageName}",
+												"image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}",
+												"essential": true
+											}
+										],
+										"volumes": [],
+										"networkMode": "awsvpc",
+										"memory": "3 GB",
+										"cpu": "1 vCPU",
+										"executionRoleArn": "${EXECUTION_ROLE_ARN}"
 									}
 									"""
 									sh "echo '${taskDefinition}' > taskDefinition.json"
