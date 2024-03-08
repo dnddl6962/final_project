@@ -11,8 +11,10 @@ pipeline {
 			AWS_SECRET_ACCESS_KEY = credentials("AWS_SECRET_ACCESS_KEY")
 			SUBNET_IDS = credentials("SUBNET_IDS")
 			SECURITY_GROUP_ID = credentials("SECURITY_GROUP_ID")
+			EXECUTION_ROLE_ARN = "arn:aws:iam::${AWS_ACCOUNT_ID}:role/ecsTaskExecutionRole"
 			TASK_FAMILY = "shine-s3rds"
 			CLUSTER_NAME ="TestCluster"
+		
 		    IMAGE_URL = "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}"
 	}
   
@@ -101,15 +103,21 @@ pipeline {
 									def taskDefinition = """
 									{
 									"family": "${TASK_FAMILY}",
+									"executionRoleArn":"${EXECUTION_ROLE_ARN}",
+									"networkMode":"awsvpc"
 									"containerDefinitions": [
 										{
 										"name": "${imageName}",
 										"image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}",
-										"cpu": 256,
-										"memory": 512,
 										"essential": true
 										}
-									]
+									],
+									"volumes": [],
+									"networkMode": "awsvpc",
+									"memory": "3 GB",
+									"cpu": "1 vCPU",
+									"requiresCompatibilities": ["FARGATE"],
+							
 									}
 									"""
 									sh "echo '${taskDefinition}' > taskDefinition.json"
