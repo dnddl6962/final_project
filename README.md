@@ -33,14 +33,6 @@
 ### ✔️데이터베이스
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> 
 
-## ⚙️ 모델 파인튜닝 및 훈련 (Model Fine-tuning & training)
-### ✔️Code Llama 모델
-`Code Llama (TinyPixel/CodeLlama-7B-Python-bf16-sharded)`
-### ✔️KoBERT 모델
-`Kobert (SKT/KoBERT-base-v1)`
-### ✔️라이브러리
-`Hugging Face Transformers`, `Tokenizer`, `autotrain-advanced`
-
 
  
 <br/>
