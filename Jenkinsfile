@@ -101,12 +101,8 @@ pipeline {
 									def taskDefinition = """
 									{
 									"family": "${TASK_FAMILY}",
-									"cpu": "256",
-									"memory": "512",
-									"networkMode": "awsvpc",
-									"executionRoleArn": "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy",
-									"requiresCompatibilities": ["FARGATE"],
-									"containerDefinitions": [
+									"taskRoleArn" : arn:aws:iam::${AWS_ACCOUNT_ID}:user/Bigdata5_project_1
+									"containerDefinitions": 
 										{
 										"name": "${imageName}",
 										"image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}",
@@ -114,7 +110,7 @@ pipeline {
 										"memory": 512,
 										"essential": true
 										}
-									]
+									
 									}
 									"""
 
