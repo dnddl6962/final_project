@@ -116,7 +116,7 @@ pipeline {
 									"networkMode": "awsvpc",
 									"memory": "3 GB",
 									"cpu": "1 vCPU",
-									"requiresCompatibilities": ["FARGATE"],
+									"requiresCompatibilities": ["FARGATE"]
 							
 									}
 									"""
