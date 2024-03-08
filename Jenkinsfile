@@ -1,5 +1,5 @@
 def imageName = "example-pipeline"
-def tagName = "0.0.2"
+def tagName = "0.0.1"
 
 
 pipeline {
@@ -81,27 +81,27 @@ pipeline {
 							}
 						}
             stage("Update ECS Task Definition") {
-            steps {
-                script {
-                    def taskDefinition = """
-                    {
-                      "family": "${TASK_FAMILY}",
-                      "containerDefinitions": [
-                        {
-                          "name": "${IMAGE_NAME}",
-                          "image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${IMAGE_NAME}:${TAG_NAME}",
-                          "cpu": 256,
-                          "memory": 512,
-                          "essential": true
-                        }
-                      ]
-                    }
-                    """
+				steps {
+					script {
+						def taskDefinition = """
+						{
+						"family": "${TASK_FAMILY}",
+						"containerDefinitions": [
+							{
+							"name": "${IMAGE_NAME}",
+							"image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${IMAGE_NAME}:${TAG_NAME}",
+							"cpu": 256,
+							"memory": 512,
+							"essential": true
+							}
+						]
+						}
+						"""
 
-                    sh "echo '${taskDefinition}' > taskDefinition.json"
-                    sh "aws ecs register-task-definition --cli-input-json file://taskDefinition.json"
-                }
-            }
+						sh "echo '${taskDefinition}' > taskDefinition.json"
+						sh "aws ecs register-task-definition --cli-input-json file://taskDefinition.json"
+					}
+				}
         }
 
         stage("Run ECS Task") {
