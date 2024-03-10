@@ -1,0 +1,22 @@
+# .env 파일과 같은 환경 설정 파일을 무시
+.env
+
+# Python 컴파일된 파일 무시
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE 설정 무시
+.idea/
+.vscode/
+*.sublime-workspace
+
+# 로그 파일과 데이터베이스 파일 무시
+*.log
+*.sql
+*.db
+
+# 디펜던시 폴더 무시 (예: virtualenv)
+venv/
+env/
