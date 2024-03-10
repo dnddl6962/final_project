@@ -65,21 +65,6 @@ pipeline {
 			parallel {
 				stage("Update Images") {
 					stages {
-						// stage("Build Image") {
-						// 	steps {
-						// 		script {
-                        //             sh "docker build -t ${imageName}:${tagName} ."
-						// 		}
-						// 	}
-						// 	post {
-						// 		success {
-						// 			echo "The Build Image stage successfully."
-						// 		}
-						// 		failure {
-						// 			echo "The Build Image stage failed."
-						// 		}
-						// 	}
-						// }
 						stage("Tag an Push Image") {
 							steps {
 								script {
