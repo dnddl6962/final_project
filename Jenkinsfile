@@ -7,16 +7,33 @@ pipeline {
 
 	environment {
 		    AWS_ACCOUNT_ID = credentials("AWS_ACCOUNT_ID")
-        AWS_ACCESS_KEY_ID = credentials("AWS_ACCESS_KEY_ID")
-        AWS_SECRET_ACCESS_KEY = credentials("AWS_SECRET_ACCESS_KEY")
-        SUBNET_ID = credentials("SUBNET_IDS")
-        SECURITY_GROUP_ID = credentials("SECURITY_GROUP_ID")
-        TASK_FAMILY = "shine-s3rds"
+			AWS_ACCESS_KEY_ID = credentials("AWS_ACCESS_KEY_ID")
+			AWS_SECRET_ACCESS_KEY = credentials("AWS_SECRET_ACCESS_KEY")
+			SUBNET_IDS = credentials("SUBNET_IDS")
+			SECURITY_GROUP_ID = credentials("SECURITY_GROUP_ID")
+			EXECUTION_ROLE_ARN = "arn:aws:iam::${AWS_ACCOUNT_ID}:role/ecsTaskExecutionRole"
+			TASK_FAMILY = "shine-s3rds"
+			CLUSTER_NAME ="TestCluster"
+		
 		    IMAGE_URL = "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}"
 	}
   
 
 	stages {
+		stage("Checkout") {
+			steps {
+				checkout scm
+				sh "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com"
+			}
+			post {
+				success {
+                    echo "The Checkout stage successfully."
+                }
+                failure {
+                    echo "The Checkout stage failed."
+                }
+			}
+		}
 		stage("Build Image") {
             steps {
                 // GitHub에서 코드를 가져오면서 ecrpush 디렉토리로 이동하고 해당 디렉토리에서 Dockerfile을 사용하여 도커 이미지 빌드
@@ -80,37 +97,43 @@ pipeline {
 								}
 							}
 						}
-            stage("Update ECS Task Definition") {
-				steps {
-					script {
-						def taskDefinition = """
-						{
-						"family": "${TASK_FAMILY}",
-						"containerDefinitions": [
-							{
-							"name": "${IMAGE_NAME}",
-							"image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${IMAGE_NAME}:${TAG_NAME}",
-							"cpu": 256,
-							"memory": 512,
-							"essential": true
+						stage("Update ECS Task Definition") {
+							steps {
+								script {
+									def taskDefinition = """
+									{
+										"requiresCompatibilities": [
+											"FARGATE"
+										],
+										"family": "${TASK_FAMILY}",
+										"containerDefinitions": [
+											{
+												"name": "${imageName}",
+												"image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}",
+												"essential": true
+											}
+										],
+										"volumes": [],
+										"networkMode": "awsvpc",
+										"memory": "3 GB",
+										"cpu": "1 vCPU",
+										"executionRoleArn": "${EXECUTION_ROLE_ARN}"
+									}
+									"""
+									sh "echo '${taskDefinition}' > taskDefinition.json"
+									sh "aws ecs register-task-definition --cli-input-json file://taskDefinition.json"
+								}
 							}
-						]
-						}
-						"""
-
-						sh "echo '${taskDefinition}' > taskDefinition.json"
-						sh "aws ecs register-task-definition --cli-input-json file://taskDefinition.json"
 					}
-				}
-        }
 
-        stage("Run ECS Task") {
-            steps {
-                script {
-                    sh "aws ecs run-task --cluster your-ecs-cluster --task-definition ${TASK_FAMILY} --launch-type FARGATE --network-configuration 'awsvpcConfiguration={subnets=[${SUBNET_ID}],securityGroups=[${SECURITY_GROUP_ID}]}'"
-                }
-            }
-        }
+						stage("Run ECS Task") {
+							steps {
+								script {
+									sh "aws ecs run-task --cluster ${CLUSTER_NAME} --task-definition ${TASK_FAMILY} --launch-type FARGATE --network-configuration 'awsvpcConfiguration={subnets=[${SUBNET_IDS}],securityGroups=[${SECURITY_GROUP_ID}]}'"
+								}
+							}
+						}
+
 						stage("Clean Image") {
 							steps {
 								script {
