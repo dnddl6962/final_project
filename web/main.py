@@ -1,14 +1,35 @@
-from fastapi import FastAPI, HTTPException, Body, Request
+from fastapi import FastAPI, HTTPException, Body, Request, status
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
-#from s3_utils import save_results_to_s3
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from dotenv import load_dotenv
+import os
+from database import engine, metadata, database
+from models import Base, User
+from schemas import Nickname
+
+
+
+load_dotenv()  #환경 변수 불러오기.
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+print(f"DATABASE_URL: {DATABASE_URL}")
 
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
+
+# @app.on_event("startup")
+# async def startup():
+#     await database.connect()
+#     # 데이터베이스 테이블 생성
+#     metadata.create_all(bind=engine)
+
+# @app.on_event("shutdown")
+# async def shutdown():
+#     await database.disconnect()
 
 @app.get("/", response_class=HTMLResponse)
 async def get_home_page(request: Request):
@@ -41,6 +62,8 @@ async def process_answer(response: UserResponse):
 #     save_results_to_s3(user_id, results)
 #     return {"message": "Results saved successfully"}
 
-
-
-
+@app.post("/users/", response_model=Nickname, status_code=status.HTTP_201_CREATED)
+async def create_user(nickname: Nickname):
+    query = users.insert().values(nickname=nickname.nickname)
+    last_record_id = await database.execute(query)
+    return {"id": last_record_id, "nickname": nickname.nickname}
