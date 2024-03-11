@@ -1,4 +1,4 @@
-def imageName = "example-pipeline"
+def imageName = "irt-pipeline"
 def tagName = "0.0.1"
 
 
@@ -14,7 +14,6 @@ pipeline {
 			EXECUTION_ROLE_ARN = "arn:aws:iam::${AWS_ACCOUNT_ID}:role/ecsTaskExecutionRole"
 			TASK_FAMILY = "shine-s3rds"
 			CLUSTER_NAME ="TestCluster"
-		
 		    IMAGE_URL = "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}"
 	}
   
@@ -44,7 +43,7 @@ pipeline {
                           submoduleCfg: [],
                           userRemoteConfigs: [[url: 'https://github.com/dnddl6962/final_project.git']]])
 
-                dir('ecrpush') {
+                dir('irt_pipeline') {
                     script {
                         sh "docker build -t ${imageName}:${tagName} ."
                     }
