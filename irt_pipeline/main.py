@@ -1,13 +1,12 @@
+from conn_athena import connect_to_athena
+from query_athena import query_athena_data
+from filter_data import filter_data
+from create_jsonlines import save_data_to_jsonlines
 
-from load import load_and_preprocess_data
-from filter import filter_data
-from create_json import create_jsonlines
 
-# 데이터 로딩 및 전처리
-df5 = load_and_preprocess_data('mathcat-bucket', 'DATA_preprocessing/Unsaved/2024/03/06/baba44b9-9567-4da7-872e-35cde599f185.csv')
-
-# 데이터 필터링
+conn = connect_to_athena()
+df5 = query_athena_data(conn)
 df5_filtered = filter_data(df5)
+save_data_to_jsonlines(df5_filtered)
 
-# 데이터 변환 및 JSONLines 파일 생성
-create_jsonlines(df5_filtered)
+
