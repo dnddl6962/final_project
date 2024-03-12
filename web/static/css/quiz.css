@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Song+Myung&display=swap');
+
+header {
+    width: 100%;
+    /* 헤더 높이 설정 필요. 예를 들면, 70px */
+    height: 70px;
+    background: #fbfbfb;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    overflow: hidden; /* 헤더 밖으로 이미지가 나가지 않도록 설정 */
+}
+
+.header-container {
+    /* .header-container에 관련된 나머지 스타일 */
+    position: relative; /* 이미지를 헤더 내부에서 절대 위치로 조정하기 위함 */
+}
+  
+  .box {
+    width: 100vw;       /* 화면의 전체 너비 */
+    height: 100vh;      /* 화면의 전체 높이 */
+    position: absolute;
+    /*top: 70px;  */
+    left: 0;
+    
+    /* background-color: #A8EA66; 단일 배경색 사용 */
+    /* OR */
+    background: rgb(234,255,214);
+    background: linear-gradient(324deg, rgba(234,255,214,1) 18%, rgba(124,207,42,1) 46%, rgba(254,237,96,1) 97%);
+  }
+  body, html {
+    /*padding-top: 70px;  헤더 높이에 맞춰 조정 */
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'song-myung-regular', cursive;
+    
+  }
+  .container {
+    text-align: center;
+  }
+  h1 {
+    font-size: 3em; /* 제목의 크기를 조정하세요 */
+    color: black; /* 제목의 색상을 조정하세요 */
+    margin-top: 4em;
+    margin-bottom: 0.5em;
+    font-weight: 700;
+    font-family: 'song-myung-regular', cursive; /* 이 폰트를 사용하여 스타일링 */
+    /* text-shadow: -2px -2px 0 #799260, 2px -2px 0 #799260, -2px 2px 0 #799260, 2px 2px 0 #799260; */
+  }
+  
+  p {
+    font-size: 2em; /* 본문 텍스트의 크기를 조정하세요 */
+    color: black; /* 본문 텍스트의 색상을 조정하세요 */
+    margin-top: 3em;
+    margin-bottom: 2em;
+    font-weight: 700;
+    font-family: 'song-myung-regular', cursive;
+    /* text-shadow: -2px -2px 0 #ffffff, 2px -2px 0 #ffffff, -2px 2px 0 #ffffff, 2px 2px 0 #ffffff; */
+
+  }
+  
+  button {
+    background-color: black; /* 버튼 배경 색상을 조정하세요 */
+    border: none;
+    color: #799260;
+    padding: 15px 27px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-weight: 500;
+    border-radius: 15px; 
+    font-family: 'song-myung-regular', cursive;
+  }    
+  .cute-cat-image {
+    max-height: 70px; /* 헤더의 높이와 일치하도록 설정 */
+    width: auto; /* 이미지의 원래 가로 세로 비율을 유지하면서 높이에 맞춤 */
+    height: auto; /* 이미지의 원래 가로 세로 비율을 유지하면서 높이에 맞춤 */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+    /* 애니메이션 및 기타 스타일 */
+    /* 이미지의 중심을 정확히 중앙에 배치 */
+    animation: moveLeftRight 5s infinite alternate;
+}
+  
+@keyframes moveLeftRight {
+    from {
+      left: 0;
+    }
+    to {
+      left: 100%; /* 이미지를 헤더의 오른쪽 끝까지 이동 */
+    }
+}
+#nickname-form {
+    margin: 20px 0; /* 폼 주위의 여백 */
+}
+#nickname {
+    padding: 10px; /* 입력 필드 내부의 패딩 */
+    margin-right: 10px; /* 버튼과의 간격 */
+    border: 5px solid rgb(108, 180, 36); /* 테두리 스타일 */
+    border-radius: 10px; /* 둥근 모서리 */
+}
+  
+
+  
+  

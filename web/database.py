@@ -1,12 +1,22 @@
-# database.py
-from sqlalchemy import create_engine, MetaData
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from databases import Database
+from sqlalchemy.ext.declarative import declarative_base
 import os
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-database = Database(DATABASE_URL)
+from dotenv import load_dotenv
+load_dotenv()
 
-metadata = MetaData()
+host = os.environ.get("AWS_RDS_HOST")
+port = os.environ.get("AWS_RDS_PORT")
+user_name = os.environ.get("AWS_RDS_USERNAME")
+password = os.environ.get("AWS_RDS_PASSWORD")
+
+DATABASE_URL = f"mysql+pymysql://{user_name}:{password}@{host}:{port}/myweb?charset=utf8"
 engine = create_engine(DATABASE_URL)
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
+
+def create_tables():
+    Base.metadata.create_all(bind=engine)
+    print("Tables created successfully")
