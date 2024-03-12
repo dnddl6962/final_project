@@ -6,15 +6,16 @@ from fastapi.templating import Jinja2Templates
 from dotenv import load_dotenv
 import os
 from database import SessionLocal, engine
-from models import Base
 from schemas import Nickname
 from sqlalchemy.orm import Session
-import models
+from models import StudentTest
+from database import SessionLocal, engine, Base
+
 
 load_dotenv()  #환경 변수 불러오기.
 
 
-
+#Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
