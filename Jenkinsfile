@@ -86,17 +86,15 @@ pipeline {
 								script {
 									def taskDefinition = """
 									{
-										"requiresCompatibilities": [
-											"FARGATE"
-										],
+										"requiresCompatibilities": ["FARGATE"],
 										"family": "${TASK_FAMILY}",
 										"containerDefinitions": [
 											{
 												"name": "${imageName}",
 												"image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}",
-												"cpu": "4vCPU",
-												"memory": "16GB",
-												"memoryReservation" :"8GB",
+												"cpu": "4 vCPU",
+												"memory": "16 GB",
+												"memoryReservation": "8 GB",
 												"essential": true,
 												"environment": [
 																{
@@ -108,7 +106,8 @@ pipeline {
 																	"value": "${AWS_SECRET_ACCESS_KEY}"
 																}
 															],
-												"logConfiguration": {
+												"logConfiguration":
+												 {
 													"logDriver": "awslogs",
 													"options": {
 														"awslogs-create-group": "true",
@@ -116,13 +115,13 @@ pipeline {
 														"awslogs-region": "ap-northeast-2",
 														"awslogs-stream-prefix": "ecs"
 														}
-												},
+												}
 											}
 										],
 										"volumes": [],
 										"networkMode": "awsvpc",
-										"memory": "16GB",
-										"cpu": "4vCPU",
+										"memory": "16 GB",
+										"cpu": "4 vCPU",
 										"executionRoleArn": "${EXECUTION_ROLE_ARN}",
 										"taskRoleArn": "${EXECUTION_ROLE_ARN}"
 									}
