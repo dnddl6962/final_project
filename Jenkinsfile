@@ -96,7 +96,7 @@ pipeline {
 												"image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}",
 												"cpu": "4vCPU",
 												"memory": "16GB",
-												"memoryReservation" :"8GB"
+												"memoryReservation" :"8GB",
 												"essential": true,
 												"environment": [
 																{
