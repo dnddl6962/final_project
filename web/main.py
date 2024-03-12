@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Body, Request, status
+from fastapi import FastAPI, HTTPException, Body, Request, status, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
 from pydantic import BaseModel
 from fastapi.staticfiles import StaticFiles
@@ -6,18 +6,36 @@ from fastapi.templating import Jinja2Templates
 from dotenv import load_dotenv
 import os
 from database import SessionLocal, engine
-from schemas import Nickname
+from schemas import NicknameCreate
 from sqlalchemy.orm import Session
-from models import StudentTest
+from models import Nickname
 from database import SessionLocal, engine, Base
+import schemas, models
+from fastapi.responses import JSONResponse
 
 
 load_dotenv()  #환경 변수 불러오기.
 
-
 #Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
+# Dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()       
+
+@app.post("/users/")
+def create_user(nickname: NicknameCreate):
+    try:
+        # 닉네임 생성 로직
+        # nickname.nickname 값을 사용하여 닉네임을 생성합니다.
+        return {"message": "Nickname created successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 

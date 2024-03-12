@@ -1,5 +1,4 @@
-# schemas.py
 from pydantic import BaseModel
 
-class Nickname(BaseModel):
+class NicknameCreate(BaseModel):
     nickname: str

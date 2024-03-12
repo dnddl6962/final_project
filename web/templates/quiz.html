@@ -1,27 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Page</title>
-    <link rel="stylesheet" href="/static/css/quiz.css"> <!-- 퀴즈 페이지 스타일 -->
-    <link href="https://fonts.googleapis.com/css2?family=Song+Myung&display=swap" rel="stylesheet">
+    <title>웅이네 샤인매스캣 - 퀴즈 페이지</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Song+Myung&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/quiz.css?v=1.1">
 </head>
-<header>
-  <div class="header-container">
-      <img src="/static/img/cute_cat.png" alt="Cute Cat" class="cute-cat-image"/>
-  </div>
-</header>
-<body>
-    <div id="quiz-container">
-        <div id="question-container">
-            <h1 id="question-text">문제1</h1>
-            <p id="idk">진짜뭐함?</p>
-            <div id="options-container">
-                <!-- 선택지 버튼이 여기에 들어갑니다 -->
+<!-- <body>
+  <div id="display-start-time"></div>
+  <script src="/static/js/quiz.js">
+  document.addEventListener('DOMContentLoaded', function() {
+      const startTime = localStorage.getItem('startTime');
+      console.log(`Loaded start time from localStorage: ${startTime}`); // localStorage에서 시작 시간을 가져옵니다.
+      if (startTime) {
+          document.getElementById('display-start-time').textContent = `시작 시간: ${startTime}`;
+      }
+  });
+  </script>
+    <header>
+        <div class="header-container">
+            <img src="/static/img/cute_cat.png" alt="Cute Cat" class="cute-cat-image"/>
+        </div>
+    </header>
+  
+    <div class="box">
+      
+        <div class="container">
+
+            <h1>초등 5학년 수학</h1>
+            <div id="quiz-container">
+                <div id="question-container">
+                    <h2 id="question-number">1번째 문제</h2>
+                    <p id="quiz-code">Quiz Code: ABC123</p>
+                    <button id="o-button" class="option-button">O</button>
+                    <button id="x-button" class="option-button">X</button>
+                    <button id="next-button">다음</button>
+                </div>
             </div>
         </div>
     </div>
-    <script src="/static/js/quiz.js"></script> <!-- 퀴즈 페이지 스크립트 -->
+    
+    <script src="/static/js/quiz.js"></script>
+</body>
+</html> -->
+<body>
+    <header>
+        <div class="header-container">
+            <img src="/static/img/cute_cat.png" alt="Cute Cat" class="cute-cat-image"/>
+        </div>
+    </header>
+    <div class="box">
+        <div class="container">
+            <h1>초등 5학년 수학</h1>
+            <div id="quiz-container">
+                <div id="question-container">
+                    <h2 id="question-number">1번째 문제</h2>
+                    <h3 id = "display-start-time"></h3>
+                    <p id="quiz-code">Quiz Code: ABC123</p>
+                    <button id="o-button" class="option-button">O</button>
+                    <button id="x-button" class="option-button">X</button>
+                    <button id="next-button">다음</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/static/js/quiz.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const startTimeString = localStorage.getItem('startTime');
+      if (startTimeString) {
+        // ISO 문자열에서 Date 객체를 생성합니다.
+        const startTime = new Date(startTimeString);
+        // 날짜 포맷을 '년-월-일 시:분' 형식으로 설정합니다.
+        const formattedTime = startTime.getFullYear() + '-' + 
+            ('0' + (startTime.getMonth() + 1)).slice(-2) + '-' + 
+            ('0' + startTime.getDate()).slice(-2) + ' ' + 
+            ('0' + startTime.getHours()).slice(-2) + ':' + 
+            ('0' + startTime.getMinutes()).slice(-2);
+        
+        // ID가 'display-start-time'인 요소에 포맷팅된 시간을 표시합니다.
+        document.getElementById('display-start-time').textContent = `시작 시간: ${formattedTime}`;
+      }
+    });
+    </script>
 </body>
 </html>
+

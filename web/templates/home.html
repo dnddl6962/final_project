@@ -20,15 +20,22 @@
         <div class="container">
             <h1>웅이네 샤인매스캣에 오신 것을 환영합니다.</h1>
             <p>지금 바로 시작하세요</p>
-            <form id="nickname-form" action="서버_처리_URL" method="POST">
+            <form id="nickname-form" action="/users/" method="POST">
                 <input type="text" id="nickname" name="nickname" placeholder="닉네임을 입력하세요" required>
-                <button type="submit"> 닉네임 등록 </button>
+                <button type="submit">닉네임 등록</button>
+            </form>            
             </form>
             <button id="start-test">시작하기</button>
-            <script src="/static/js/quiz.js"></script>
             <script>
-            document.getElementById('start-test').addEventListener('click', startTest);
-            </script> 
+                function startTest() {
+                    const startTime = new Date().toISOString();
+                    localStorage.setItem('startTime', startTime);
+                    console.log(localStorage.getItem('startTime')); // 저장된 값을 콘솔에서 확인
+                    alert('Button clicked!');
+                    window.location.href = '/quiz';
+                }
+                document.getElementById('start-test').addEventListener('click', startTest);
+            </script>
             <button id="result">결과확인</button> 
             <script src="/static/js/result.js"></script>
             <script>

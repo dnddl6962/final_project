@@ -1,4 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Song+Myung&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Song+Myung&display=swap');
+
+#display-start-time {
+    font-size: 2em; /* 본문 텍스트의 크기를 조정하세요 */
+    color: white; /* 본문 텍스트의 색상을 조정하세요 */
+    margin-top: 3em;
+    margin-bottom: 2em;
+    font-weight: 700;
+    font-family: "Nanum Gothic", sans-serif;
+}
 
 header {
     width: 100%;
@@ -20,7 +29,7 @@ header {
     width: 100vw;       /* 화면의 전체 너비 */
     height: 100vh;      /* 화면의 전체 높이 */
     position: absolute;
-    /*top: 70px;  */
+    top: 70px; 
     left: 0;
     
     /* background-color: #A8EA66; 단일 배경색 사용 */
@@ -35,7 +44,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'song-myung-regular', cursive;
+    font-family: "Nanum Gothic", sans-serif;
     
   }
   .container {
@@ -43,27 +52,44 @@ header {
   }
   h1 {
     font-size: 3em; /* 제목의 크기를 조정하세요 */
-    color: black; /* 제목의 색상을 조정하세요 */
+    color: white; /* 제목의 색상을 조정하세요 */
     margin-top: 4em;
     margin-bottom: 0.5em;
     font-weight: 700;
-    font-family: 'song-myung-regular', cursive; /* 이 폰트를 사용하여 스타일링 */
+    font-family: "Nanum Gothic", sans-serif; /* 이 폰트를 사용하여 스타일링 */
     /* text-shadow: -2px -2px 0 #799260, 2px -2px 0 #799260, -2px 2px 0 #799260, 2px 2px 0 #799260; */
   }
-  
+  h2{
+    font-size: 2em; /* 제목의 크기를 조정하세요 */
+    color: white; /* 제목의 색상을 조정하세요 */
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+    font-weight: 500;
+    font-family: "Nanum Gothic", sans-serif; /* 이 폰트를 사용하여 스타일링 */
+    /* text-shadow: -2px -2px 0 #799260, 2px -2px 0 #799260, -2px 2px 0 #799260, 2px 2px 0 #799260; */
+  }
+  h2{
+    font-size: 2em; /* 제목의 크기를 조정하세요 */
+    color: white; /* 제목의 색상을 조정하세요 */
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+    font-weight: 500;
+    font-family: "Nanum Gothic", sans-serif; /* 이 폰트를 사용하여 스타일링 */
+    /* text-shadow: -2px -2px 0 #799260, 2px -2px 0 #799260, -2px 2px 0 #799260, 2px 2px 0 #799260; */
+  }
   p {
     font-size: 2em; /* 본문 텍스트의 크기를 조정하세요 */
-    color: black; /* 본문 텍스트의 색상을 조정하세요 */
+    color: white; /* 본문 텍스트의 색상을 조정하세요 */
     margin-top: 3em;
     margin-bottom: 2em;
     font-weight: 700;
-    font-family: 'song-myung-regular', cursive;
+    font-family: "Nanum Gothic", sans-serif;
     /* text-shadow: -2px -2px 0 #ffffff, 2px -2px 0 #ffffff, -2px 2px 0 #ffffff, 2px 2px 0 #ffffff; */
 
   }
   
   button {
-    background-color: black; /* 버튼 배경 색상을 조정하세요 */
+    background-color: white; /* 버튼 배경 색상을 조정하세요 */
     border: none;
     color: #799260;
     padding: 15px 27px;
@@ -75,7 +101,7 @@ header {
     cursor: pointer;
     font-weight: 500;
     border-radius: 15px; 
-    font-family: 'song-myung-regular', cursive;
+    font-family: "Nanum Gothic", sans-serif;
   }    
   .cute-cat-image {
     max-height: 70px; /* 헤더의 높이와 일치하도록 설정 */
@@ -107,7 +133,7 @@ header {
     border: 5px solid rgb(108, 180, 36); /* 테두리 스타일 */
     border-radius: 10px; /* 둥근 모서리 */
 }
-  
+
 
   
   
