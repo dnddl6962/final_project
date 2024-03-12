@@ -123,12 +123,8 @@ pipeline {
 										"memory": "16 GB",
 										"cpu": "4 vCPU",
 										"executionRoleArn": "${EXECUTION_ROLE_ARN}",
-										"taskRoleArn": "${EXECUTION_ROLE_ARN}",
-										"runtimePlatform": 
-											{
-												"cpuArchitecture": "X86_64",
-												"operatingSystemFamily": "LINUX"
-											},
+										"taskRoleArn": "${EXECUTION_ROLE_ARN}"
+				
 									}
 									"""
 									sh "echo '${taskDefinition}' > taskDefinition.json"
