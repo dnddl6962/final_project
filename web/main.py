@@ -66,3 +66,13 @@ async def process_answer(response: UserResponse):
     
     return {"next_question": "다음 문제 정보", "est_theta": "현재 추정된 능력치"}
 
+class Answer(BaseModel):
+    answer: bool
+
+@app.post('/submit-answer')
+async def submit_answer(answer: Answer):  # 본문으로부터 Answer 모델 객체를 자동으로 얻음
+    # 사용자의 응답에 기반한 처리 로직
+    # 예: 사용자의 능력치 업데이트, 다음 문제 선택 등
+
+    # 클라이언트에게 JSON 형태로 다음 문제 데이터 및 기타 정보 반환
+    return {"next_question": "some_question_data", "other_info": "value"}
