@@ -12,7 +12,7 @@ pipeline {
 			SUBNET_IDS = credentials("SUBNET_IDS")
 			SECURITY_GROUP_ID = credentials("SECURITY_GROUP_ID")
 			EXECUTION_ROLE_ARN = "arn:aws:iam::${AWS_ACCOUNT_ID}:role/ecsTaskExecutionRole"
-			TASK_FAMILY = "shine-s3rds"
+			TASK_FAMILY = "irt_pipeline"
 			CLUSTER_NAME ="TestCluster"
 		    IMAGE_URL = "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}"
 	}
@@ -94,7 +94,17 @@ pipeline {
 											{
 												"name": "${imageName}",
 												"image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}",
-												"essential": true
+												"essential": true,
+												"environment": [
+																{
+																	"name": "aws_access_key_id",
+																	"value": "${AWS_ACCESS_KEY_ID}"
+																},
+																{
+																	"name": "aws_secret_access_key",
+																	"value": "${AWS_SECRET_ACCESS_KEY}"
+																}
+															]
 											}
 										],
 										"volumes": [],
