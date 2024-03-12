@@ -94,6 +94,9 @@ pipeline {
 											{
 												"name": "${imageName}",
 												"image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}",
+												"cpu": "4vCPU",
+												"memory": "16GB",
+												"memoryReservation" :"8GB"
 												"essential": true,
 												"environment": [
 																{
@@ -104,14 +107,24 @@ pipeline {
 																	"name": "aws_secret_access_key",
 																	"value": "${AWS_SECRET_ACCESS_KEY}"
 																}
-															]
+															],
+												"logConfiguration": {
+													"logDriver": "awslogs",
+													"options": {
+														"awslogs-create-group": "true",
+														"awslogs-group": "/ecs/irt_pipeline",
+														"awslogs-region": "ap-northeast-2",
+														"awslogs-stream-prefix": "ecs"
+														}
+												},
 											}
 										],
 										"volumes": [],
 										"networkMode": "awsvpc",
-										"memory": "3 GB",
-										"cpu": "1 vCPU",
-										"executionRoleArn": "${EXECUTION_ROLE_ARN}"
+										"memory": "16GB",
+										"cpu": "4vCPU",
+										"executionRoleArn": "${EXECUTION_ROLE_ARN}",
+										"taskRoleArn": "${EXECUTION_ROLE_ARN}"
 									}
 									"""
 									sh "echo '${taskDefinition}' > taskDefinition.json"
