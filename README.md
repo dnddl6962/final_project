@@ -35,12 +35,14 @@
 #### CI/CD
 <img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white">
 <img src="https://img.shields.io/badge/amazoncloudwatch-FF4F8B?style=for-the-badge&logo=amazoncloudwatch&logoColor=white">
-✔️운영체제
+
+#### ✔️운영체제
 <img src="https://img.shields.io/badge/Ubuntu-22.04-E95420?style=for-the-badge&logo=Ubuntu&logoColor=#E95420"> <img src="https://img.shields.io/badge/windows 11-0078D4?style=for-the-badge&logo=windows11&logoColor=#0078D4"> 
-✔️데이터베이스
+#### ✔️데이터베이스
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
-✔️클라우드
-<img src="https://img.shields.io/badge/Amazon_AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white">
+
+#### ✔️컴퓨팅
+<img src="https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white">
 
 
 
