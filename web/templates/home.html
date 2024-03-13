@@ -25,7 +25,7 @@
                 <button type="submit">닉네임 등록</button>
             </form>            
             </form>
-            <button id="start-test">시작하기</button>
+            <button id="start-test">시험 시작</button>
             <script>
                 function startTest() {
                     const startTime = new Date().toISOString();
@@ -36,10 +36,13 @@
                 }
                 document.getElementById('start-test').addEventListener('click', startTest);
             </script>
-            <button id="result">결과확인</button> 
-            <script src="/static/js/result.js"></script>
+            <button id="result">결과 확인</button>
             <script>
-            document.getElementById('result').addEventListener('click', testResult);
+                function testResult() {
+                    alert('Button clicked!');
+                    window.location.href = '/result'; // 결과 확인 페이지로 이동
+                }
+                document.getElementById('result').addEventListener('click', testResult);
             </script>
         </div>
     </div>
