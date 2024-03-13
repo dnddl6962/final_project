@@ -19,7 +19,6 @@
 
 <br/>
 
-
 ## ⚙️ 개발 환경
 ### ✔️언어 및 라이브러리
 <img src="https://img.shields.io/badge/Torch-2.1.2-EE4C2C?style=for-the-badge&logo=Pytorch&logoColor=#EE4C2C"> <img src="https://img.shields.io/badge/Python-3.10.12/3.11.5-3776AB?style=for-the-badge&logo=Python&logoColor=#3776AB">
@@ -35,18 +34,27 @@
 #### ✔️CI/CD
 <img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white">
 
-
-#### ✔️모니터링
-<img src="https://img.shields.io/badge/amazoncloudwatch-FF4F8B?style=for-the-badge&logo=amazoncloudwatch&logoColor=white">
-
 #### ✔️운영체제
 <img src="https://img.shields.io/badge/Ubuntu-22.04-E95420?style=for-the-badge&logo=Ubuntu&logoColor=#E95420"> <img src="https://img.shields.io/badge/windows 11-0078D4?style=for-the-badge&logo=windows11&logoColor=#0078D4"> 
 
 #### ✔️데이터베이스
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 
+### ✔️AWS
 #### ✔️컴퓨팅
 <img src="https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white">
+<img src="https://img.shields.io/badge/amazonecs-FF9900?style=for-the-badge&logo=amazonecs&logoColor=white">
+<img src="https://img.shields.io/badge/awsfargate-FF9900?style=for-the-badge&logo=awsfargate&logoColor=white">
+
+#### ✔️스토리지
+<img src="https://img.shields.io/badge/amazons3-569A31?style=for-the-badge&logo=amazons3&logoColor=white">
+<img src="https://img.shields.io/badge/amazonrds-527FFF?style=for-the-badge&logo=amazonrds&logoColor=white">
+
+#### ✔️모니터링
+<img src="https://img.shields.io/badge/amazoncloudwatch-FF4F8B?style=for-the-badge&logo=amazoncloudwatch&logoColor=white">
+
+
+
 
 
 
