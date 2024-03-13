@@ -1,5 +1,5 @@
 def imageName = "irt-pipeline"
-def tagName = "0.0.1"
+def tagName = "0.0.2"
 
 
 pipeline {
