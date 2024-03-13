@@ -76,3 +76,8 @@ async def submit_answer(answer: Answer):  # 본문으로부터 Answer 모델 객
 
     # 클라이언트에게 JSON 형태로 다음 문제 데이터 및 기타 정보 반환
     return {"next_question": "some_question_data", "other_info": "value"}
+
+@app.get("/result", response_class=HTMLResponse)
+async def get_result_page(request: Request):
+    # quiz.html을 렌더링하여 반환합니다.
+    return templates.TemplateResponse("result.html", {"request": request})
