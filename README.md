@@ -50,7 +50,7 @@
 <img src="https://img.shields.io/badge/amazoncloudwatch-FF4F8B?style=for-the-badge&logo=amazoncloudwatch&logoColor=white">
 
 #### ✔️데이터 처리 및 분석
-<img src="https://img.shields.io/badge/amazonglue-8C4FFF?style=for-the-badge&logo=amazonglue&logoColor=white">
+<img src="https://img.shields.io/badge/amazonglue-8C4FFF?style=for-the-badge&logo=amazonglue&logoColor=white"> <img src="https://img.shields.io/badge/amazonathena-8C4FFF?style=for-the-badge&logo=amazonathena&logoColor=white">
 
 
 
