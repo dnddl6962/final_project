@@ -32,9 +32,8 @@
 <img src="https://img.shields.io/badge/Ubuntu-22.04-E95420?style=for-the-badge&logo=Ubuntu&logoColor=#E95420"> <img src="https://img.shields.io/badge/windows 11-0078D4?style=for-the-badge&logo=windows11&logoColor=#0078D4"> 
 ✔️데이터베이스
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
-### ✔️인프라
-#### 컴퓨팅
-<img src="https://img.shields.io/badge/AWS EC2-FF9900?style=for-the-badge&logo=EC2&logoColor=white">
+✔️클라우드
+<img src="https://img.shields.io/badge/Amazon_AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white">
 
 
 
