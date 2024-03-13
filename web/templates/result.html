@@ -14,7 +14,7 @@
             <img src="/static/img/cute_cat.png" alt="Cute Cat" class="cute-cat-image"/>
         </div>
     </header>
-    <canvas id="normalDistributionChart" width="900" height="550"></canvas>
+    <canvas id="normalDistributionChart" width="950" height="550"></canvas>
 
     <script>
         // 정규분포 데이터 생성 함수
@@ -58,7 +58,7 @@
         const normalDistributionData = generateNormalDistribution(mean, stdDev, numPoints);
 
         // 특정 값에 대한 CDF 값 계산
-        const specificValue = 2.5;
+        const specificValue = 1;
 
         // 특정 값에 대한 y값 계산 (정규분포 곡선 위의 점)
         const specificValueY = (1 / (stdDev * Math.sqrt(2 * Math.PI))) * Math.exp(-((specificValue - mean) ** 2) / (2 * stdDev ** 2));
@@ -87,7 +87,7 @@
             borderWidth: 3,
             fill: true,
             pointStyle: 'hidden',
-            pointRadius: 0,
+            pointRadius: 0.3,
             hoverRadius: 0
             }, {
             label: 'Normal Distribution',
@@ -119,21 +119,6 @@
             plugins: {
             legend: {
                 display: false, // 라벨 표시 안 함
-            },
-            annotation: {
-                drawTime: 'afterDatasetsDraw',
-                annotations: [{
-                type: 'fill',
-                xScaleID: 'x',
-                yScaleID: 'y',
-                xMin: specificValue,
-                xMax: Number.POSITIVE_INFINITY,
-                yMin: 0,
-                yMax: 1,
-                backgroundColor: 'rgba(255, 0, 0, 0.2)',
-                borderColor: 'rgba(255, 0, 0, 1)',
-                borderWidth: 3,
-                }]
             },
             tooltip: {
                 filter: function(context) {
