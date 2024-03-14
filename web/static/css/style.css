@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Song+Myung&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Song+Myung&display=swap');
 
 header {
     width: 100%;
@@ -35,7 +35,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'song-myung-regular', cursive;
+    font-family: "Nanum Gothic", sans-serif;
     
   }
   .container {
@@ -47,7 +47,7 @@ header {
     margin-top: 4em;
     margin-bottom: 0.5em;
     font-weight: 700;
-    font-family: 'song-myung-regular', cursive; /* 이 폰트를 사용하여 스타일링 */
+    font-family: "Nanum Gothic", sans-serife; /* 이 폰트를 사용하여 스타일링 */
     /* text-shadow: -2px -2px 0 #799260, 2px -2px 0 #799260, -2px 2px 0 #799260, 2px 2px 0 #799260; */
   }
   
@@ -57,7 +57,7 @@ header {
     margin-top: 3em;
     margin-bottom: 2em;
     font-weight: 700;
-    font-family: 'song-myung-regular', cursive;
+    font-family: "Nanum Gothic", sans-serif;
     /* text-shadow: -2px -2px 0 #ffffff, 2px -2px 0 #ffffff, -2px 2px 0 #ffffff, 2px 2px 0 #ffffff; */
 
   }
@@ -75,7 +75,7 @@ header {
     cursor: pointer;
     font-weight: 500;
     border-radius: 15px; 
-    font-family: 'song-myung-regular', cursive;
+    font-family: "Nanum Gothic", sans-serif;
   }    
   .cute-cat-image {
     max-height: 70px; /* 헤더의 높이와 일치하도록 설정 */

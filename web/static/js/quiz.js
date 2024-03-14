@@ -1,3 +1,12 @@
+// 문제 데이터를 표시하는 함수
+function displayQuestion(question) {
+    // 문제 번호, 문제 텍스트 등을 업데이트
+    document.getElementById('question-number').textContent = question.number + '번째 문제';
+    document.getElementById('question-text').textContent = question.text;
+    // Quiz Code 업데이트 (이 값은 서버에서 받아와야 함)
+    document.getElementById('quiz-code').textContent = 'Quiz Code: ' + question.code;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('o-button').addEventListener('click', function() {
         sendAnswer(true); // 맞다고 응답
