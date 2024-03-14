@@ -123,7 +123,8 @@ pipeline {
 										"memory": "16 GB",
 										"cpu": "4 vCPU",
 										"executionRoleArn": "${EXECUTION_ROLE_ARN}",
-										"taskRoleArn": "${EXECUTION_ROLE_ARN}"
+										"taskRoleArn": "${EXECUTION_ROLE_ARN}",
+										"platformVersion": "1.3.0"
 				
 									}
 									"""
