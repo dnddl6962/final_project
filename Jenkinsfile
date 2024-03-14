@@ -150,20 +150,21 @@ pipeline {
 											def taskArnsOutput = sh(script: "aws ecs list-tasks --cluster ${CLUSTER_NAME} --desired-status RUNNING --region ap-northeast-2 --query 'taskArns[]' --output text", returnStdout: true).trim()
 											if (taskArnsOutput) {
 												def taskDescribeOutput = sh(script: "aws ecs describe-tasks --tasks ${taskArnsOutput} --cluster ${CLUSTER_NAME} --region ap-northeast-2", returnStdout: true).trim()
-												def taskStatus = sh(script: "echo ${taskDescribeOutput} | jq -r '.tasks[0].lastStatus'", returnStdout: true).trim()
-												def taskExitCode = sh(script: "echo ${taskDescribeOutput} | jq -r '.tasks[0].containers[0].exitCode'", returnStdout: true).trim()
-												def taskStoppedReason = sh(script: "echo ${taskDescribeOutput} | jq -r '.tasks[0].stoppedReason'", returnStdout: true).trim()
-
-												if (taskStatus == "STOPPED") {
-													if (taskExitCode == "0") {
-														echo "ECS Task execution successful."
-														return true
-													} else {
-														error "ECS Task execution failed with exit code ${taskExitCode}. Reason: ${taskStoppedReason}"
-														return false
+												def tasks = readJSON text: taskDescribeOutput
+												boolean allTasksStopped = true
+												for (task in tasks.tasks) {
+													if (task.lastStatus == "RUNNING") {
+														allTasksStopped = false
+														break
+													} else if (task.lastStatus != "STOPPED") {
+														allTasksStopped = false
+														echo "Task ${task.taskArn} is in ${task.lastStatus} status, waiting for it to finish."
 													}
+												}
+												if (allTasksStopped) {
+													echo "All ECS tasks have finished."
+													return true
 												} else {
-													echo "Waiting for ECS Task to finish..."
 													return false
 												}
 											} else {
