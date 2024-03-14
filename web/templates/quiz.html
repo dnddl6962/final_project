@@ -23,15 +23,17 @@
                     <h3 id = "display-start-time"></h3>
                     <p id="question-text">문제가 여기에 표시됩니다.</p>
                     <div id="userid-display"></div>
-                    <button id="o-button" class="option-button">O</button>
-                    <button id="x-button" class="option-button">X</button>
+                    <!-- 기존의 O/X 버튼에 각각 고유한 ID를 추가하지 않고, class로 이벤트를 추가하겠습니다. -->
+                    <button id="o-button">O</button>
+                    <button id="x-button">X</button>
+
                     <button id="next-button">다음</button>
                 </div>
                 
             </div>
         </div>
     </div>
-    
+
     <script src="/static/js/quiz.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
