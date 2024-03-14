@@ -9,28 +9,30 @@ function displayQuestion(question) {
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('o-button').addEventListener('click', function() {
-        sendAnswer(true); // 맞다고 응답
+        sendAnswer(true); // 문제를 맞힘
     });
 
     document.getElementById('x-button').addEventListener('click', function() {
-        sendAnswer(false); // 틀렸다고 응답
+        sendAnswer(false); // 문제를 틀림
     });
 });
 
-function sendAnswer(isCorrect) {
+function sendAnswer(answer) {
     fetch('/submit-answer', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            answer: isCorrect
+            answer: answer
         })
     })
     .then(response => response.json())
     .then(data => {
         // 서버로부터 받은 응답으로 UI를 업데이트
         console.log(data);
+        // 서버에서 받은 est_theta 값을 쿠키에 저장
+        document.cookie = `est_theta=${data.estimated_proficiency}; path=/`;
         displayNextQuestion(data.next_question);
     })
     .catch(error => {
