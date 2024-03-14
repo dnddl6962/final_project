@@ -22,11 +22,9 @@ header {
     position: absolute;
     top: 70px; 
     left: 0;
-    
+  
     /* background-color: #A8EA66; 단일 배경색 사용 */
     /* OR */
-    background: rgb(234,255,214);
-    background: linear-gradient(324deg, rgba(234,255,214,1) 18%, rgba(124,207,42,1) 46%, rgba(254,237,96,1) 97%);
   }
   body, html {
     /*padding-top: 70px;  헤더 높이에 맞춰 조정 */
@@ -35,8 +33,21 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: "Nanum Gothic", sans-serif;
+    /* background: rgb(234,255,214); */
+    background: linear-gradient(324deg, rgb(235, 250, 230) 18%, rgb(215, 250, 180) 46%, rgb(250, 240, 154) 97%);
+
     
+  }
+  canvas {
+    /* height: 100%; */
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    /* background: linear-gradient(324deg, rgb(255, 255, 255) 18%, rgb(215, 250, 180) 46%, rgb(250, 240, 154) 97%); */
+    font-family: "Nanum Gothic", sans-serif;
+
   }
   .container {
     text-align: center;
