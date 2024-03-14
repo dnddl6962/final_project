@@ -140,6 +140,31 @@ pipeline {
 								}
 							}
 						}
+						
+						stage("Check Task Execution") {
+							steps {
+								script {
+									// 실행된 태스크의 상태를 확인
+									def taskArnsOutput = sh(script: "aws ecs list-tasks --cluster ${CLUSTER_NAME} --desired-status RUNNING --region ap-northeast-2 --query 'taskArns[]' --output text", returnStdout: true).trim()
+									def taskStatus = sh(script: "aws ecs describe-tasks --tasks ${taskArnsOutput} --cluster ${CLUSTER_NAME} --region ap-northeast-2 --query 'tasks[0].lastStatus'", returnStdout: true).trim()
+
+									if (taskStatus == "RUNNING") {
+										echo "Task execution successful."
+									} else {
+										error "Task execution failed. Current status: ${taskStatus}"
+									}
+								}
+							}
+							post {
+								success {
+									echo "The Check Task Execution stage successfully."
+								}
+								failure {
+									echo "The Check Task Execution stage failed."
+								}
+							}
+						}
+
 
 						stage("Clean Image") {
 							steps {
