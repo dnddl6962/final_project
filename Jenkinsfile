@@ -142,7 +142,7 @@ pipeline {
 							}
 						}
 						
-                        stage("Check ECS Task Execution") {
+						stage("Check ECS Task Execution") {
 							steps {
 								script {
 									timeout(time: 1, unit: 'HOURS') {
@@ -150,7 +150,7 @@ pipeline {
 											def taskArnsOutput = sh(script: "aws ecs list-tasks --cluster ${CLUSTER_NAME} --desired-status RUNNING --region ap-northeast-2 --query 'taskArns[]' --output text", returnStdout: true).trim()
 											if (taskArnsOutput) {
 												def taskDescribeOutput = sh(script: "aws ecs describe-tasks --tasks ${taskArnsOutput} --cluster ${CLUSTER_NAME} --region ap-northeast-2", returnStdout: true).trim()
-												def tasks = readJSON text: taskDescribeOutput
+												def tasks = new groovy.json.JsonSlurper().parseText(taskDescribeOutput)
 												boolean allTasksStopped = true
 												for (task in tasks.tasks) {
 													if (task.lastStatus == "RUNNING") {
