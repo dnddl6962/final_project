@@ -1,5 +1,5 @@
 def imageName = "irt-pipeline"
-def tagName = "0.0.2"
+def tagName = "0.0.1"
 
 
 pipeline {
@@ -35,7 +35,7 @@ pipeline {
 		}
 		stage("Build Image") {
             steps {
-                // GitHub에서 코드를 가져오면서 ecrpush 디렉토리로 이동하고 해당 디렉토리에서 Dockerfile을 사용하여 도커 이미지 빌드
+                // GitHub에서 코드를 가져오면서 irt_pipeline 디렉토리로 이동하고 해당 디렉토리에서 Dockerfile을 사용하여 도커 이미지 빌드
                 checkout([$class: 'GitSCM',
                           branches: [[name: 'main']],
                           doGenerateSubmoduleConfigurations: false,
@@ -84,6 +84,7 @@ pipeline {
 						stage("Update ECS Task Definition") {
 							steps {
 								script {
+									//task 정의 
 									def taskDefinition = """
 									{
 										"requiresCompatibilities": ["FARGATE"],
