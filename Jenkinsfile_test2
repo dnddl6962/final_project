@@ -1,45 +1,40 @@
 def imageName = "irt-pipeline"
-def tagName = "0.0.3"
-
+def tagName = "0.0.1"
 
 pipeline {
-    agent any
+	agent any
 
-    environment {
-        AWS_ACCOUNT_ID = credentials("AWS_ACCOUNT_ID")
-        AWS_ACCESS_KEY_ID = credentials("AWS_ACCESS_KEY_ID")
-        AWS_SECRET_ACCESS_KEY = credentials("AWS_SECRET_ACCESS_KEY")
-        SUBNET_IDS = credentials("SUBNET_IDS")
-        SECURITY_GROUP_ID = credentials("SECURITY_GROUP_ID")
-        EXECUTION_ROLE_ARN = "arn:aws:iam::${AWS_ACCOUNT_ID}:role/ecsTaskExecutionRole"
-        TASK_FAMILY = "irt_pipeline"
-        CLUSTER_NAME ="TestCluster"
-        IMAGE_URL = "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}"
-    }
+	environment {
+	    AWS_ACCOUNT_ID = credentials("AWS_ACCOUNT_ID")
+		AWS_ACCESS_KEY_ID = credentials("AWS_ACCESS_KEY_ID")
+		AWS_SECRET_ACCESS_KEY = credentials("AWS_SECRET_ACCESS_KEY")
+		SUBNET_IDS = credentials("SUBNET_IDS")
+		SECURITY_GROUP_ID = credentials("SECURITY_GROUP_ID")
+		EXECUTION_ROLE_ARN = "arn:aws:iam::${AWS_ACCOUNT_ID}:role/ecsTaskExecutionRole"
+		TASK_FAMILY = "irt_pipeline"
+		CLUSTER_NAME = "TestCluster"
+	    IMAGE_URL = "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}"
+	}
 
-    stages {
-        stage("Checkout") {
-            steps {
-                checkout scm
-                sh "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com"
-            }
-            post {
-                success {
+	stages {
+		stage("Checkout") {
+			steps {
+				checkout scm
+				sh "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com"
+			}
+			post {
+				success {
                     echo "The Checkout stage successfully."
                 }
                 failure {
                     echo "The Checkout stage failed."
                 }
-            }
-        }
-        stage("Build Image") {
+			}
+		}
+
+		stage("Build Image") {
             steps {
-                checkout([$class: 'GitSCM',
-                          branches: [[name: 'main']],
-                          doGenerateSubmoduleConfigurations: false,
-                          extensions: [[$class: 'SubmoduleOption', recursiveSubmodules: false]],
-                          submoduleCfg: [],
-                          userRemoteConfigs: [[url: 'https://github.com/dnddl6962/final_project.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: 'main']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'SubmoduleOption', recursiveSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/dnddl6962/final_project.git']]])
 
                 dir('irt_pipeline') {
                     script {
@@ -58,148 +53,130 @@ pipeline {
         }
 
         stage("Main pipeline") {
-            failFast true
-            parallel {
-                stage("Update Images") {
-                    stages {
-                        stage("Tag an Push Image") {
-                            steps {
-                                script {
-                                    sh "aws ecr describe-repositories --repository-names ${imageName} || aws ecr create-repository --repository-name ${imageName}"
-                                    sh "docker tag ${imageName}:${tagName} ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}"
-                                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}"
-                                }
-                            }
-                            post {
-                                success {
-                                    echo "Tag and Push Image stage successfully."
-                                }
-                                failure {
-                                    echo "Tag and Push Image stage failed."
-                                }
-                            }
-                        }
-
-                        stage("Update ECS Task Definition") {
-                            steps {
-                                script {
-                                    def taskDefinition = """
-                                    {
-                                        "requiresCompatibilities": ["FARGATE"],
-                                        "family": "${TASK_FAMILY}",
-                                        "containerDefinitions": [
-                                            {
-                                                "name": "${imageName}",
-                                                "image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}",
-                                                "cpu": 4096,
-                                                "memory": 16384,
-                                                "memoryReservation": 8192,
-                                                "essential": true,
-                                                "environment": [
-                                                                {
-                                                                    "name": "aws_access_key_id",
-                                                                    "value": "${AWS_ACCESS_KEY_ID}"
-                                                                },
-                                                                {
-                                                                    "name": "aws_secret_access_key",
-                                                                    "value": "${AWS_SECRET_ACCESS_KEY}"
-                                                                }
-                                                            ],
-                                                "logConfiguration":
-                                                 {
-                                                    "logDriver": "awslogs",
-                                                    "options": {
-                                                        "awslogs-create-group": "true",
-                                                        "awslogs-group": "/ecs/irt_pipeline",
-                                                        "awslogs-region": "ap-northeast-2",
-                                                        "awslogs-stream-prefix": "ecs"
-                                                        }
-                                                }
-                                            }
-                                        ],
-                                        "volumes": [],
-                                        "networkMode": "awsvpc",
-                                        "memory": "16 GB",
-                                        "cpu": "4 vCPU",
-                                        "executionRoleArn": "${EXECUTION_ROLE_ARN}",
-                                        "taskRoleArn": "${EXECUTION_ROLE_ARN}"
-
-                                    }
-                                    """
-                                    sh "echo '${taskDefinition}' > taskDefinition.json"
-                                    sh "aws ecs register-task-definition --cli-input-json file://taskDefinition.json"
-                                }
-                            }
-                        }
-
-                        stage("Run ECS Task") {
-                            steps {
-                                script {
-                                    def commandOutput = sh(script: "aws ecs run-task --cluster ${CLUSTER_NAME} --task-definition ${TASK_FAMILY} --launch-type FARGATE --network-configuration 'awsvpcConfiguration={subnets=[${SUBNET_IDS}],securityGroups=[${SECURITY_GROUP_ID}],assignPublicIp=ENABLED}'", returnStatus: true)
-                                    if (commandOutput == 0) {
-                                        echo "ECS Task execution successful."
-                                    } else {
-                                        error "ECS Task execution failed."
-                                    }
-                                }
-                            }
-                        }
-
-                        stage("Check ECS Task Execution") {
-                            steps {
-                                script {
-                                    def taskArnsOutput = sh(script: "aws ecs list-tasks --cluster ${CLUSTER_NAME} --desired-status RUNNING --region ap-northeast-2 --query 'taskArns[]' --output text", returnStdout: true).trim()
-                                    def taskDescribeOutput = sh(script: "aws ecs describe-tasks --tasks ${taskArnsOutput} --cluster ${CLUSTER_NAME} --region ap-northeast-2", returnStdout: true).trim()
-
-                                    def taskStatus = sh(script: "echo ${taskDescribeOutput} | jq -r '.tasks[0].lastStatus'", returnStdout: true).trim()
-                                    def taskExitCode = sh(script: "echo ${taskDescribeOutput} | jq -r '.tasks[0].containers[0].exitCode'", returnStdout: true).trim()
-                                    def taskStoppedReason = sh(script: "echo ${taskDescribeOutput} | jq -r '.tasks[0].stoppedReason'", returnStdout: true).trim()
-
-                                    if (taskStatus == "STOPPED") {
-                                        if (taskExitCode == "0") {
-                                            echo "ECS Task execution successful."
-                                        } else {
-                                            error "ECS Task execution failed with exit code ${taskExitCode}. Reason: ${taskStoppedReason}"
-                                        }
-                                    } else {
-                                        // 태스크가 RUNNING 상태가 될 때까지 기다림
-                                        waitUntil {
-                                            def updatedTaskDescribeOutput = sh(script: "aws ecs describe-tasks --tasks ${taskArnsOutput} --cluster ${CLUSTER_NAME} --region ap-northeast-2", returnStdout: true).trim()
-                                            def updatedTaskStatus = sh(script: "echo ${updatedTaskDescribeOutput} | jq -r '.tasks[0].lastStatus'", returnStdout: true).trim()
-                                            return updatedTaskStatus == "RUNNING"
-                                        }
-                                        echo "ECS Task execution successful."
-                                    }
-                                }
-                            }
-                            post {
-                                success {
-                                    echo "The Check ECS Task Execution stage successfully."
-                                }
-                                failure {
-                                    echo "The Check ECS Task Execution stage failed."
-                                }
-                            }
-                        }
-
-                        stage("Clean Image") {
-                            steps {
-                                script {
-                                    sh "docker rmi -f ${imageName}:${tagName} ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}"
-                                }
-                            }
-                            post {
-                                success {
-                                    echo "The Clean Image stage successfully."
-                                }
-                                failure {
-                                    echo "The Clean Image stage failed."
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+			failFast true
+			parallel {
+				stage("Update Images") {
+					stages {
+						stage("Tag an Push Image") {
+							steps {
+								script {
+									sh "aws ecr describe-repositories --repository-names ${imageName} || aws ecr create-repository --repository-name ${imageName}"
+									sh "docker tag ${imageName}:${tagName} ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}"
+									sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}"
+								}
+							}
+							post {
+								success {
+									echo "Tag and Push Image stage successfully."
+								}
+								failure {
+									echo "Tag and Push Image stage failed."
+								}
+							}
+						}
+						stage("Update ECS Task Definition") {
+							steps {
+								script {
+									def taskDefinition = """
+									{
+										"requiresCompatibilities": ["FARGATE"],
+										"family": "${TASK_FAMILY}",
+										"containerDefinitions": [
+											{
+												"name": "${imageName}",
+												"image": "${IMAGE_URL}",
+												"cpu": 4096,
+												"memory": 16384,
+												"memoryReservation": 8192,
+												"essential": true,
+												"environment": [
+																{
+																	"name": "aws_access_key_id",
+																	"value": "${AWS_ACCESS_KEY_ID}"
+																},
+																{
+																	"name": "aws_secret_access_key",
+																	"value": "${AWS_SECRET_ACCESS_KEY}"
+																}
+															],
+												"logConfiguration": {
+													"logDriver": "awslogs",
+													"options": {
+														"awslogs-create-group": "true",
+														"awslogs-group": "/ecs/${TASK_FAMILY}",
+														"awslogs-region": "ap-northeast-2",
+														"awslogs-stream-prefix": "ecs"
+													}
+												}
+											}
+										],
+										"networkMode": "awsvpc",
+										"executionRoleArn": "${EXECUTION_ROLE_ARN}",
+										"taskRoleArn": "${EXECUTION_ROLE_ARN}"
+									}
+									"""
+									sh "echo '${taskDefinition}' > taskDefinition.json"
+									sh "aws ecs register-task-definition --cli-input-json file://taskDefinition.json"
+								}
+							}
+						}
+						stage("Run ECS Task") {
+							steps {
+								script {
+									sh "aws ecs run-task --cluster ${CLUSTER_NAME} --task-definition ${TASK_FAMILY} --launch-type FARGATE --network-configuration 'awsvpcConfiguration={subnets=[${SUBNET_IDS}],securityGroups=[${SECURITY_GROUP_ID}],assignPublicIp=ENABLED}'"
+								}
+							}
+						}
+						stage("Check Task Execution") {
+							steps {
+								script {
+									def taskArnsOutput = sh(script: "aws ecs list-tasks --cluster ${CLUSTER_NAME} --desired-status RUNNING --family ${TASK_FAMILY} --region ap-northeast-2 --query 'taskArns[]' --output text", returnStdout: true).trim().split()
+									
+									for (taskArn in taskArnsOutput) {
+										def taskStatus = ""
+										while (taskStatus != "STOPPED") {
+											taskStatus = sh(script: "aws ecs describe-tasks --tasks ${taskArn} --cluster ${CLUSTER_NAME} --region ap-northeast-2 --query 'tasks[0].lastStatus'", returnStdout: true).trim()
+											if (taskStatus == "STOPPED") {
+												def exitCode = sh(script: "aws ecs describe-tasks --tasks ${taskArn} --cluster ${CLUSTER_NAME} --region ap-northeast-2 --query 'tasks[0].containers[0].exitCode'", returnStdout: true).trim()
+												if (exitCode == "0") {
+													echo "Task ${taskArn} completed successfully."
+												} else {
+													error "Task ${taskArn} failed with exit code ${exitCode}."
+												}
+											} else {
+												sleep(30) // Wait for 30 seconds before checking again.
+											}
+										}
+									}
+								}
+							}
+							post {
+								success {
+									echo "The Check Task Execution stage successfully."
+								}
+								failure {
+									echo "The Check Task Execution stage failed."
+								}
+							}
+						}
+						stage("Clean Image") {
+							steps {
+								script {
+									sh "docker rmi -f ${imageName}:${tagName} ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}"
+								}
+							}
+							post {
+								success {
+									echo "The Clean Image stage successfully."
+								}
+								failure {
+									echo "The Clean Image stage failed."
+								}
+							}
+						}
+					}
+				}
+			}
+		}
     }
 }
