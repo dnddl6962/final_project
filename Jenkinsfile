@@ -132,7 +132,7 @@ pipeline {
 									sh "aws ecs register-task-definition --cli-input-json file://taskDefinition.json"
 								}
 							}
-					}
+						}
 
 						stage("Run ECS Task") {
 							steps {
@@ -143,43 +143,46 @@ pipeline {
 						}
 						
                         stage("Check ECS Task Execution") {
-                            steps {
-                                script {
-                                    def taskArnsOutput = sh(script: "aws ecs list-tasks --cluster ${CLUSTER_NAME} --desired-status RUNNING --region ap-northeast-2 --query 'taskArns[]' --output text", returnStdout: true).trim()
-                                    def taskDescribeOutput = sh(script: "aws ecs describe-tasks --tasks ${taskArnsOutput} --cluster ${CLUSTER_NAME} --region ap-northeast-2", returnStdout: true).trim()
+							steps {
+								script {
+									timeout(time: 1, unit: 'HOURS') {
+										waitUntil {
+											def taskArnsOutput = sh(script: "aws ecs list-tasks --cluster ${CLUSTER_NAME} --desired-status RUNNING --region ap-northeast-2 --query 'taskArns[]' --output text", returnStdout: true).trim()
+											if (taskArnsOutput) {
+												def taskDescribeOutput = sh(script: "aws ecs describe-tasks --tasks ${taskArnsOutput} --cluster ${CLUSTER_NAME} --region ap-northeast-2", returnStdout: true).trim()
+												def taskStatus = sh(script: "echo ${taskDescribeOutput} | jq -r '.tasks[0].lastStatus'", returnStdout: true).trim()
+												def taskExitCode = sh(script: "echo ${taskDescribeOutput} | jq -r '.tasks[0].containers[0].exitCode'", returnStdout: true).trim()
+												def taskStoppedReason = sh(script: "echo ${taskDescribeOutput} | jq -r '.tasks[0].stoppedReason'", returnStdout: true).trim()
 
-                                    def taskStatus = sh(script: "echo ${taskDescribeOutput} | jq -r '.tasks[0].lastStatus'", returnStdout: true).trim()
-                                    def taskExitCode = sh(script: "echo ${taskDescribeOutput} | jq -r '.tasks[0].containers[0].exitCode'", returnStdout: true).trim()
-                                    def taskStoppedReason = sh(script: "echo ${taskDescribeOutput} | jq -r '.tasks[0].stoppedReason'", returnStdout: true).trim()
-
-                                    if (taskStatus == "STOPPED") {
-                                        if (taskExitCode == "0") {
-                                            echo "ECS Task execution successful."
-                                        } else {
-                                            error "ECS Task execution failed with exit code ${taskExitCode}. Reason: ${taskStoppedReason}"
-                                        }
-                                    } else {
-                                        // 태스크가 RUNNING 상태가 될 때까지 기다림
-                                        timeout(time: 1, unit: 'HOURS') {
-                                            waitUntil {
-                                                def updatedTaskDescribeOutput = sh(script: "aws ecs describe-tasks --tasks ${taskArnsOutput} --cluster ${CLUSTER_NAME} --region ap-northeast-2", returnStdout: true).trim()
-                                                def updatedTaskStatus = sh(script: "echo ${updatedTaskDescribeOutput} | jq -r '.tasks[0].lastStatus'", returnStdout: true).trim()
-                                                return updatedTaskStatus == "RUNNING"
-                                            }
-                                        }
-                                        echo "ECS Task execution successful."
-                                    }
-                                }
-                            }
-                            post {
-                                success {
-                                    echo "The Check ECS Task Execution stage successfully."
-                                }
-                                failure {
-                                    echo "The Check ECS Task Execution stage failed."
-                                }
-                            }
-                        }
+												if (taskStatus == "STOPPED") {
+													if (taskExitCode == "0") {
+														echo "ECS Task execution successful."
+														return true
+													} else {
+														error "ECS Task execution failed with exit code ${taskExitCode}. Reason: ${taskStoppedReason}"
+														return false
+													}
+												} else {
+													echo "Waiting for ECS Task to finish..."
+													return false
+												}
+											} else {
+												echo "No running tasks found. Waiting for ECS Task to start..."
+												return false
+											}
+										}
+									}
+								}
+							}
+							post {
+								success {
+									echo "The Check ECS Task Execution stage successfully."
+								}
+								failure {
+									echo "The Check ECS Task Execution stage failed."
+								}
+							}
+						}
 
 						stage("Clean Image") {
 							steps {
