@@ -38,7 +38,14 @@
             <button id="result">결과 확인</button>
             <script>
                 document.getElementById('submit-nickname').addEventListener('click', function() {
-                var userid = document.getElementById('userid').value;
+                var userid = document.getElementById('userid').value.trim();
+
+                 // 입력 값이 비어 있는지 확인
+                 if (!userid) {
+                    alert('닉네임을 입력해주세요.'); // 또는 사용자에게 보여줄 다른 형태의 경고 메시지
+                    return; // 함수 실행을 여기서 중단
+                }
+
                 fetch('/users/', {
                     method: 'POST',
                     headers: {
@@ -53,6 +60,8 @@
                     return response.json();
                 })
                 .then(data => {
+                    localStorage.setItem('userid', data.userid);
+                    console.log('userid 저장됨:', data.userid);
                     alert('등록 성공! 환영합니다, ' + data.userid);
                     // 여기서 추가적인 행동을 취할 수 있습니다. 예를 들면 다른 페이지로 리다이렉트:
                     // window.location.href = '/another-page';

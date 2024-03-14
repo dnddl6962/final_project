@@ -98,10 +98,10 @@ header {
       left: 100%; /* 이미지를 헤더의 오른쪽 끝까지 이동 */
     }
 }
-#nickname-form {
+#userid-form {
     margin: 20px 0; /* 폼 주위의 여백 */
 }
-#nickname {
+#userid {
     padding: 10px; /* 입력 필드 내부의 패딩 */
     margin-right: 10px; /* 버튼과의 간격 */
     border: 5px solid rgb(108, 180, 36); /* 테두리 스타일 */

@@ -36,7 +36,7 @@ class User(BaseModel):
     userid: str
     
 @app.post("/users/")
-async def create_user(user_create: User, db: Session = Depends(get_db)):
+async def create_user(user_create: User,  db: Session = Depends(get_db)):
     # 중복 검사
     user = db.execute(text("SELECT * FROM id_test WHERE userid = :userid"), {'userid': user_create.userid}).fetchone()
     if user:
@@ -45,8 +45,18 @@ async def create_user(user_create: User, db: Session = Depends(get_db)):
     # 새 사용자 추가
     db.execute(text("INSERT INTO id_test (userid) VALUES (:userid)"), {'userid': user_create.userid})
     db.commit()
-    
+
     return {"userid": user_create.userid}
+
+@app.get("/get-userid")
+async def get_userid(session_id: str, response: Response,  db: Session = Depends(get_db)):
+    # session_id로 사용자를 찾습니다.
+    db_user = db.query(User).filter(User.session_id == session_id).first()
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    # 찾은 사용자의 userid를 쿠키에 저장합니다.
+    response.set_cookie(key="userid", value=db_user.userid)
+    return {"userid": db_user.userid}
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
@@ -75,12 +85,11 @@ def get_question_data(initial_item_ids: str):
         # 기타 필요한 문제 정보
     }
 
+
 @app.get("/quiz", response_class=HTMLResponse)
 async def get_quiz_page(request: Request):
     # quiz.html을 렌더링하여 반환합니다.
     return templates.TemplateResponse("quiz.html", {"request": request})
-
-
 
 class Answer(BaseModel):
     answer: bool

@@ -22,10 +22,12 @@
                     <h2 id="question-number">1번째 문제</h2>
                     <h3 id = "display-start-time"></h3>
                     <p id="question-text">문제가 여기에 표시됩니다.</p>
+                    <div id="userid-display"></div>
                     <button id="o-button" class="option-button">O</button>
                     <button id="x-button" class="option-button">X</button>
                     <button id="next-button">다음</button>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -48,6 +50,16 @@
         document.getElementById('display-start-time').textContent = `시작 시간: ${formattedTime}`;
       }
     });
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        console.log('문서 로드 완료');
+        const userid = localStorage.getItem('userid'); // 또는 쿠키에서 읽기
+        console.log('userid:', userid);
+        if (userid) {
+          document.getElementById('userid-display').textContent = `사용자 ID: ${userid}`;
+        }
+      });
     </script>
 </body>
 </html>
