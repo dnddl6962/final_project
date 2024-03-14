@@ -35,7 +35,7 @@ pipeline {
 		}
 		stage("Build Image") {
             steps {
-                // GitHub에서 코드를 불러온 후 irt_pipeline 디렉토리로 이동하고 해당 디렉토리에서 Dockerfile을 사용하여 도커 이미지 빌드
+                // GitHub에서 코드를 가져오면서 ecrpush 디렉토리로 이동하고 해당 디렉토리에서 Dockerfile을 사용하여 도커 이미지 빌드
                 checkout([$class: 'GitSCM',
                           branches: [[name: 'main']],
                           doGenerateSubmoduleConfigurations: false,
@@ -81,6 +81,7 @@ pipeline {
 								}
 							}
 						}
+                        
 						stage("Update ECS Task Definition") {
 							steps {
 								script {
@@ -131,39 +132,20 @@ pipeline {
 									sh "aws ecs register-task-definition --cli-input-json file://taskDefinition.json"
 								}
 							}
-					}
+					    }
 
 						stage("Run ECS Task") {
-							steps {
-								script {
-									sh "aws ecs run-task --cluster ${CLUSTER_NAME} --task-definition ${TASK_FAMILY} --launch-type FARGATE --network-configuration 'awsvpcConfiguration={subnets=[${SUBNET_IDS}],securityGroups=[${SECURITY_GROUP_ID}]}' --region ap-northeast-2 "
-								}
-							}
-						}
-
-						stage("Check Task Execution") {
-							steps {
-								script {
-									// 실행된 태스크의 상태를 확인
-									def taskArnsOutput = sh(script: "aws ecs list-tasks --cluster ${CLUSTER_NAME} --desired-status RUNNING --region ap-northeast-2 --query 'taskArns[]' --output text", returnStdout: true).trim()
-									def taskStatus = sh(script: "aws ecs describe-tasks --tasks ${taskArnsOutput} --cluster ${CLUSTER_NAME} --region ap-northeast-2 --query 'tasks[0].lastStatus'", returnStdout: true).trim()
-
-									if (taskStatus == "RUNNING") {
-										echo "Task execution successful."
-									} else {
-										error "Task execution failed. Current status: ${taskStatus}"
-									}
-								}
-							}
-							post {
-								success {
-									echo "The Check Task Execution stage successfully."
-								}
-								failure {
-									echo "The Check Task Execution stage failed."
-								}
-							}
-						}
+                            steps {
+                                script {
+                                    def commandOutput = sh(script: "aws ecs run-task --cluster ${CLUSTER_NAME} --task-definition ${TASK_FAMILY} --launch-type FARGATE --network-configuration 'awsvpcConfiguration={subnets=[${SUBNET_IDS}],securityGroups=[${SECURITY_GROUP_ID}],assignPublicIp=ENABLED}'", returnStatus: true)
+                                    if (commandOutput == 0) {
+                                        echo "ECS Task execution successful."
+                                    } else {
+                                        error "ECS Task execution failed."
+                                    }
+                                }
+                            }
+                        }
 
 						stage("Clean Image") {
 							steps {
