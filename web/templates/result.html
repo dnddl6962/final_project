@@ -20,13 +20,17 @@
         // 정규분포 데이터 생성 함수
         function generateNormalDistribution(mean, stdDev, numPoints) {
         const data = [];
+        const minX = -3;
+        const maxX = 3;
+        const step = (maxX - minX) / numPoints;
         for (let i = 0; i < numPoints; i++) {
-            const x = (i - numPoints / 2) / (numPoints / 6);
+            const x = minX + i * step;
             const y = (1 / (stdDev * Math.sqrt(2 * Math.PI))) * Math.exp(-((x - mean) ** 2) / (2 * stdDev ** 2));
             data.push({ x, y });
         }
         return data;
-        }
+    }
+
 
         // CDF 계산 함수
         function calculateCDF(value, mean, stdDev) {
@@ -57,92 +61,117 @@
         const numPoints = 10000;
         const normalDistributionData = generateNormalDistribution(mean, stdDev, numPoints);
 
-        // 특정 값에 대한 CDF 값 계산
-        const specificValue = 1;
+        // Result 페이지에서 쿠키 읽기 예시
+        const est_thetaCookie = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('est_theta='));
 
-        // 특정 값에 대한 y값 계산 (정규분포 곡선 위의 점)
-        const specificValueY = (1 / (stdDev * Math.sqrt(2 * Math.PI))) * Math.exp(-((specificValue - mean) ** 2) / (2 * stdDev ** 2));
-
-        // 특정 값 이상의 영역 데이터 생성
-        const shadedRegionData = normalDistributionData.filter(point => point.x >= specificValue);
+        let specificValue = 0;
         
-        // 첫 번째 차트(정규분포 그래프) 생성
-        const ctx1 = document.getElementById('normalDistributionChart').getContext('2d');
-        const normalDistributionChart = new Chart(ctx1, {
-        type: 'line',
-        data: {
-            datasets: [{
-            label: 'Specific Value',
-            data: [{x: specificValue, y: specificValueY}],
-            backgroundColor: 'rgba(106, 148, 0, 1)',
-            borderColor: 'rgba(106, 148, 0, 1)',
-            borderWidth: 2,
-            pointStyle: 'circle',
-            pointRadius: 8
-            }, {
-            label: 'Shaded Region',
-            data: shadedRegionData,
-            borderColor: 'rgba(121, 168, 0, 1)',
-            backgroundColor: 'rgba(141, 195, 0, 0.6)',
-            borderWidth: 3,
-            fill: true,
-            pointStyle: 'hidden',
-            pointRadius: 0.3,
-            hoverRadius: 0
-            }, {
-            label: 'Normal Distribution',
-            data: normalDistributionData,
-            borderColor: 'rgba(48, 48, 48, 1)',
-            borderWidth: 1,
-            fill: false,
-            pointStyle: 'hidden',
-            pointRadius: 0,
-            hoverRadius: 0
-            }],
-        },
-        options: {
-            scales: {
-            x: {
-                type: 'linear',
-                position: 'bottom',
-            },
-            y: {
-                type: 'linear',
-                position: 'left',
-                ticks: {
-                callback: function(value) {
-                    return value;
-                }
-                }
-            },
-            },
-            plugins: {
-            legend: {
-                display: false, // 라벨 표시 안 함
-            },
-            tooltip: {
-                filter: function(context) {
-                    return context.datasetIndex === 0;
+        if (est_thetaCookie) {
+            const est_theta = est_thetaCookie.split('=')[1];
+            console.log('est_theta 값:', est_theta);
+
+            // 사용자의 학습 수준
+            // est_theta가 3 이상일 경우 3으로 설정
+            if (est_theta >= 3) {
+                specificValue = 3;
+            }
+            // est_theta가 -3 이하일 경우 -3으로 설정
+            else if (est_theta <= -3) {
+                specificValue = -3;
+            }
+            else {
+                specificValue = est_theta; // est_theta가 -3부터 3 사이에 있을 경우 그대로 사용
+            }    
+
+            // 학습 수준에 따른 해당 사용자의 위치
+            const specificValueY = (1 / (stdDev * Math.sqrt(2 * Math.PI))) * Math.exp(-((specificValue - mean) ** 2) / (2 * stdDev ** 2));
+
+            // 특정 값 이상의 영역 데이터 생성
+            const shadedRegionData = normalDistributionData.filter(point => point.x >= specificValue);
+
+            // 첫 번째 차트(정규분포 그래프) 생성
+            const ctx1 = document.getElementById('normalDistributionChart').getContext('2d');
+            const normalDistributionChart = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        label: 'Specific Value',
+                        data: [{x: specificValue, y: specificValueY}],
+                        backgroundColor: 'rgba(106, 148, 0, 1)',
+                        borderColor: 'rgba(106, 148, 0, 1)',
+                        borderWidth: 2,
+                        pointStyle: 'circle',
+                        pointRadius: 8
+                    }, {
+                        label: 'Shaded Region',
+                        data: shadedRegionData,
+                        borderColor: 'rgba(121, 168, 0, 1)',
+                        backgroundColor: 'rgba(141, 195, 0, 0.6)',
+                        borderWidth: 3,
+                        fill: true,
+                        pointStyle: 'hidden',
+                        pointRadius: 0.3,
+                        hoverRadius: 0
+                    }, {
+                        label: 'Normal Distribution',
+                        data: normalDistributionData,
+                        borderColor: 'rgba(48, 48, 48, 1)',
+                        borderWidth: 1,
+                        fill: false,
+                        pointStyle: 'hidden',
+                        pointRadius: 0,
+                        hoverRadius: 0
+                    }],
                 },
-                bodyFont: {
-                    size: 20
+                options: {
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                        },
+                        y: {
+                            type: 'linear',
+                            position: 'left',
+                            ticks: {
+                                callback: function(value) {
+                                    return value;
+                                }
+                            }
+                        },
+                    },
+                    plugins: {
+                        legend: {
+                            display: false, // 라벨 표시 안 함
+                        },
+                        tooltip: {
+                            filter: function(context) {
+                                return context.datasetIndex === 0;
+                            },
+                            bodyFont: {
+                                size: 20
+                            },
+                            // 툴팁 내용 사용자 정의
+                            callbacks: {
+                                title: function() {
+                                    return '';
+                                },
+                                label: function(context) {
+                                    const xValue = context.parsed.x; // 현재 점의 x값
+                                    const cdf = calculateCDF(context.parsed.x, mean, stdDev); // 현재 점에 대한 CDF 계산
+                                    const percentile = (1 - cdf) * 100; // 상위 백분율 계산
+                                    return `내 위치: 상위 ${(percentile).toFixed(2)}%`;
+                                }
+                            }
+                        },
+                    },
                 },
-                // 툴팁 내용 사용자 정의
-                callbacks: {
-                title: function() {
-                    return '';
-                },
-                label: function(context) {
-                    const xValue = context.parsed.x; // 현재 점의 x값
-                    const cdf = calculateCDF(context.parsed.x, mean, stdDev); // 현재 점에 대한 CDF 계산
-                    const percentile = (1 - cdf) * 100; // 상위 백분율 계산
-                    return `내 위치: 상위 ${(percentile).toFixed(2)}%`;
-                }
-                }
-            },
-            },
-        },
-        });
+            });
+
+        } else {
+            console.log('est_theta 쿠키를 찾을 수 없습니다.');
+        }
     </script>
 </body>
 </html>
