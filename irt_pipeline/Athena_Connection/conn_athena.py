@@ -1,7 +1,7 @@
 from pyathena import connect
 from pyathena.pandas.cursor import PandasCursor
 import os
-from log_data import setup_logging
+from Logs.log_data import setup_logging
 
 logger = setup_logging()
 

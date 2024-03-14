@@ -1,5 +1,5 @@
 import json
-from log_data import setup_logging
+from Logs.log_data import setup_logging
 
 logger = setup_logging()
 
