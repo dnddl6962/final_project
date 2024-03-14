@@ -5,6 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from dotenv import load_dotenv
 import os
+from sqlalchemy import create_engine, text
 from database import check_userid_duplicate, sessionmaker, SessionLocal
 from sqlalchemy.orm import Session
 from fastapi.responses import JSONResponse
@@ -33,56 +34,20 @@ def get_db():
   
 class User(BaseModel):
     userid: str
-
+    
 @app.post("/users/")
-async def create_user(userid: str, db: Session = Depends(get_db)):
-    # 닉네임 중복 검사
-    if check_userid_duplicate(db, userid):
+async def create_user(user_create: User, db: Session = Depends(get_db)):
+    # 중복 검사
+    user = db.execute(text("SELECT * FROM id_test WHERE userid = :userid"), {'userid': user_create.userid}).fetchone()
+    if user:
         raise HTTPException(status_code=400, detail="닉네임이 이미 사용 중입니다.")
     
-    # 새 사용자 객체 생성
-    new_user = User(userid=userid)
-    db.add(new_user)
+    # 새 사용자 추가
+    db.execute(text("INSERT INTO id_test (userid) VALUES (:userid)"), {'userid': user_create.userid})
     db.commit()
-    db.refresh(new_user)
-    return {"userid": new_user.userid, "id": new_user.id}
-
-
-
-
-
-# # 예시: 사용자 등록 엔드포인트
-# @app.post("/users/")
-# async def register_user(user: User):
-#     # 여기에서 닉네임이 중복되는지 다시 한 번 확인할 수 있습니다.
-#     is_duplicate = check_userid_duplicate(user.userid)
-#     if is_duplicate:
-#         raise HTTPException(status_code=400, detail="닉네임이 이미 사용 중입니다.")
     
-#     # 중복되지 않는 경우, 데이터베이스에 사용자를 추가하는 로직을 수행
-#     # 예를 들어:
-#     # new_user = UserTable(userid=user.userid) # UserTable은 ORM 모델
-#     # db.add(new_user)
-#     # db.commit()
-#     # db.refresh(new_user)
-#     # 데이터베이스에 사용자를 추가하는 등의 작업을 수행합니다.
-    
-#     return {"userid": user.userid, "registered": True}     
+    return {"userid": user_create.userid}
 
-# @router.post("/check-nickname")
-# async def check_nickname(nickname: str = Body(..., embed=True)):
-#     # 닉네임 중복 확인
-#     is_duplicate = check_userid_duplicate(nickname)
-#     if is_duplicate:
-#         # 이미 존재하는 닉네임인 경우
-#         return {"isAvailable": False}
-#     else:
-#         # 사용 가능한 닉네임인 경우
-#         return {"isAvailable": True}
-
-#app.include_router(router)
-
-    
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
@@ -90,9 +55,6 @@ templates = Jinja2Templates(directory="templates")
 async def get_home_page(request: Request):
     return templates.TemplateResponse("home.html", {"request": request})
 
-# @app.post("/start-test")
-# async def start_test():
-#     return RedirectResponse(url='/quiz', status_code=status.HTTP_303_SEE_OTHER)
 
 @app.get("/start-test", response_class=JSONResponse)
 async def start_test():
@@ -118,18 +80,7 @@ async def get_quiz_page(request: Request):
     # quiz.html을 렌더링하여 반환합니다.
     return templates.TemplateResponse("quiz.html", {"request": request})
 
-class UserResponse(BaseModel):
-    question_id: int
-    user_answer: str
 
-@app.post("/answer")
-async def process_answer(response: UserResponse):
-    # 사용자 응답 처리 로직
-    # 여기서는 사용자 응답을 바탕으로 능력 추정치 업데이트, 다음 문제 선택 등을 수행합니다.
-    # 능력 추정치가 특정 오차 범위 이내로 수렴하는지 검사합니다.
-    # 예시 코드이므로, 실제 CAT 알고리즘 구현이 필요합니다.
-    
-    return {"next_question": "다음 문제 정보", "est_theta": "현재 추정된 능력치"}
 
 class Answer(BaseModel):
     answer: bool
