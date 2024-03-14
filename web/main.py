@@ -1,16 +1,15 @@
-from fastapi import FastAPI, HTTPException, Body, Request, status, Depends, Cookie, Response
+from fastapi import FastAPI, HTTPException, APIRouter, Body, Request, status, Depends, Cookie, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 from pydantic import BaseModel
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from dotenv import load_dotenv
 import os
-from database import create_tables
+from database import check_userid_duplicate, sessionmaker, SessionLocal
 from sqlalchemy.orm import Session
 from fastapi.responses import JSONResponse
 from load import load_data
 import numpy as np
-
 from catsim.irt import icc
 from catsim.initialization import FixedPointInitializer
 from catsim.selection import UrrySelector
@@ -19,28 +18,70 @@ from catsim.stopping import MinErrorStopper
 
 
 #Base.metadata.create_all(bind=engine)
-app = FastAPI()
-create_tables()
-# # Dependency
-# def get_db():
-#     db = SessionLocal()
-#     try:
-#         yield db
-#     finally:
-#         db.close()       
 
-# @app.post("/users/")
-# def create_tables():
-#     Base.metadata.create_all(bind=engine)
-#     print("Tables created successfully")
-# def create_user(nickname: NicknameCreate):
+app = FastAPI()
+router = APIRouter()
+#create_tables()
+# Dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+  
+class User(BaseModel):
+    userid: str
+
+@app.post("/users/")
+async def create_user(userid: str, db: Session = Depends(get_db)):
+    # 닉네임 중복 검사
+    if check_userid_duplicate(db, userid):
+        raise HTTPException(status_code=400, detail="닉네임이 이미 사용 중입니다.")
     
-#     try:
-#         # 닉네임 생성 로직
-#         # nickname.nickname 값을 사용하여 닉네임을 생성합니다.
-#         return {"message": "Nickname created successfully"}
-#     except Exception as e:
-#         raise HTTPException(status_code=400, detail=str(e))
+    # 새 사용자 객체 생성
+    new_user = User(userid=userid)
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return {"userid": new_user.userid, "id": new_user.id}
+
+
+
+
+
+# # 예시: 사용자 등록 엔드포인트
+# @app.post("/users/")
+# async def register_user(user: User):
+#     # 여기에서 닉네임이 중복되는지 다시 한 번 확인할 수 있습니다.
+#     is_duplicate = check_userid_duplicate(user.userid)
+#     if is_duplicate:
+#         raise HTTPException(status_code=400, detail="닉네임이 이미 사용 중입니다.")
+    
+#     # 중복되지 않는 경우, 데이터베이스에 사용자를 추가하는 로직을 수행
+#     # 예를 들어:
+#     # new_user = UserTable(userid=user.userid) # UserTable은 ORM 모델
+#     # db.add(new_user)
+#     # db.commit()
+#     # db.refresh(new_user)
+#     # 데이터베이스에 사용자를 추가하는 등의 작업을 수행합니다.
+    
+#     return {"userid": user.userid, "registered": True}     
+
+# @router.post("/check-nickname")
+# async def check_nickname(nickname: str = Body(..., embed=True)):
+#     # 닉네임 중복 확인
+#     is_duplicate = check_userid_duplicate(nickname)
+#     if is_duplicate:
+#         # 이미 존재하는 닉네임인 경우
+#         return {"isAvailable": False}
+#     else:
+#         # 사용 가능한 닉네임인 경우
+#         return {"isAvailable": True}
+
+#app.include_router(router)
+
     
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
@@ -71,7 +112,6 @@ def get_question_data(initial_item_ids: str):
         "id": initial_item_ids,
         # 기타 필요한 문제 정보
     }
-
 
 @app.get("/quiz", response_class=HTMLResponse)
 async def get_quiz_page(request: Request):

@@ -20,10 +20,13 @@
         <div class="container">
             <h1>웅이네 샤인매스캣에 오신 것을 환영합니다.</h1>
             <p>지금 바로 시작하세요</p>
-            <form id="nickname-form" action="/users/" method="POST">
+            <!-- <form id="nickname-form" action="/users/" method="POST">
                 <input type="text" id="nickname" name="nickname" placeholder="닉네임을 입력하세요" required>
                 <button type="submit">닉네임 등록</button>
-            </form>            
+            </form>             -->
+            <form id="nickname-form">
+                <input type="text" id="nickname" name="nickname" placeholder="닉네임을 입력하세요" required>
+                <button type="button" id="submit-nickname">닉네임 등록</button>
             </form>
             <button id="start-test">시험 시작</button>
             <script>
@@ -37,6 +40,70 @@
                 document.getElementById('start-test').addEventListener('click', startTest);
             </script>
             <button id="result">결과 확인</button>
+            <script>
+            document.getElementById('submit-nickname').addEventListener('click', function() {
+                var nickname = document.getElementById('nickname').value;
+                fetch('/users/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ userid: userid })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('닉네임이 이미 사용 중입니다.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('등록 성공! 환영합니다, ' + data.userid);
+                    // 여기서 추가적인 행동을 취할 수 있습니다. 예를 들면 다른 페이지로 리다이렉트:
+                    // window.location.href = '/another-page';
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
+            });
+            </script>
+            <!-- <script>
+                // 닉네임 중복 검사 후 폼 제출 처리
+                document.getElementById('submit-nickname').addEventListener('click', function() {
+                    var nickname = document.getElementById('nickname').value;
+                    fetch('/users', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ nickname: nickname })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.isAvailable) {
+                            alert('등록 성공! 환영합니다, ' + nickname);
+                            // 닉네임이 사용 가능한 경우 서버에 폼 데이터를 POST 요청으로 전송
+                            fetch('/users/', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                },
+                                body: 'nickname=' + encodeURIComponent(nickname)
+                            })
+                            .then(() => {
+                                window.location.href = '/quiz'; // 성공 시 페이지 전환
+                            });
+                        } else {
+                            alert('이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해 주세요.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('오류가 발생했습니다. 다시 시도해 주세요.');
+                    });
+                });
+        
+                // 생략된 startTest와 testResult 함수
+            </script> -->
             <script>
                 function testResult() {
                     alert('Button clicked!');
