@@ -81,7 +81,7 @@ pipeline {
 								}
 							}
 						}
-                        
+
 						stage("Update ECS Task Definition") {
 							steps {
 								script {
@@ -142,6 +142,24 @@ pipeline {
                                         echo "ECS Task execution successful."
                                     } else {
                                         error "ECS Task execution failed."
+                                    }
+                                }
+                            }
+                        }
+
+                        stage("Check ECS Task Execution") {
+                            steps {
+                                script {
+                                    def tasksRunning = true
+                                    while (tasksRunning) {
+                                        def tasks = sh(script: "aws ecs list-tasks --cluster ${CLUSTER_NAME} --desired-status RUNNING --family ${TASK_FAMILY}", returnStdout: true).trim()
+                                        if (tasks.empty) {
+                                            echo "All tasks have completed successfully."
+                                            tasksRunning = false
+                                        } else {
+                                            echo "Tasks are still running, waiting for completion..."
+                                            sleep time: 10, unit: 'SECONDS'
+                                        }
                                     }
                                 }
                             }
