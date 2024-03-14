@@ -148,10 +148,15 @@ pipeline {
 									def taskArnsOutput = sh(script: "aws ecs list-tasks --cluster ${CLUSTER_NAME} --desired-status RUNNING --region ap-northeast-2 --query 'taskArns[]' --output text", returnStdout: true).trim()
 									def taskStatus = sh(script: "aws ecs describe-tasks --tasks ${taskArnsOutput} --cluster ${CLUSTER_NAME} --region ap-northeast-2 --query 'tasks[0].lastStatus'", returnStdout: true).trim()
 
-									if (taskStatus == "RUNNING") {
-										echo "Task execution successful."
-									} else {
+									if (taskStatus == "STOPPED") {
 										error "Task execution failed. Current status: ${taskStatus}"
+									} else {
+										// 태스크가 RUNNING 상태가 될 때까지 기다림
+										waitUntil {
+											taskStatus = sh(script: "aws ecs describe-tasks --tasks ${taskArnsOutput} --cluster ${CLUSTER_NAME} --region ap-northeast-2 --query 'tasks[0].lastStatus'", returnStdout: true).trim()
+											return taskStatus == "RUNNING"
+										}
+										echo "Task execution successful."
 									}
 								}
 							}
