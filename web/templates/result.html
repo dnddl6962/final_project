@@ -6,16 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>시험 결과</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="/static/css/result.css?v=1.3">
+    <link rel="stylesheet" href="/static/css/result.css?v=1.4">
 </head>
 <body>
     <header>
         <div class="header-container">
             <img src="/static/img/cute_cat.png" alt="Cute Cat" class="cute-cat-image"/>
+            <div id="userid-display"></div>
         </div>
     </header>
-    <canvas id="normalDistributionChart" width="950" height="550"></canvas>
 
+    <canvas id="normalDistributionChart" width="950" height="550"></canvas>
+    
     <script>
         // 정규분포 데이터 생성 함수
         function generateNormalDistribution(mean, stdDev, numPoints) {
@@ -173,5 +175,16 @@
             console.log('est_theta 쿠키를 찾을 수 없습니다.');
         }
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          console.log('문서 로드 완료');
+          const userid = localStorage.getItem('userid'); // 또는 쿠키에서 읽기
+          console.log('userid:', userid);
+          if (userid) {
+            document.getElementById('userid-display').textContent = `사용자 ID: ${userid}`;
+          }
+        });
+      </script>
 </body>
 </html>

@@ -1,19 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Song+Myung&display=swap');
 
 header {
-    width: 100%;
-    /* 헤더 높이 설정 필요. 예를 들면, 70px */
-    height: 70px;
-    background: #fbfbfb;
-    position: fixed;
-    top: 0;
-    z-index: 1000;
-    overflow: hidden; /* 헤더 밖으로 이미지가 나가지 않도록 설정 */
+  width: 100%;
+  /* 헤더 높이 설정 필요. 예를 들면, 70px */
+  height: 90px;
+  background: #fbfbfb;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  overflow: hidden; /* 헤더 밖으로 이미지가 나가지 않도록 설정 */
 }
 
 .header-container {
-    /* .header-container에 관련된 나머지 스타일 */
-    position: relative; /* 이미지를 헤더 내부에서 절대 위치로 조정하기 위함 */
+  /* .header-container에 관련된 나머지 스타일 */
+  position: relative; /* 이미지를 헤더 내부에서 절대 위치로 조정하기 위함 */
 }
   
   .box {
@@ -125,4 +125,14 @@ header {
     to {
       left: 100%; /* 이미지를 헤더의 오른쪽 끝까지 이동 */
     }
+}
+#userid-display {
+  position: relative; /* 상대 위치 */
+  width: 100%; /* 전체 너비를 채우도록 설정 */
+  top: 70px; /* 헤더 높이에 따라 조정 */
+  z-index: 10; /* 헤더보다 앞에 오도록 z-index 값을 높게 설정 */
+  text-align: center; /* 내용을 중앙으로 정렬 */
+  background: rgba(255, 255, 255, 0.8); /* 배경색과 투명도 조절 */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  border-radius: 5px; /* 모서리를 둥글게 */
 }
