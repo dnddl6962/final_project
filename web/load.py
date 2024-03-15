@@ -13,12 +13,6 @@ region_name = 'ap-northeast-2'
 
 s3 = boto3.client('s3', aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key, region_name=region_name)
 
-
-# S3 버킷과 파일 이름 설정
-bucket_name = 'mathcat-bucket'
-object_key = 'irt_result/yyyy=2024/mm=03/dd=13/irt_result.json'
-
-
 def load_data(bucket_name, object_key):
 
     # JSON 파일 읽어오기
