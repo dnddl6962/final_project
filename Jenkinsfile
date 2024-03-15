@@ -146,19 +146,20 @@ pipeline {
 							steps {
 								script {
 									timeout(time: 1, unit: 'HOURS') {
+										def allTasksStopped = false
 										waitUntil {
 											def taskArnsOutput = sh(script: "aws ecs list-tasks --cluster ${CLUSTER_NAME} --desired-status RUNNING --region ap-northeast-2 --query 'taskArns[]' --output text", returnStdout: true).trim()
 											if (taskArnsOutput) {
 												def taskDescribeOutput = sh(script: "aws ecs describe-tasks --tasks ${taskArnsOutput} --cluster ${CLUSTER_NAME} --region ap-northeast-2", returnStdout: true).trim()
 												def tasks = new groovy.json.JsonSlurper().parseText(taskDescribeOutput)
-												boolean allTasksStopped = true
+												allTasksStopped = true
 												for (task in tasks.tasks) {
 													if (task.lastStatus == "RUNNING") {
 														allTasksStopped = false
 														break
 													} else if (task.lastStatus != "STOPPED") {
-														allTasksStopped = false
 														echo "Task ${task.taskArn} is in ${task.lastStatus} status, waiting for it to finish."
+														allTasksStopped = false
 													}
 												}
 												if (allTasksStopped) {
