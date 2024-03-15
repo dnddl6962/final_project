@@ -41,32 +41,32 @@ class Answer(BaseModel):
     answer: bool
     currentQuestionNum: int
 
-@app.post('/submit-answer')
-async def submit_answer(answer: Answer, response: Response):
-    json_data = load_data('mathcat-bucket', 'irt_result/yyyy=2024/mm=03/dd=13/irt_result.json')
-    result_array = []  # result_array 초기화
-    administered_items = []
+# @app.post('/submit-answer')
+# async def submit_answer(answer: Answer, response: Response):
+#     json_data = load_data('mathcat-bucket', 'irt_result/yyyy=2024/mm=03/dd=13/irt_result.json')
+#     result_array = []  # result_array 초기화
+#     administered_items = []
     
-    # 초기 4문제의 문제 ID
-    initial_item_ids = ['quiz30049372', 'quiz30064607', 'quiz30048859', 'quiz30062323']
+#     # 초기 4문제의 문제 ID
+#     initial_item_ids = ['quiz30049372', 'quiz30064607', 'quiz30048859', 'quiz30062323']
     
-    # 현재 문제의 ID를 사용하여 현재 문제의 인덱스를 찾음
-    current_index = initial_item_ids.index(answer.questionId)
+#     # 현재 문제의 ID를 사용하여 현재 문제의 인덱스를 찾음
+#     current_index = initial_item_ids.index(answer.questionId)
     
-    # 다음 문제의 인덱스 계산
-    next_index = current_index + 1
+#     # 다음 문제의 인덱스 계산
+#     next_index = current_index + 1
     
-    # 다음 문제의 ID를 결정
-    # 만약 모든 문제를 다 푼 경우, 처리 로직을 추가해야 함
-    if next_index < len(initial_item_ids):
-        next_item_id = initial_item_ids[next_index]
-    else:
-        # 모든 문제를 완료한 경우의 처리 로직
-        # 예: 테스트 종료 메시지 반환, 능력치 평가 결과 반환 등
-        return {"message": "모든 문제를 완료하였습니다."}
+#     # 다음 문제의 ID를 결정
+#     # 만약 모든 문제를 다 푼 경우, 처리 로직을 추가해야 함
+#     if next_index < len(initial_item_ids):
+#         next_item_id = initial_item_ids[next_index]
+#     else:
+#         # 모든 문제를 완료한 경우의 처리 로직
+#         # 예: 테스트 종료 메시지 반환, 능력치 평가 결과 반환 등
+#         return {"message": "모든 문제를 완료하였습니다."}
 
-    # 다음 문제의 ID 반환
-    return {"next_item_id": next_item_id}
+#     # 다음 문제의 ID 반환
+#     return {"next_item_id": next_item_id}
 
 
 
@@ -142,7 +142,7 @@ async def start_test():
     # 실제 로직은 데이터베이스에서 문제 정보를 가져오는 코드로 대체되어야 함
     questions = [
         # 데이터베이스에서 문제 데이터를 가져오는 함수를 호출하여 각 ID에 해당하는 문제 정보를 배열로 만듦
-        get_question_data(item_id) for item_id in initial_item_ids
+        get_first_question(item_id) for item_id in initial_item_ids
     ]
     return {"initial_questions": questions}
 
@@ -167,11 +167,13 @@ class Answer(BaseModel):
 async def submit_answer(answer: Answer, response: Response):
     json_data = load_data('mathcat-bucket', 'irt_result/yyyy=2024/mm=03/dd=13/irt_result.json')
     result_array = []  # result_array 초기화
+    responses = []
 
     # result_array 생성
     for i in range(len(json_data['disc'])):
         new_array = [json_data['disc'][i], json_data['diff'][i], 0, 1]
         result_array.append(new_array)
+        np.array(result_array)
 
     # 초기화
     initializer = FixedPointInitializer(0)
@@ -201,7 +203,8 @@ async def submit_answer(answer: Answer, response: Response):
                 administered_items.append(item_index)
 
                 # 초기 문제에 대한 응답 추가 (사용자 입력 대신 Answer 모델에서 받음)
-                responses.append(answer.answer, answer.questionId)
+                responses.append(answer.answer)
+                
 
             # 초기화 단계
             est_theta = self.initializer.initialize()
@@ -221,8 +224,9 @@ async def submit_answer(answer: Answer, response: Response):
                 next_item_id = json_data['item_ids'][str(item_index)]
 
                 # 평가 단계
+                true_theta = 0.0
                 a, b, c, d = np.array(self.result_array)[item_index]
-                prob = icc(est_theta, a, b, c, d)
+                prob = icc(true_theta, a, b, c, d)
                 correct = answer.answer
 
                 # 결과 기록
