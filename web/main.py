@@ -37,44 +37,71 @@ class User(BaseModel):
     userid: str
 
 class Answer(BaseModel):
-    questionId: int
+    questionId: str
     answer: bool
+    currentQuestionNum: int
 
 @app.post('/submit-answer')
 async def submit_answer(answer: Answer, response: Response):
     json_data = load_data('mathcat-bucket', 'irt_result/yyyy=2024/mm=03/dd=13/irt_result.json')
     result_array = []  # result_array 초기화
     administered_items = []
-
+    
     # 초기 4문제의 문제 ID
     initial_item_ids = ['quiz30049372', 'quiz30064607', 'quiz30048859', 'quiz30062323']
+    
+    # 현재 문제의 ID를 사용하여 현재 문제의 인덱스를 찾음
+    current_index = initial_item_ids.index(answer.questionId)
+    
+    # 다음 문제의 인덱스 계산
+    next_index = current_index + 1
+    
+    # 다음 문제의 ID를 결정
+    # 만약 모든 문제를 다 푼 경우, 처리 로직을 추가해야 함
+    if next_index < len(initial_item_ids):
+        next_item_id = initial_item_ids[next_index]
+    else:
+        # 모든 문제를 완료한 경우의 처리 로직
+        # 예: 테스트 종료 메시지 반환, 능력치 평가 결과 반환 등
+        return {"message": "모든 문제를 완료하였습니다."}
 
-    # result_array 생성
-    for i in range(len(json_data['disc'])):
-        new_array = [json_data['disc'][i], json_data['diff'][i], 0, 1]  # 예시 구조, 실제 구조는 json_data에 따라 다를 수 있음
-        result_array.append(new_array)
+    # 다음 문제의 ID 반환
+    return {"next_item_id": next_item_id}
 
-    # 여기서부터 기존의 오류가 발생한 부분
-    initializer = FixedPointInitializer(0)
-    selector = UrrySelector()
-    estimator = NumericalSearchEstimator()
-    stopper = MinErrorStopper(0.6)
 
-# 초기 4문제의 인덱스를 찾아서 administered_items에 추가하고 응답 벡터에 대응하는 응답을 추가
-    for item_id in initial_item_ids:
-        item_index = list(json_data['item_ids'].values()).index(item_id)
-        administered_items.append(item_index)
 
-    s = Simulator(result_array, 20, initializer, selector, estimator, stopper)
-    est_theta = s.simulate(verbose=True)  # 이 호출 결과를 est_theta에 저장
-    next_item_id = json_data['item_ids'][str(item_index)]
-    # 여기에서 사용자의 응답을 처리합니다.
-    # 예: 사용자의 진행 상태 업데이트, 추정된 능력치 계산 등
-    print(f"Question ID: {answer.questionId}, Answer: {answer.answer}")
-    response.set_cookie(key="est_theta", value=str(est_theta)) 
-    # 다음 문제 정보나 상태 업데이트 응답을 반환합니다.
-    return {"message": "응답을 받았습니다.", "nextQuestionId": answer, "estimated_proficiency": est_theta,
-        "next_item_id": next_item_id } # 다음 문제 ID 포함}
+
+
+
+
+
+#     # result_array 생성
+#     for i in range(len(json_data['disc'])):
+#         new_array = [json_data['disc'][i], json_data['diff'][i], 0, 1]  # 예시 구조, 실제 구조는 json_data에 따라 다를 수 있음
+#         result_array.append(new_array)
+
+#     # 여기서부터 기존의 오류가 발생한 부분
+#     initializer = FixedPointInitializer(0)
+#     selector = UrrySelector()
+#     estimator = NumericalSearchEstimator()
+#     stopper = MinErrorStopper(0.6)
+
+# # 초기 4문제의 인덱스를 찾아서 administered_items에 추가하고 응답 벡터에 대응하는 응답을 추가
+#     for item_id in initial_item_ids:
+#         item_index = list(json_data['item_ids'].values()).index(item_id)
+#         administered_items.append(item_index)
+
+#     s = Simulator(result_array, 20, initializer, selector, estimator, stopper)
+#     est_theta = s.simulate(verbose=True)  # 이 호출 결과를 est_theta에 저장
+#     next_item_id = json_data['item_ids'][str(item_index)]
+#     print(json_data['item_ids'][str(item_index)])
+#     # 여기에서 사용자의 응답을 처리합니다.
+#     # 예: 사용자의 진행 상태 업데이트, 추정된 능력치 계산 등
+#     print(f"Question ID: {answer.questionId}, Answer: {answer.answer}")
+#     response.set_cookie(key="est_theta", value=str(est_theta)) 
+#     # 다음 문제 정보나 상태 업데이트 응답을 반환합니다.
+#     return {"message": "응답을 받았습니다.", "nextQuestionId": answer, "estimated_proficiency": est_theta,
+#         "next_item_id": next_item_id } # 다음 문제 ID 포함}
 
     
 @app.post("/users/")
@@ -118,15 +145,14 @@ async def start_test():
         get_question_data(item_id) for item_id in initial_item_ids
     ]
     return {"initial_questions": questions}
-#유틸리티 함수: 각 문제 ID에 대한 문제 데이터를 조회
-def get_question_data(initial_item_ids: str):
-    # 여기서는 예시 데이터를 반환함
-    # 실제로는 데이터베이스에서 해당 문제 ID에 맞는 문제 데이터를 가져와야 함
-    return {
-        "id": initial_item_ids,
-        # 기타 필요한 문제 정보
-    }
 
+@app.get("/get-first-question")
+async def get_first_question():
+    # 초기 4문제의 문제 ID
+    initial_item_ids = ['quiz30049372', 'quiz30064607', 'quiz30048859', 'quiz30062323']
+    # 첫 번째 문제 ID
+    first_item_id = initial_item_ids[0]
+    return first_item_id
 
 @app.get("/quiz", response_class=HTMLResponse)
 async def get_quiz_page(request: Request):
@@ -175,7 +201,7 @@ async def submit_answer(answer: Answer, response: Response):
                 administered_items.append(item_index)
 
                 # 초기 문제에 대한 응답 추가 (사용자 입력 대신 Answer 모델에서 받음)
-                responses.append(answer.answer)
+                responses.append(answer.answer, answer.questionId)
 
             # 초기화 단계
             est_theta = self.initializer.initialize()
