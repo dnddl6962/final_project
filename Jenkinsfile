@@ -142,50 +142,6 @@ pipeline {
 							}
 						}
 						
-						stage("Check ECS Task Execution") {
-							steps {
-								script {
-									timeout(time: 1, unit: 'HOURS') {
-										def allTasksStopped = false
-										waitUntil {
-											def taskArnsOutput = sh(script: "aws ecs list-tasks --cluster ${CLUSTER_NAME} --desired-status RUNNING --region ap-northeast-2 --query 'taskArns[]' --output text", returnStdout: true).trim()
-											if (taskArnsOutput) {
-												def taskDescribeOutput = sh(script: "aws ecs describe-tasks --tasks ${taskArnsOutput} --cluster ${CLUSTER_NAME} --region ap-northeast-2", returnStdout: true).trim()
-												def tasks = new groovy.json.JsonSlurper().parseText(taskDescribeOutput)
-												allTasksStopped = true
-												for (task in tasks.tasks) {
-													if (task.lastStatus == "RUNNING") {
-														allTasksStopped = false
-														break
-													} else if (task.lastStatus != "STOPPED") {
-														echo "Task ${task.taskArn} is in ${task.lastStatus} status, waiting for it to finish."
-														allTasksStopped = false
-													}
-												}
-												if (allTasksStopped) {
-													echo "All ECS tasks have finished."
-													return true
-												} else {
-													return false
-												}
-											} else {
-												echo "No running tasks found. Waiting for ECS Task to start..."
-												return false
-											}
-										}
-									}
-								}
-							}
-							post {
-								success {
-									echo "The Check ECS Task Execution stage successfully."
-								}
-								failure {
-									echo "The Check ECS Task Execution stage failed."
-								}
-							}
-						}
-
 						stage("Clean Image") {
 							steps {
 								script {
