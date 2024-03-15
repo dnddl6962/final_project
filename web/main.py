@@ -65,8 +65,6 @@ async def submit_answer(answer: Answer, response: Response):
         item_index = list(json_data['item_ids'].values()).index(item_id)
         administered_items.append(item_index)
 
-
-
     s = Simulator(result_array, 20, initializer, selector, estimator, stopper)
     est_theta = s.simulate(verbose=True)  # 이 호출 결과를 est_theta에 저장
     next_item_id = json_data['item_ids'][str(item_index)]
@@ -240,13 +238,6 @@ async def submit_answer(answer: Answer, response: Response):
     else:
         return {"message": "오답입니다.", "estimated_proficiency": est_theta}
 
-
-
-    # 사용자의 응답에 기반한 처리 로직
-    # 예: 사용자의 능력치 업데이트, 다음 문제 선택 등
-
-    # 클라이언트에게 JSON 형태로 다음 문제 데이터 및 기타 정보 반환
-    # return {"next_question": "some_question_data", "other_info": "value"}
 
 @app.get("/result", response_class=HTMLResponse)
 async def get_result_page(request: Request):
