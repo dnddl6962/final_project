@@ -2,9 +2,18 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import os
-from dotenv import load_dotenv
+import dotenv
 
-DATABASE_URL= "mysql+pymysql://dbtest:shinemathcat@database-1.c1oby0nabaqs.ap-northeast-2.rds.amazonaws.com:3306/dbtest"
+# AWS 계정 자격 증명 및 리전 설정
+env_path = dotenv.find_dotenv()
+dotenv.load_dotenv(env_path)
+
+host = os.environ.get("AWS_RDS_HOST")
+port = os.environ.get("AWS_RDS_PORT")
+user_name = os.environ.get("AWS_RDS_USERNAME")
+password = os.environ.get("AWS_RDS_PASSWORD")
+
+DATABASE_URL = f"mysql+pymysql://{user_name}:{password}@{host}:{port}/dbtest"
 engine = create_engine(DATABASE_URL, connect_args={'connect_timeout': 10})
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
