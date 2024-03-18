@@ -142,7 +142,7 @@ pipeline {
 							}
 						}
 
-						 stage('Check ECS Task Status') {
+						stage('Check ECS Task Status') {
 							steps {
 								script {
 									def taskArn = sh(script: "aws ecs list-tasks --cluster ${CLUSTER_NAME} --query 'taskArns[0]' --output text", returnStdout: true).trim()
@@ -151,7 +151,7 @@ pipeline {
 									}
 									
 									def taskStatus = ''
-									while (taskStatus != 'RUNNING' && taskStatus != 'STOPPED') {
+									while (taskStatus != 'STOPPED') {
 										taskStatus = sh(script: "aws ecs describe-tasks --cluster ${CLUSTER_NAME} --tasks ${taskArn} --query 'tasks[0].lastStatus' --output text", returnStdout: true).trim()
 										if (taskStatus == 'PROVISIONING') {
 											echo "서비스가 아직 프로비저닝 중입니다. 잠시 대기합니다..."
@@ -159,21 +159,19 @@ pipeline {
 										} else if (taskStatus == 'PENDING') {
 											echo "서비스가 대기 중입니다."
 											sleep 10
-										} 
-									}
-									
-									if (taskStatus == 'STOPPED') {
-										def stoppedReason = sh(script: "aws ecs describe-tasks --cluster ${env.CLUSTER_NAME} --tasks ${taskArn} --query 'tasks[0].stoppedReason' --output text", returnStdout: true).trim()
-										if (stoppedReason.contains('Essential container in task exited')) {
-											echo "Essential container in task exited: 다음 단계로 진행합니다."
-										} else {
-											error "작업이 중단되었습니다. 이유: ${stoppedReason}"
+										} else if (taskStatus == 'RUNNING') {
+											echo "작업이 여전히 실행 중입니다. 대기합니다..."
+											sleep 10
 										}
 									}
 
-									if (taskStatus != 'RUNNING') {
-										error "서비스가 실행 중이 아닙니다."
+									def stoppedReason = sh(script: "aws ecs describe-tasks --cluster ${CLUSTER_NAME} --tasks ${taskArn} --query 'tasks[0].stoppedReason' --output text", returnStdout: true).trim()
+									if (stoppedReason.contains('Essential container in task exited')) {
+										echo "Essential container in task exited: 다음 단계로 진행합니다."
+									} else {
+										error "작업이 중단되었습니다. 이유: ${stoppedReason}"
 									}
+                    
 									
 								}
 							}
