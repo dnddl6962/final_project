@@ -157,7 +157,8 @@ pipeline {
 											echo "서비스가 아직 프로비저닝 중입니다. 잠시 대기합니다..."
 											sleep 10
 										} else if (taskStatus == 'PENDING') {
-											error "서비스가 대기 중입니다."
+											echo "서비스가 대기 중입니다."
+											sleep 10
 										} else if (taskStatus == 'STOPPED') {
 											def stoppedReason = sh(script: "aws ecs describe-tasks --cluster ${CLUSTER_NAME} --tasks ${taskArn} --query 'tasks[0].stoppedReason' --output text", returnStdout: true).trim()
 											error "작업이 중단되었습니다. 이유: ${stoppedReason}"
