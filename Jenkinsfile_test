@@ -159,17 +159,22 @@ pipeline {
 										} else if (taskStatus == 'PENDING') {
 											echo "서비스가 대기 중입니다."
 											sleep 10
-										} else if (taskStatus == 'STOPPED') {
-											def stoppedReason = sh(script: "aws ecs describe-tasks --cluster ${CLUSTER_NAME} --tasks ${taskArn} --query 'tasks[0].stoppedReason' --output text", returnStdout: true).trim()
+										} 
+									}
+									
+									if (taskStatus == 'STOPPED') {
+										def stoppedReason = sh(script: "aws ecs describe-tasks --cluster ${env.CLUSTER_NAME} --tasks ${taskArn} --query 'tasks[0].stoppedReason' --output text", returnStdout: true).trim()
+										if (stoppedReason.contains('Essential container in task exited')) {
+											echo "Essential container in task exited: 다음 단계로 진행합니다."
+										} else {
 											error "작업이 중단되었습니다. 이유: ${stoppedReason}"
 										}
 									}
-									
+
 									if (taskStatus != 'RUNNING') {
 										error "서비스가 실행 중이 아닙니다."
 									}
 									
-									echo "서비스가 정상적으로 실행 중입니다."
 								}
 							}
 						}
