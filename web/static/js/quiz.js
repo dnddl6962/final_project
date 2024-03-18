@@ -12,17 +12,36 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     .catch(error => console.error('Error:', error));
 
+
+// 버튼 참조
+const oButton = document.getElementById('o-button');
+const xButton = document.getElementById('x-button');
+
 document.getElementById('o-button').addEventListener('click', function() {
+    updateSelection(oButton);
     sendAnswer(true, currentQuestionNum, currentQuestionId); // 문제를 맞힘
 });
 
 document.getElementById('x-button').addEventListener('click', function() {
+    updateSelection(xButton);
     sendAnswer(false, currentQuestionNum, currentQuestionId); // 문제를 틀림
 });
 
 document.getElementById('next-button').addEventListener('click', function() {
     loadNextQuestion(); // 다음 문제 로드
 });
+
+
+
+// 선택된 버튼 강조 및 다른 버튼의 강조 해제
+function updateSelection(selectedButton) {
+    // 먼저 모든 버튼에서 'selected' 클래스 제거
+    oButton.classList.remove('selected');
+    xButton.classList.remove('selected');
+    
+    // 선택된 버튼에만 'selected' 클래스 추가
+    selectedButton.classList.add('selected');
+}
 
 function sendAnswer(answer, questionId) {
     // 서버로 응답을 전송하는 로직
@@ -40,7 +59,7 @@ function sendAnswer(answer, questionId) {
     .then(data => {
         console.log('Response:', data);
         currentQuestionId = data.next_item_id;  // 다음 문제 ID 업데이트
-        loadNextQuestion(data.next_item_id);  // 수정: 다음 문제 로드 함수에 다음 문제 ID 전달
+        //loadNextQuestion(data.next_item_id);  // 수정: 다음 문제 로드 함수에 다음 문제 ID 전달
     })
 
     .catch(error => console.error('Error:', error));
