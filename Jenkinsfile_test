@@ -1,30 +1,49 @@
-def imageName = "example-pipeline"
-def tagName = "0.0.1"
+def imageName = "irt-pipeline"
+def tagName = env.BUILD_NUMBER
 
 
 pipeline {
 	agent any
 
 	environment {
-		AWS_ACCOUNT_ID = credentials("AWS_ACCOUNT_ID")
-        	AWS_ACCESS_KEY_ID = credentials("AWS_ACCESS_KEY_ID")
-        	AWS_SECRET_ACCESS_KEY = credentials("AWS_SECRET_ACCESS_KEY")
-		IMAGE_URL = "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}"
+		    AWS_ACCOUNT_ID = credentials("AWS_ACCOUNT_ID")
+			AWS_ACCESS_KEY_ID = credentials("AWS_ACCESS_KEY_ID")
+			AWS_SECRET_ACCESS_KEY = credentials("AWS_SECRET_ACCESS_KEY")
+			SUBNET_IDS = credentials("SUBNET_IDS")
+			SECURITY_GROUP_ID = credentials("SECURITY_GROUP_ID")
+			EXECUTION_ROLE_ARN = "arn:aws:iam::${AWS_ACCOUNT_ID}:role/ecsTaskExecutionRole"
+			TASK_FAMILY = "irt_pipeline"
+			CLUSTER_NAME ="TestCluster"
+		    IMAGE_URL = "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}"
 	}
+  
 
 	stages {
+		stage("Checkout") {
+			steps {
+				checkout scm
+				sh "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com"
+			}
+			post {
+				success {
+                    echo "The Checkout stage successfully."
+                }
+                failure {
+                    echo "The Checkout stage failed."
+                }
+			}
+		}
 		stage("Build Image") {
             steps {
-                // GitHub에서 코드를 가져오면서 ecrpush 디렉토리로 이동하고 해당 디렉토리에서 Dockerfile을 사용하여 도커 이미지 빌드
+                // GitHub에서 코드를 가져오면서 irt_pipeline 디렉토리로 이동하고 해당 디렉토리에서 Dockerfile을 사용하여 도커 이미지 빌드
                 checkout([$class: 'GitSCM',
                           branches: [[name: 'main']],
                           doGenerateSubmoduleConfigurations: false,
                           extensions: [[$class: 'SubmoduleOption', recursiveSubmodules: false]],
                           submoduleCfg: [],
                           userRemoteConfigs: [[url: 'https://github.com/dnddl6962/final_project.git']]])
-		sh "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com"
 
-                dir('ecrpush') {
+                dir('irt_pipeline') {
                     script {
                         sh "docker build -t ${imageName}:${tagName} ."
                     }
@@ -62,6 +81,98 @@ pipeline {
 								}
 							}
 						}
+						stage("Update ECS Task Definition") {
+							steps {
+								script {
+									//task 정의 
+									def taskDefinition = """
+									{
+										"requiresCompatibilities": ["FARGATE"],
+										"family": "${TASK_FAMILY}",
+										"containerDefinitions": [
+											{
+												"name": "${imageName}",
+												"image": "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/${imageName}:${tagName}",
+												"cpu": 4096,
+												"memory": 16384,
+												"memoryReservation": 8192,
+												"essential": true,
+												"environment": [
+																{
+																	"name": "aws_access_key_id",
+																	"value": "${AWS_ACCESS_KEY_ID}"
+																},
+																{
+																	"name": "aws_secret_access_key",
+																	"value": "${AWS_SECRET_ACCESS_KEY}"
+																}
+															],
+												"logConfiguration":
+												 {
+													"logDriver": "awslogs",
+													"options": {
+														"awslogs-create-group": "true",
+														"awslogs-group": "/ecs/irt_pipeline",
+														"awslogs-region": "ap-northeast-2",
+														"awslogs-stream-prefix": "ecs"
+														}
+												}
+											}
+										],
+										"volumes": [],
+										"networkMode": "awsvpc",
+										"memory": "16 GB",
+										"cpu": "4 vCPU",
+										"executionRoleArn": "${EXECUTION_ROLE_ARN}",
+										"taskRoleArn": "${EXECUTION_ROLE_ARN}"
+				
+									}
+									"""
+									sh "echo '${taskDefinition}' > taskDefinition.json"
+									sh "aws ecs register-task-definition --cli-input-json file://taskDefinition.json"
+								}
+							}
+						}
+
+						stage("Run ECS Task") {
+							steps {
+								script {
+									sh "aws ecs run-task --cluster ${CLUSTER_NAME} --task-definition ${TASK_FAMILY} --launch-type FARGATE --network-configuration 'awsvpcConfiguration={subnets=[${SUBNET_IDS}],securityGroups=[${SECURITY_GROUP_ID}],assignPublicIp=ENABLED}'"
+								}
+							}
+						}
+
+						 stage('Check ECS Task Status') {
+							steps {
+								script {
+									def taskArn = sh(script: "aws ecs list-tasks --cluster ${CLUSTER_NAME} --query 'taskArns[0]' --output text", returnStdout: true).trim()
+									if (taskArn.empty) {
+										error "서비스가 실행 중이 아닙니다."
+									}
+									
+									def taskStatus = ''
+									while (taskStatus != 'RUNNING' && taskStatus != 'STOPPED') {
+										taskStatus = sh(script: "aws ecs describe-tasks --cluster ${CLUSTER_NAME} --tasks ${taskArn} --query 'tasks[0].lastStatus' --output text", returnStdout: true).trim()
+										if (taskStatus == 'PROVISIONING') {
+											echo "서비스가 아직 프로비저닝 중입니다. 잠시 대기합니다..."
+											sleep 10
+										} else if (taskStatus == 'PENDING') {
+											error "서비스가 대기 중입니다."
+										} else if (taskStatus == 'STOPPED') {
+											def stoppedReason = sh(script: "aws ecs describe-tasks --cluster ${CLUSTER_NAME} --tasks ${taskArn} --query 'tasks[0].stoppedReason' --output text", returnStdout: true).trim()
+											error "작업이 중단되었습니다. 이유: ${stoppedReason}"
+										}
+									}
+									
+									if (taskStatus != 'RUNNING') {
+										error "서비스가 실행 중이 아닙니다."
+									}
+									
+									echo "서비스가 정상적으로 실행 중입니다."
+								}
+							}
+						}
+						
 						stage("Clean Image") {
 							steps {
 								script {
