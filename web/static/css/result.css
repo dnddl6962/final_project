@@ -127,6 +127,7 @@ header {
     }
 }
 #userid-display {
+  font-family: "Nanum Gothic", sans-serif;
   position: relative; /* 상대 위치 */
   width: 100%; /* 전체 너비를 채우도록 설정 */
   top: 70px; /* 헤더 높이에 따라 조정 */
