@@ -6,6 +6,8 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+main.py
+quiz.js
 
 # IDE 설정 무시
 .idea/
