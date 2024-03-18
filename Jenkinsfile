@@ -1,5 +1,5 @@
 def imageName = "irt-pipeline"
-def tagName = "0.0.1"
+def tagName = env.BUILD_NUMBER
 
 
 pipeline {
@@ -138,6 +138,41 @@ pipeline {
 							steps {
 								script {
 									sh "aws ecs run-task --cluster ${CLUSTER_NAME} --task-definition ${TASK_FAMILY} --launch-type FARGATE --network-configuration 'awsvpcConfiguration={subnets=[${SUBNET_IDS}],securityGroups=[${SECURITY_GROUP_ID}],assignPublicIp=ENABLED}'"
+								}
+							}
+						}
+
+						stage('Check ECS Task Status') {
+							steps {
+								script {
+									def taskArn = sh(script: "aws ecs list-tasks --cluster ${CLUSTER_NAME} --query 'taskArns[0]' --output text", returnStdout: true).trim()
+									if (taskArn.empty) {
+										error "서비스가 실행 중이 아닙니다."
+									}
+									
+									def taskStatus = ''
+									while (taskStatus != 'STOPPED') {
+										taskStatus = sh(script: "aws ecs describe-tasks --cluster ${CLUSTER_NAME} --tasks ${taskArn} --query 'tasks[0].lastStatus' --output text", returnStdout: true).trim()
+										if (taskStatus == 'PROVISIONING') {
+											echo "서비스가 아직 프로비저닝 중입니다. 잠시 대기합니다..."
+											sleep 10
+										} else if (taskStatus == 'PENDING') {
+											echo "서비스가 대기 중입니다."
+											sleep 10
+										} else if (taskStatus == 'RUNNING') {
+											echo "작업이 여전히 실행 중입니다. 대기합니다..."
+											sleep 10
+										}
+									}
+
+									def stoppedReason = sh(script: "aws ecs describe-tasks --cluster ${CLUSTER_NAME} --tasks ${taskArn} --query 'tasks[0].stoppedReason' --output text", returnStdout: true).trim()
+									if (stoppedReason.contains('Essential container in task exited')) {
+										echo "Essential container in task exited: 다음 단계로 진행합니다."
+									} else {
+										error "작업이 중단되었습니다. 이유: ${stoppedReason}"
+									}
+                    
+									
 								}
 							}
 						}
