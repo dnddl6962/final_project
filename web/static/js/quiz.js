@@ -264,7 +264,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     if (data.last_quiz) {
                         // 마지막 퀴즈일 경우 다음 버튼 숨기기
-                        document.getElementById('next-button').style.display = 'none';
+                        //document.getElementById('next-button').style.display = 'none';
+                        alert("테스트가 완료되었습니다!");
+                        window.location.href = '/result';
+                        document.getElementById('result').addEventListener('click', testResult);
                     }
                 } else {
                     console.error('Error:', data.error); // 에러가 발생한 경우 에러 메시지 출력
