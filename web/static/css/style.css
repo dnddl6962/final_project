@@ -4,7 +4,7 @@ header {
     width: 100%;
     /* 헤더 높이 설정 필요. 예를 들면, 70px */
     height: 90px;
-    background: #fbfbfb;
+    /* background: linear-gradient(324deg, rgb(226, 252, 218) 18%, rgb(207, 251, 162) 46%, rgb(255, 243, 139) 97%); */
     position: fixed;
     top: 0;
     z-index: 1000;
@@ -15,6 +15,16 @@ header {
     /* .header-container에 관련된 나머지 스타일 */
     position: relative; /* 이미지를 헤더 내부에서 절대 위치로 조정하기 위함 */
 }
+  /* .pic{
+    width: 100vw;       /* 화면의 전체 너비 
+    height: 10vh;      /* 화면의 전체 높이 
+    position: fixed; /*
+    /*top: 70px;  
+    left: 0;
+    background-image: url('/static/img/back2.png');
+    /* background-size: 100%; 이미지가 화면을 꽉 채우도록 조정 
+    background-position: center;
+  } */
   
   .box {
     width: 100vw;       /* 화면의 전체 너비 */
@@ -22,12 +32,15 @@ header {
     position: absolute;
     /*top: 70px;  */
     left: 0;
-    
-    background-color: #A8EA66;
+    /* background-image: url('/static/img/back2.png');
+    background-size: 100%; /* 이미지가 화면을 꽉 채우도록 조정 */
+    /* background-position: center;  */
+    background: linear-gradient(324deg, rgb(238, 255, 233) 18%, rgb(228, 255, 200) 46%, rgb(255, 248, 188) 97%);
+    /* background-color: white; */
     /* OR */
-    /* background: linear-gradient(324deg,#2C7359,#174031) ; */
-    background: linear-gradient(324deg, rgb(226, 252, 218) 18%, rgb(207, 251, 162) 46%, rgb(255, 243, 139) 97%);
-
+    /* background: white; */
+    /* background: linear-gradient(324deg,#3da27d,#2d7c5f) ; */
+    /*background: linear-gradient(324deg, rgb(226, 252, 218) 18%, rgb(207, 251, 162) 46%, rgb(255, 243, 139) 97%);
     /* background: linear-gradient(324deg, rgba(234,255,214,1) 18%, rgba(124,207,42,1) 46%, rgba(254,237,96,1) 97%); */
   }
   body, html {
@@ -45,8 +58,8 @@ header {
   }
   h1 {
     font-size: 4em; /* 제목의 크기를 조정하세요 */
-    /* color: #ffff; 제목의 색상을 조정하세요 */
-    color: black; 
+    color: black;
+    /* color: black;  */
     margin-top: 3em;
     margin-bottom: 0.5em;
     font-weight: 700;
