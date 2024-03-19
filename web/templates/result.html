@@ -9,15 +9,18 @@
     <link rel="stylesheet" href="/static/css/result.css?v=1.4">
 </head>
 <body>
+
     <header>
         <div class="header-container">
-            <img src="/static/img/cute_cat.png" alt="Cute Cat" class="cute-cat-image"/>
-            <div id="userid-display"></div>
+            <img src="/static/img/shinemathcat.png" alt="Cute Cat" class="cute-cat-image"/>
+
         </div>
+        <div id="userid-display"></div>
     </header>
 
     <canvas id="normalDistributionChart" width="950" height="550"></canvas>
-    
+
+
     <script>
         // 정규분포 데이터 생성 함수
         function generateNormalDistribution(mean, stdDev, numPoints) {
@@ -134,7 +137,7 @@
                             position: 'bottom',
                             ticks: {
                                 font: {
-                                    size: 20
+                                    size: 30
                                 }
                             }
                         },
@@ -143,7 +146,7 @@
                             position: 'left',
                             ticks: {
                                 font: {
-                                    size: 20
+                                    size: 30
                                 },
                                 callback: function(value) {
                                     return value;
@@ -160,7 +163,7 @@
                                 return context.datasetIndex === 0;
                             },
                             bodyFont: {
-                                size: 20
+                                size: 30
                             },
                             // 툴팁 내용 사용자 정의
                             callbacks: {

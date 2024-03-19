@@ -3,8 +3,8 @@
 header {
   width: 100%;
   /* 헤더 높이 설정 필요. 예를 들면, 70px */
-  height: 90px;
-  background: #fbfbfb;
+  height: 110px;
+  background: linear-gradient(324deg, rgb(235, 250, 230) 18%, rgb(215, 250, 180) 46%, rgb(250, 240, 154) 97%);
   position: fixed;
   top: 0;
   z-index: 1000;
@@ -17,8 +17,8 @@ header {
 }
   
   .box {
-    width: 100vw;       /* 화면의 전체 너비 */
-    height: 100vh;      /* 화면의 전체 높이 */
+    width: 200vw;       /* 화면의 전체 너비 */
+    height: 200vh;      /* 화면의 전체 높이 */
     position: absolute;
     top: 70px; 
     left: 0;
@@ -39,7 +39,8 @@ header {
     
   }
   canvas {
-    /* height: 100%; */
+    height: 75%;
+    width: 100%;
     margin-top: 50px;
     display: flex;
     align-items: center;
@@ -106,7 +107,7 @@ header {
     font-family: "Nanum Gothic", sans-serif;
   }    
   .cute-cat-image {
-    max-height: 70px; /* 헤더의 높이와 일치하도록 설정 */
+    max-height: 75px; /* 헤더의 높이와 일치하도록 설정 */
     width: auto; /* 이미지의 원래 가로 세로 비율을 유지하면서 높이에 맞춤 */
     height: auto; /* 이미지의 원래 가로 세로 비율을 유지하면서 높이에 맞춤 */
     position: absolute;
@@ -115,7 +116,7 @@ header {
     transform: translate(-50%);
     /* 애니메이션 및 기타 스타일 */
     /* 이미지의 중심을 정확히 중앙에 배치 */
-    animation: moveLeftRight 5s infinite alternate;
+    animation: moveLeftRight 7s infinite alternate;
 }
   
 @keyframes moveLeftRight {
@@ -128,12 +129,13 @@ header {
 }
 #userid-display {
   font-family: "Nanum Gothic", sans-serif;
+  font-size: 30px;
   position: relative; /* 상대 위치 */
   width: 100%; /* 전체 너비를 채우도록 설정 */
   top: 70px; /* 헤더 높이에 따라 조정 */
   z-index: 10; /* 헤더보다 앞에 오도록 z-index 값을 높게 설정 */
   text-align: center; /* 내용을 중앙으로 정렬 */
-  background: rgba(255, 255, 255, 0.8); /* 배경색과 투명도 조절 */
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  background: linear-gradient(324deg, rgb(235, 250, 230) 18%, rgb(215, 250, 180) 46%, rgb(250, 240, 154) 97%);
+  /*box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
   border-radius: 5px; /* 모서리를 둥글게 */
 }
