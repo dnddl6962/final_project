@@ -39,7 +39,7 @@
 
 
 <details>
-<summary><b>#⚙️ 개발환경 </b></summary>
+<summary><b>⚙️ 개발환경 </b></summary>
 ✔️언어 및 라이브러리
 <img src="https://img.shields.io/badge/Python-3.10.12/3.11.5-3776AB?style=for-the-badge&logo=Python&logoColor=#3776AB"> <img src="https://img.shields.io/badge/Torch-2.1.2-EE4C2C?style=for-the-badge&logo=Pytorch&logoColor=#EE4C2C">
   <br>
@@ -64,21 +64,28 @@
 </details>
 
 
-### ⚙️ AWS Pipeline
+<details>
+<summary><b>⚙️ Aws Pipeline </b></summary>
 #### ✔️컴퓨팅
 <img src="https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white"> <img src="https://img.shields.io/badge/amazonecs-FF9900?style=for-the-badge&logo=amazonecs&logoColor=white"> <img src="https://img.shields.io/badge/awsfargate-FF9900?style=for-the-badge&logo=awsfargate&logoColor=white">
+<br>
 
 #### ✔️스토리지
 <img src="https://img.shields.io/badge/amazons3-569A31?style=for-the-badge&logo=amazons3&logoColor=white"> <img src="https://img.shields.io/badge/amazonrds-527FFF?style=for-the-badge&logo=amazonrds&logoColor=white">
+<br>
 
 #### ✔️모니터링
 <img src="https://img.shields.io/badge/amazoncloudwatch-FF4F8B?style=for-the-badge&logo=amazoncloudwatch&logoColor=white">
+<br>
 
 #### ✔️데이터 처리 및 분석
 <img src="https://img.shields.io/badge/amazonglue-8C4FFF?style=for-the-badge&logo=amazonglue&logoColor=white"> <img src="https://img.shields.io/badge/amazonathena-8C4FFF?style=for-the-badge&logo=amazonathena&logoColor=white">
+<br>
 
 #### ✔️CI/CD 및 오케스트레이션
 <img src="https://img.shields.io/badge/amazonecr-FF9900?style=for-the-badge&logo=amazonecr&logoColor=white"> <img src="https://img.shields.io/badge/amazoneventbridge-FF4F8B?style=for-the-badge&logo=amazoneventbridge&logoColor=white">
+<br>
+</details>
 
 
 
