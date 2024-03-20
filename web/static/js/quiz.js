@@ -82,7 +82,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     if(data.estimated_proficiency == 0){
                         proficiency.textContent = '초기 사용자 능력치 측정을 위한 문제입니다.'
                     };
-        
                     if (data.last_quiz) {
                         // 마지막 퀴즈일 경우 다음 버튼 숨기기
                         //document.getElementById('next-button').style.display = 'none';

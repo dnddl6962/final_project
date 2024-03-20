@@ -32,8 +32,9 @@
                 function startTest() {
                     const startTime = new Date().toISOString();
                     localStorage.setItem('startTime', startTime);
-                    console.log(localStorage.getItem('startTime')); // 저장된 값을 콘솔에서 확인
-                    // alert('Button clicked!');
+                    document.cookie = `startTime=${startTime}; path=/`; // startTime을 쿠키에 저장
+                    document.cookie = `est_theta=0; path=/`; // est_theta 쿠키 초기화
+                    console.log(document.cookie); // 쿠키를 콘솔에서 확인
                     window.location.href = '/quiz';
                 }
                 document.getElementById('start-test').addEventListener('click', startTest);
@@ -66,8 +67,6 @@
                     localStorage.setItem('userid', data.userid);
                     console.log('userid 저장됨:', data.userid);
                     alert('등록 성공! 환영합니다, ' + data.userid);
-                    // 여기서 추가적인 행동을 취할 수 있습니다. 예를 들면 다른 페이지로 리다이렉트:
-                    // window.location.href = '/another-page';
                 })
                 .catch(error => {
                     alert(error.message);
