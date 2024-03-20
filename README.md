@@ -55,8 +55,14 @@
     </sub>
     </a>
     <br />
-    </td>    
+    <td align='center'>
+    <a href = 'https://github.com/GaYeon-Alice'>
+    <img src = 'https://github.com/GaYeon-Alice.png' width='150px;' alt='가연'/>
     <br />
+    <sub>
+    <b>강가연</b><br>
+    <b> :bulb: 어니어어나</b>
+    </sub>
     </td>
   </tr>
 </table>
