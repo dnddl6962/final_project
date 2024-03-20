@@ -19,7 +19,9 @@
 
 <br/>
 
-<img width="743" alt="스크린샷 2024-01-31 오후 2 17 31" src="">
+<p align = 'left'>
+  <img src= "" width="743px"> 
+</p>
 
 ## 😸 프로젝트 소개
 <br/>
