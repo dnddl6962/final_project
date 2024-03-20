@@ -1,7 +1,7 @@
 # 🍇 샤인매스캣
 # AWS | CAT.sim | Web
 ## 천재교육 빅데이터 5기 웅이네 팀 </br>
-<img width="743" alt="스크린샷 2024-01-31 오후 4 48 29" src="">
+<img width="743" alt="[스크린샷 2024-01-31 오후 4 48 29](https://github.com/dnddl6962/final_project/assets/96913965/c45be72a-0a4a-4494-be22-14ddd510a641)" src="">
 
 ## 🕒 개발 기간
 2024.02.05 - 2024.03.26
