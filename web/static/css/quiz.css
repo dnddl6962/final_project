@@ -167,4 +167,11 @@ header {
   font-weight: 700;
   font-family: "Nanum Gothic", sans-serif;
 }
-  
+#proficiency{
+  font-size: 1em; /* 본문 텍스트의 크기를 조정하세요 */
+  color: white; /* 본문 텍스트의 색상을 조정하세요 */
+  margin-top: 1em;
+  margin-bottom: 1em;
+  font-weight: 700;
+  font-family: "Nanum Gothic", sans-serif;
+}

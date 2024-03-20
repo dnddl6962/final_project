@@ -15,11 +15,13 @@
             <img src="/static/img/shinemathcat.png" alt="Cute Cat" class="cute-cat-image"/>
 
         </div>
-        <div id="userid-display"></div>
+        
     </header>
-
-    <canvas id="normalDistributionChart" width="950" height="550"></canvas>
-
+    <div class="chart-container">
+        <canvas id="normalDistributionChart" width="750" height="300"></canvas>
+        <h3 id="userid-display"></h3>
+        <button id="home">메인화면</button>
+    </div>
 
     <script>
         // 정규분포 데이터 생성 함수
@@ -146,7 +148,7 @@
                             position: 'left',
                             ticks: {
                                 font: {
-                                    size: 30
+                                    size: 0
                                 },
                                 callback: function(value) {
                                     return value;
@@ -196,6 +198,12 @@
             document.getElementById('userid-display').textContent = `사용자 ID: ${userid}`;
           }
         });
-      </script>
+    </script>
+    <script>
+        document.getElementById('home').addEventListener('click', function() {
+            window.location.href = '/'; 
+        });
+    </script>
+
 </body>
 </html>

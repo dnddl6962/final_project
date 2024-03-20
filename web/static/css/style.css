@@ -35,12 +35,12 @@ header {
     /* background-image: url('/static/img/back2.png');
     background-size: 100%; /* 이미지가 화면을 꽉 채우도록 조정 */
     /* background-position: center;  */
-    background: linear-gradient(324deg, rgb(238, 255, 233) 18%, rgb(228, 255, 200) 46%, rgb(255, 248, 188) 97%);
+    /* background: linear-gradient(324deg, rgb(238, 255, 233) 18%, rgb(228, 255, 200) 46%, rgb(255, 248, 188) 97%); */
     /* background-color: white; */
     /* OR */
     /* background: white; */
     /* background: linear-gradient(324deg,#3da27d,#2d7c5f) ; */
-    /*background: linear-gradient(324deg, rgb(226, 252, 218) 18%, rgb(207, 251, 162) 46%, rgb(255, 243, 139) 97%);
+    background: linear-gradient(324deg, rgb(226, 252, 218) 18%, rgb(207, 251, 162) 46%, rgb(255, 243, 139) 97%);
     /* background: linear-gradient(324deg, rgba(234,255,214,1) 18%, rgba(124,207,42,1) 46%, rgba(254,237,96,1) 97%); */
   }
   body, html {

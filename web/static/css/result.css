@@ -3,45 +3,45 @@
 header {
   width: 100%;
   /* 헤더 높이 설정 필요. 예를 들면, 70px */
-  height: 110px;
-  background: linear-gradient(324deg, rgb(235, 250, 230) 18%, rgb(215, 250, 180) 46%, rgb(250, 240, 154) 97%);
-  position: fixed;
+  height: 80px;
+  /* background: linear-gradient(324deg, rgb(235, 250, 230) 18%, rgb(215, 250, 180) 46%, rgb(250, 240, 154) 97%); */
+  position:absolute;
   top: 0;
   z-index: 1000;
-  overflow: hidden; /* 헤더 밖으로 이미지가 나가지 않도록 설정 */
+  overflow:hidden; /* 헤더 밖으로 이미지가 나가지 않도록 설정 */
 }
 
 .header-container {
   /* .header-container에 관련된 나머지 스타일 */
-  position: relative; /* 이미지를 헤더 내부에서 절대 위치로 조정하기 위함 */
+  position:relative; /* 이미지를 헤더 내부에서 절대 위치로 조정하기 위함 */
+
 }
   
-  .box {
-    width: 200vw;       /* 화면의 전체 너비 */
-    height: 200vh;      /* 화면의 전체 높이 */
-    position: absolute;
-    top: 70px; 
-    left: 0;
-  
-    /* background-color: #A8EA66; 단일 배경색 사용 */
-    /* OR */
-  }
-  body, html {
-    /*padding-top: 70px;  헤더 높이에 맞춰 조정 */
-    height: 100%;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* background: rgb(234,255,214); */
-    background: linear-gradient(324deg, rgb(235, 250, 230) 18%, rgb(215, 250, 180) 46%, rgb(250, 240, 154) 97%);
+.box {
+  width: 200vw;       /* 화면의 전체 너비 */
+  height: auto;      /* 화면의 전체 높이 */
+  position: fixed; /*
+  top: 70px; 
+  left: 0;
 
-    
-  }
+  /* background-color: #A8EA66; 단일 배경색 사용 */
+  /* OR */
+}
+body, html {
+  /*padding-top: 70px;  헤더 높이에 맞춰 조정 */
+  height: auto;
+  margin: 10px;
+  align-items: center;
+  justify-content: center;
+  background: rgb(224, 253, 198);
+  /* background: linear-gradient(324deg, rgb(235, 250, 230) 18%, rgb(220, 252, 188) 46%, rgb(255, 247, 171) 97%); */
+
+  
+}
   canvas {
-    height: 75%;
-    width: 100%;
-    margin-top: 50px;
+    height: auto;
+    /* height: 75%; */
+    width: 80%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -63,18 +63,18 @@ header {
     /* text-shadow: -2px -2px 0 #799260, 2px -2px 0 #799260, -2px 2px 0 #799260, 2px 2px 0 #799260; */
   }
   h2{
-    font-size: 2em; /* 제목의 크기를 조정하세요 */
+    font-size: 1em; /* 제목의 크기를 조정하세요 */
     color: white; /* 제목의 색상을 조정하세요 */
-    margin-top: 2em;
+    margin-top: 0.5em;
     margin-bottom: 0.5em;
     font-weight: 500;
     font-family: "Nanum Gothic", sans-serif; /* 이 폰트를 사용하여 스타일링 */
     /* text-shadow: -2px -2px 0 #799260, 2px -2px 0 #799260, -2px 2px 0 #799260, 2px 2px 0 #799260; */
   }
-  h2{
-    font-size: 2em; /* 제목의 크기를 조정하세요 */
-    color: white; /* 제목의 색상을 조정하세요 */
-    margin-top: 2em;
+  h3 {
+    font-size: 1em; /* 제목의 크기를 조정하세요 */
+    color: black; /* 제목의 색상을 조정하세요 */
+    margin-top: 1em;
     margin-bottom: 0.5em;
     font-weight: 500;
     font-family: "Nanum Gothic", sans-serif; /* 이 폰트를 사용하여 스타일링 */
@@ -98,9 +98,9 @@ header {
     padding: 15px 27px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
+    display: center;
+    font-size: 18px;
+    margin: 3px 1px; 
     cursor: pointer;
     font-weight: 500;
     border-radius: 15px; 
@@ -130,12 +130,21 @@ header {
 #userid-display {
   font-family: "Nanum Gothic", sans-serif;
   font-size: 30px;
-  position: relative; /* 상대 위치 */
-  width: 100%; /* 전체 너비를 채우도록 설정 */
-  top: 70px; /* 헤더 높이에 따라 조정 */
-  z-index: 10; /* 헤더보다 앞에 오도록 z-index 값을 높게 설정 */
+  /* position: relative; /* 상대 위치 
+  width: 100%; /* 전체 너비를 채우도록 설정 
+  top: 70px; /* 헤더 높이에 따라 조정 
+  z-index: 10; 헤더보다 앞에 오도록 z-index 값을 높게 설정 */
   text-align: center; /* 내용을 중앙으로 정렬 */
-  background: linear-gradient(324deg, rgb(235, 250, 230) 18%, rgb(215, 250, 180) 46%, rgb(250, 240, 154) 97%);
   /*box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
   border-radius: 5px; /* 모서리를 둥글게 */
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 콘텐츠를 중앙에 정렬 */
+  justify-content: center; /* 콘텐츠를 중앙에 정렬 */
+  height: auto; 
+  margin-top: 70px;
+  margin-bottom: 10px;
 }

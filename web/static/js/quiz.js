@@ -76,6 +76,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (data.message) {
                         console.log(data.message); // 서버로부터 받은 메시지 출력
                     }
+                    // estimated_proficiency 값을 화면에 표시
+                    const proficiency = document.getElementById('proficiency');
+                    proficiency.textContent = `proficiency: ${data.estimated_proficiency}`;
+                    if(data.estimated_proficiency == 0){
+                        proficiency.textContent = '초기 사용자 능력치 측정을 위한 문제입니다.'
+                    };
+        
                     if (data.last_quiz) {
                         // 마지막 퀴즈일 경우 다음 버튼 숨기기
                         //document.getElementById('next-button').style.display = 'none';

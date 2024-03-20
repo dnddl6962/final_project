@@ -33,7 +33,7 @@
                     const startTime = new Date().toISOString();
                     localStorage.setItem('startTime', startTime);
                     console.log(localStorage.getItem('startTime')); // 저장된 값을 콘솔에서 확인
-                    alert('Button clicked!');
+                    // alert('Button clicked!');
                     window.location.href = '/quiz';
                 }
                 document.getElementById('start-test').addEventListener('click', startTest);
@@ -76,7 +76,7 @@
             </script>
             <script>
                 function testResult() {
-                    alert('Button clicked!');
+                    //alert('Button clicked!');
                     window.location.href = '/result'; // 결과 확인 페이지로 이동
                 }
                 document.getElementById('result').addEventListener('click', testResult);
