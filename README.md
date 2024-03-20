@@ -39,7 +39,7 @@
 
 
 <details>
-<summary><b>⚙️ 개발환경 </b></summary>
+<summary><b> ⚙️ 개발환경 </b></summary>
   
 #### ✔️언어 및 라이브러리
 <img src="https://img.shields.io/badge/Python-3.10.12/3.11.5-3776AB?style=for-the-badge&logo=Python&logoColor=#3776AB"> <img src="https://img.shields.io/badge/Torch-2.1.2-EE4C2C?style=for-the-badge&logo=Pytorch&logoColor=#EE4C2C">
