@@ -37,7 +37,9 @@
 
 <br/>
 
-### ⚙️ 개발 환경
+
+<details>
+<summary><b>⚙️ 개발환경 </b></summary>
 #### ✔️언어 및 라이브러리
 <img src="https://img.shields.io/badge/Python-3.10.12/3.11.5-3776AB?style=for-the-badge&logo=Python&logoColor=#3776AB"> <img src="https://img.shields.io/badge/Torch-2.1.2-EE4C2C?style=for-the-badge&logo=Pytorch&logoColor=#EE4C2C"> 
 #### ✔️통합 개발 환경 (IDE)
@@ -56,7 +58,7 @@
 
 #### ✔️데이터베이스
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
-
+</details>
 
 
 ### ⚙️ AWS Pipeline
