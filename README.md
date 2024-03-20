@@ -83,9 +83,6 @@
 <br/>
 
 ## 🖥️ Stack & Tool
-
-<br/>
-
 <details>
 <summary><b> ⚙️ 개발환경 </b></summary>
   
@@ -142,14 +139,13 @@
 <img src="https://img.shields.io/badge/amazonecr-FF9900?style=for-the-badge&logo=amazonecr&logoColor=white"> <img src="https://img.shields.io/badge/amazoneventbridge-FF4F8B?style=for-the-badge&logo=amazoneventbridge&logoColor=white">
 <br>
 </details>
-
-
-
-
-
-
-
 <br/>
+
+
+
+
+
+
 
 ## 📝 사용자 매뉴얼
 
