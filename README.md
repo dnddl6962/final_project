@@ -40,26 +40,19 @@
 
 <details>
 <summary><b>⚙️ 개발환경 </b></summary>
-#### ✔️언어 및 라이브러리
+✔️언어 및 라이브러리
 <img src="https://img.shields.io/badge/Python-3.10.12/3.11.5-3776AB?style=for-the-badge&logo=Python&logoColor=#3776AB"> <img src="https://img.shields.io/badge/Torch-2.1.2-EE4C2C?style=for-the-badge&logo=Pytorch&logoColor=#EE4C2C">
-  <br>
-#### ✔️통합 개발 환경 (IDE)
+✔️통합 개발 환경 (IDE)
 <img src="https://img.shields.io/badge/googlecolab-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white"> <img src="https://img.shields.io/badge/visualstudiocode-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white"> 
-  <br>
-#### ✔️웹 프레임워크
+✔️웹 프레임워크
 <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=FastAPI&logoColor=white">
-  <br>
-#### ✔️버전 관리
+✔️버전 관리
 <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
-  <br>
-
-#### ✔️CI/CD
+✔️CI/CD
 <img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white">
-
-#### ✔️운영체제
+✔️운영체제
 <img src="https://img.shields.io/badge/Ubuntu-22.04-E95420?style=for-the-badge&logo=Ubuntu&logoColor=#E95420"> <img src="https://img.shields.io/badge/windows 11-0078D4?style=for-the-badge&logo=windows11&logoColor=#0078D4"> 
-
-#### ✔️데이터베이스
+✔️데이터베이스
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 </details>
 
