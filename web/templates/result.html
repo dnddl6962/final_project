@@ -18,10 +18,12 @@
         
     </header>
     <div class="chart-container">
-        <canvas id="normalDistributionChart" width="750" height="300"></canvas>
+        <canvas id="normalDistributionChart" width="700" height="260"></canvas>
         <h3 id="userid-display"></h3>
+        <h3 id="proficiency"></h3>
         <button id="home">메인화면</button>
     </div>
+    <script type="proficiency"></script>
 
     <script>
         // 정규분포 데이터 생성 함수
@@ -78,6 +80,7 @@
         if (est_thetaCookie) {
             const est_theta = est_thetaCookie.split('=')[1];
             console.log('est_theta 값:', est_theta);
+            document.getElementById('proficiency').textContent = `최종 능력치: ${est_theta}`;
 
             // 사용자의 학습 수준
             // est_theta가 3 이상일 경우 3으로 설정
@@ -197,6 +200,7 @@
           if (userid) {
             document.getElementById('userid-display').textContent = `사용자 ID: ${userid}`;
           }
+          
         });
     </script>
     <script>
