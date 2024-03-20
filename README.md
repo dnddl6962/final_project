@@ -55,8 +55,6 @@
 #### ✔️CI/CD 및 오케스트레이션
 <img src="https://img.shields.io/badge/amazonecr-FF9900?style=for-the-badge&logo=amazonecr&logoColor=white"> <img src="https://img.shields.io/badge/amazoneventbridge-FF4F8B?style=for-the-badge&logo=amazoneventbridge&logoColor=white">
 
-#### ✔️분석 및 시각화
-<img src="https://img.shields.io/badge/amazonquicksight-8C4FFF?style=for-the-badge&logo=amazonquicksight&logoColor=white">
 
 
 
@@ -64,7 +62,6 @@
 
 
 
- 
 <br/>
 
 ## 📝 사용자 매뉴얼
