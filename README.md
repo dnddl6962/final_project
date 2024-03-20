@@ -35,8 +35,8 @@
     </sub>
     </a>
     <td align="center">
-    <a href="https://github.com/dnddl6962">
-    <img src="https://github.com/dnddl6962.png" width="150px;" alt="도현"/>
+    <a href="https://github.com/dony1220">
+    <img src="https://github.com/dony1220.png" width="150px;" alt="도현"/>
     <br />
     <sub>
     <b>김도현</b><br>
