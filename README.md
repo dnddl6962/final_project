@@ -120,7 +120,7 @@
 
 
 <details>
-<summary><b>⚙️ Aws Pipeline </b></summary>
+<summary><b>⚙️ AWS Pipeline </b></summary>
   
 #### ✔️컴퓨팅
 <img src="https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white"> <img src="https://img.shields.io/badge/amazonecs-FF9900?style=for-the-badge&logo=amazonecs&logoColor=white"> <img src="https://img.shields.io/badge/awsfargate-FF9900?style=for-the-badge&logo=awsfargate&logoColor=white">
