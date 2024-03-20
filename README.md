@@ -87,7 +87,7 @@
 <summary><b> ⚙️ 개발환경 </b></summary>
   
 #### ✔️언어 및 라이브러리
-<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white"> <img src="https://img.shields.io/badge/Torch-EE4C2C?style=for-the-badge&logo=PyTorch&logoColor=white">
+<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white"> <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=PyTorch&logoColor=white">
   <br>
   
 #### ✔️통합 개발 환경 (IDE)
