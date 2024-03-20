@@ -13,8 +13,53 @@
 </br>
 
 ## 🧑🏻‍💻 팀원 소개 및 R&R
-<br/>
-
+<table>
+  <tr>
+    <td align="center">
+    <a href="https://github.com/dnddl6962">
+    <img src="https://github.com/dnddl6962.png" width="150px;" alt="웅"/>
+    <br />
+    <sub>
+    <b>장 웅</b><br>
+    <b> :bulb: PM 및 컨텐츠 개발</b>
+    </sub>
+    </a>
+    <br />
+    <td align="center">
+    <a href="https://github.com/allsilver00">
+    <img src="https://github.com/allsilver00.png" width="150px;" alt="김다은"/>
+    <br />
+    <sub>
+    <b>김다은</b><br>
+    <b>🌟 컨텐츠 개발 및 웹 개발</b>
+    </sub>
+    </a>
+    <td align="center">
+    <a href="https://github.com/dnddl6962">
+    <img src="https://github.com/dnddl6962.png" width="150px;" alt="도현"/>
+    <br />
+    <sub>
+    <b>김도현</b><br>
+    <b>🌟 웹 개발 및 컨텐츠 개발, 로그 연동</b>
+    </sub>
+    </a>
+    <br />
+    </td>
+    <td align="center">
+    <a href="https://github.com/yewchung56">
+    <img src="https://github.com/yewchung56.png" width="150px;" alt="지원"/>
+    <br />
+    <sub>
+    <b>양지원</b><br>
+    <b> :bulb: 컨텐츠 개발 및 코드 정제</b>
+    </sub>
+    </a>
+    <br />
+    </td>    
+    <br />
+    </td>
+  </tr>
+</table>
 
 
 
