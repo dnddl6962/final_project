@@ -2,12 +2,14 @@
 # AWS | CAT.sim | Web
 ## 천재교육 빅데이터 5기 웅이네 팀 </br>
 <p align = 'left'>
-  <img src= "https://github.com/dnddl6962/final_project/assets/96913965/1e9dbf9e-e35d-4159-bc5d-2a21bbbaf408" width="740px"> 
+  <img src= "https://github.com/dnddl6962/final_project/assets/96913965/1e9dbf9e-e35d-4159-bc5d-2a21bbbaf408" width="743px"> 
 </p>
 
 ## 🕒 개발 기간
 **2024.02.05 - 2024.03.26**
 <br/>
+
+
 
 
 <br/>
@@ -17,15 +19,16 @@
 
 
 
+
 <br/>
 
 <p align = 'left'>
   <img src= "" width="743px"> 
 </p>
 
+
 ## 😸 프로젝트 소개
 <br/>
-
 
 
 
@@ -36,6 +39,8 @@
 
 <br/>
 
+<details>
+<summary>🖥 <b>Summary</b></summary><br>
 ### ⚙️ 개발 환경
 #### ✔️언어 및 라이브러리
 <img src="https://img.shields.io/badge/Python-3.10.12/3.11.5-3776AB?style=for-the-badge&logo=Python&logoColor=#3776AB"> <img src="https://img.shields.io/badge/Torch-2.1.2-EE4C2C?style=for-the-badge&logo=Pytorch&logoColor=#EE4C2C"> 
@@ -55,6 +60,7 @@
 
 #### ✔️데이터베이스
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+</details>
 
 ### ✔️AWS Pipeline
 #### ✔️컴퓨팅
