@@ -58,9 +58,10 @@
 
 #### ✔️데이터베이스
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
-</details>
 
-### ✔️AWS Pipeline
+
+
+### ⚙️ AWS Pipeline
 #### ✔️컴퓨팅
 <img src="https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white"> <img src="https://img.shields.io/badge/amazonecs-FF9900?style=for-the-badge&logo=amazonecs&logoColor=white"> <img src="https://img.shields.io/badge/awsfargate-FF9900?style=for-the-badge&logo=awsfargate&logoColor=white">
 
@@ -75,7 +76,6 @@
 
 #### ✔️CI/CD 및 오케스트레이션
 <img src="https://img.shields.io/badge/amazonecr-FF9900?style=for-the-badge&logo=amazonecr&logoColor=white"> <img src="https://img.shields.io/badge/amazoneventbridge-FF4F8B?style=for-the-badge&logo=amazoneventbridge&logoColor=white">
-
 
 
 
