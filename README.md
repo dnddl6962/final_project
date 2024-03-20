@@ -17,7 +17,7 @@
   <tr>
     <td align="center">
     <a href="https://github.com/dnddl6962">
-    <img src="https://github.com/dnddl6962.png" width="150px;" alt="웅"/>
+    <img src="https://github.com/dnddl6962/final_project/assets/96913965/8357ae40-f148-429f-bfb1-d4c30389f02f" width="150px;" alt="웅"/>
     <br />
     <sub>
     <b>장 웅</b><br>
@@ -27,7 +27,7 @@
     <br />
     <td align="center">
     <a href="https://github.com/allsilver00">
-    <img src="https://github.com/allsilver00.png" width="150px;" alt="김다은"/>
+    <img src="https://github.com/dnddl6962/final_project/assets/96913965/52c6a1d7-7552-41d1-9cac-f520043067a4" width="150px;" alt="김다은"/>
     <br />
     <sub>
     <b>김다은</b><br>
@@ -47,7 +47,7 @@
     </td>
     <td align="center">
     <a href="https://github.com/yewchung56">
-    <img src="https://github.com/yewchung56.png" width="150px;" alt="지원"/>
+    <img src="https://github.com/dnddl6962/final_project/assets/96913965/fe1a71d7-e423-47bf-961a-2266efc0e88e" width="150px;" alt="지원"/>
     <br />
     <sub>
     <b>양지원</b><br>
@@ -57,7 +57,7 @@
     <br />
     <td align='center'>
     <a href = 'https://github.com/GaYeon-Alice'>
-    <img src = 'https://github.com/GaYeon-Alice.png' width='150px;' alt='가연'/>
+    <img src = 'https://github.com/dnddl6962/final_project/assets/96913965/a1b4f68b-af7e-49c1-be04-c2ac66cbec6d' width='150px;' alt='가연'/>
     <br />
     <sub>
     <b>강가연</b><br>
