@@ -24,87 +24,84 @@
                 <button type="button" id="submit-nickname">닉네임 등록</button>
             </form>
             <button id="start-test">시험 시작</button>
+            <script>
+                function startTest() {
+                    const startTime = new Date().toISOString();
+                    localStorage.setItem('startTime', startTime);
+                    document.cookie = `startTime=${startTime}; path=/`; // startTime을 쿠키에 저장
+                    document.cookie = `est_theta=0; path=/`; // est_theta 쿠키 초기화
+                    console.log(document.cookie); // 쿠키를 콘솔에서 확인
+                    window.location.href = '/quiz';
+                }
+                document.getElementById('start-test').addEventListener('click', startTest);
+            </script>
             <button id="result">결과 확인</button>
-            </div>
-         <script>
-            function startTest() {
-                const startTime = new Date().toISOString();
-                localStorage.setItem('startTime', startTime);
-                console.log(localStorage.getItem('startTime')); // 저장된 값을 콘솔에서 확인
-                // alert('Button clicked!');
-                window.location.href = '/quiz';
-            }
-            document.getElementById('start-test').addEventListener('click', startTest);
-        </script>
-        <script>
-            document.getElementById('submit-nickname').addEventListener('click', function() {
-            var userid = document.getElementById('userid').value.trim();
+            <script>
+                document.getElementById('submit-nickname').addEventListener('click', function() {
+                var userid = document.getElementById('userid').value.trim();
 
-             // 입력 값이 비어 있는지 확인
-             if (!userid) {
-                alert('닉네임을 입력해주세요.'); // 또는 사용자에게 보여줄 다른 형태의 경고 메시지
-                return; // 함수 실행을 여기서 중단
-            }
-
-            fetch('/users/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ userid: userid })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('닉네임이 이미 사용 중입니다.');
+                // 입력 값이 비어 있는지 확인
+                if (!userid) {
+                    alert('닉네임을 입력해주세요.'); // 또는 사용자에게 보여줄 다른 형태의 경고 메시지
+                    return; // 함수 실행을 여기서 중단
                 }
-                return response.json();
-            })
-            .then(data => {
-                localStorage.setItem('userid', data.userid);
-                console.log('userid 저장됨:', data.userid);
-                alert('등록 성공! 환영합니다, ' + data.userid);
-                // 여기서 추가적인 행동을 취할 수 있습니다. 예를 들면 다른 페이지로 리다이렉트:
-                // window.location.href = '/another-page';
-            })
-            .catch(error => {
-                alert(error.message);
-            });
-        });
-        </script>
-        <script>
-            function testResult() {
-                //alert('Button clicked!');
-                window.location.href = '/result'; // 결과 확인 페이지로 이동
-            }
-            document.getElementById('result').addEventListener('click', testResult);
-        </script>
-         
-     </div>
-     
-     <!-- JavaScript 코드 -->
-     <script>
-        // 페이지 스크롤 스크립트
-        $(document).ready(function() {
-            var $html = $("html, body");
-            var page = 1;
-            var lastPage = $(".section").length;
 
-            $(window).on("wheel", function(e) {
-                if($html.is(":animated")) return;
-
-                if(e.originalEvent.deltaY > 0) {
-                    if(page == lastPage) return;
-                    page++;
-                } else if(e.originalEvent.deltaY < 0) {
-                    if(page == 1) return;
-                    page--;
+                    fetch('/users/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ userid: userid })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('닉네임이 이미 사용 중입니다.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        localStorage.setItem('userid', data.userid);
+                        console.log('userid 저장됨:', data.userid);
+                        alert('등록 성공! 환영합니다, ' + data.userid);
+                    })
+                    .catch(error => {
+                        alert(error.message);
+                    });
+                });
+            </script>
+            <script>
+                function testResult() {
+                    //alert('Button clicked!');
+                    window.location.href = '/result'; // 결과 확인 페이지로 이동
                 }
-                var posTop = (page-1) * $(window).height();
+                document.getElementById('result').addEventListener('click', testResult);
+            </script>
+            <!-- JavaScript 코드 -->
+            <script>
+                // 페이지 스크롤 스크립트
+                $(document).ready(function() {
+                    var $html = $("html, body");
+                    var page = 1;
+                    var lastPage = $(".section").length;
 
-                $html.animate({scrollTop: posTop}, 1200); 
-            });
-        });
-    </script>
- </body>
- </html>
- 
+                    $(window).on("wheel", function(e) {
+                        if($html.is(":animated")) return;
+
+                        if(e.originalEvent.deltaY > 0) {
+                            if(page == lastPage) return;
+                            page++;
+                        } else if(e.originalEvent.deltaY < 0) {
+                            if(page == 1) return;
+                            page--;
+                        }
+                        var posTop = (page-1) * $(window).height();
+
+                        $html.animate({scrollTop: posTop}, 1200); 
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</body>
+</html>
+
