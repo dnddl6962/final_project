@@ -145,6 +145,11 @@ async def create_user(user_create: User, response: Response,  db: Session = Depe
     db.execute(text("INSERT INTO id_test (userid) VALUES (:userid)"), {'userid': user_create.userid})
     db.commit()
 
+    # 사용자의 userid를 쿠키에 저장하기 전에 Base64로 인코딩
+    encoded_userid = encode_userid(user_create.userid)
+    decoded_userid = decode_userid(encoded_userid)
+    response.set_cookie(key="userid", value=encoded_userid)
+
     return {"userid": user_create.userid}
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
