@@ -38,28 +38,32 @@ header {
     /* background: linear-gradient(324deg, rgb(238, 255, 233) 18%, rgb(228, 255, 200) 46%, rgb(255, 248, 188) 97%); */
     /* background-color: white; */
     /* OR */
-    /* background: white; */
+    background: #00023B;
     /* background: linear-gradient(324deg,#3da27d,#2d7c5f) ; */
-    background: linear-gradient(324deg, rgb(226, 252, 218) 18%, rgb(207, 251, 162) 46%, rgb(255, 243, 139) 97%);
+    /* background: linear-gradient(324deg, rgb(226, 252, 218) 18%, rgb(207, 251, 162) 46%, rgb(255, 243, 139) 97%); */
     /* background: linear-gradient(324deg, rgba(234,255,214,1) 18%, rgba(124,207,42,1) 46%, rgba(254,237,96,1) 97%); */
+    background-size: cover; /* 이미지가 박스를 전체적으로 커버하도록 설정 */
+    background-position: center; /* 배경 이미지가 중앙에 위치하도록 설정 */
+    background-repeat: no-repeat; /* 배경 이미지가 반복되지 않도록 설정 */
+    height: 100vh; /* 또는 적절한 높이 설정 */
+    width: 100%; /* 박스가 화면 전체 너비를 차지하도록 설정 */
+  
   }
   body, html {
-    /*padding-top: 70px;  헤더 높이에 맞춰 조정 */
-    height: 100%;
+    /* align-items: center; */
+    /* justify-content: center; */
     margin: 0; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
     font-family: "Nanum Gothic", sans-serif;
     
   }
   .container {
-    text-align: center;
+    height: 100vh;
+    background-image: url('/static/img/back3.png');
   }
   h1 {
     font-size: 4em; /* 제목의 크기를 조정하세요 */
-    color: black;
-    /* color: black;  */
+    /* color: black; */
+    color: black; 
     margin-top: 3em;
     margin-bottom: 0.5em;
     font-weight: 700;
@@ -82,12 +86,13 @@ header {
     background-color: white; /* 버튼 배경 색상을 조정하세요 */
     border: none;
     color: #0D0D0D;
+    border: 3px solid #B1C000;
     padding: 17px 27px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
+    display: inline-flex;
     font-size: 20px;
-    margin: 22px 12px;
+    margin: 42px 12px;
     cursor: pointer;
     font-weight: 500;
     border-radius: 15px; 
@@ -114,17 +119,45 @@ header {
       left: 100%; /* 이미지를 헤더의 오른쪽 끝까지 이동 */
     }
 }
-#userid-form {
-    margin: 22px 0; /* 폼 주위의 여백 */
-}
+  #userid-form {
+    margin-top: 100px;
+    margin: 22px;/* 폼 주위의 여백 */
+  }
 #userid {
     padding: 12px; /* 입력 필드 내부의 패딩 */
-    margin-right: 12px; /* 버튼과의 간격 */
-    border: 4px solid #262626; /* 테두리 스타일 */
+    margin-right: 22px; /* 버튼과의 간격 */
+    border: 4px solid #B1C000; /* 테두리 스타일 */
     border-radius: 10px; /* 둥근 모서리 */
     font-size: 18px;
 }
-  
+.section {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.background-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+
+.content {
+  text-align: center;
+  background-image: url('/static/img/second.png'); /* 배경 이미지 설정 */
+  background-size: cover; /* 이미지가 섹션을 완전히 커버하도록 */
+  background-position: center; /* 이미지가 중앙에 위치하도록 */
+  background-repeat: no-repeat; /* 이미지 반복 없음 */
+}
+.form {
+  margin-top: 150px;
+}
+
 
   
   

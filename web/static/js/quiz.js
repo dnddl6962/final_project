@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentQuestionNum = 0; // 0으로 초기화
     let questionDisplay = document.getElementById('question-display');
     let lastQuiz = false; // 마지막 퀴즈 여부를 저장하는 변수
+    let userHasSelected = false;
 
     function loadNextQuestion() {
         currentQuestionNum++; // 문제 번호를 업데이트
@@ -23,16 +24,31 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     document.getElementById('next-button').addEventListener('click', function() {
+        // 사용자가 선택하지 않았다면 경고를 표시하고 함수를 종료합니다.
+        if (!userHasSelected) {
+            alert('답변을 선택해주세요!');
+            return;
+        }
+        
         if (!lastQuiz) {
+            
             loadNextQuestion(); // 다음 문제 로드
             resetSelection(); // 선택된 상태 초기화
+            userHasSelected = false; // 사용자 선택 상태 초기화
         }
     });
+    //     if (!lastQuiz && !userHasSelected) {
+    //         alert('답변을 선택해주세요!');
+    //         loadNextQuestion(); // 다음 문제 로드
+    //         resetSelection(); // 선택된 상태 초기화
+    //     }
+    // });
 
     const oButton = document.getElementById('o-button');
     const xButton = document.getElementById('x-button');
 
     function updateSelection(selectedButton) {
+        userHasSelected = true;
         // 먼저 모든 버튼에서 'selected' 클래스 제거
         oButton.classList.remove('selected');
         xButton.classList.remove('selected');
@@ -56,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function sendAnswer(answer, questionId) {
-        if (!lastQuiz) { // 마지막 퀴즈가 아닌 경우에만 응답을 전송합니다.
+        if (!lastQuiz ) { // 마지막 퀴즈가 아닌 경우에만 응답을 전송합니다.
             // 서버로 응답을 전송하는 로직
             fetch('/submit-answer', {
                 method: 'POST',

@@ -1,88 +1,110 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Song+Myung&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/static/css/style.css?v=1.3">
-    </head>
-<body>
-    <header>
-        <div class="header-container">
-            <img src="/static/img/shinemathcat.png" alt="Cute Cat" class="cute-cat-image"/>
-        </div>
-    </header>
-    <!-- <div class="pic">
-        <img src="/static/img/back2.png" class="back2"/>
-    </div> -->
-    <!-- 배경을 위한 box 클래스 -->
-    <div class="box">
-        <!-- 컨테이너로 내용을 감싸서 중앙에 배치 -->
-        <div class="container">
-            <h1>웅이네 샤인매스캣에 오신 것을 환영합니다.</h1>
-            <p>지금 바로 시작하세요</p>
+ <!DOCTYPE html>
+ <html>
+ <head>
+     <meta charset="utf-8" />
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>웅이네 샤인매스캣</title>
+     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Song+Myung&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="/static/css/style.css?v=1.3">
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+ </head>
+ <body>
+     <!-- 첫 번째 섹션: 배경 이미지 -->
+     <div class="section background-img">
+         <img src="/static/img/back3.png" alt="Background Image"/>
+     </div>
+     
+     <!-- 두 번째 섹션: 콘텐츠 -->
+     <div class="section content">
+        <div class ="form">
             <form id="nickname-form">
-                <input type="text" id="userid" name="userid" placeholder="닉네임을 입력하세요" required>
+                <input type="text" id="userid" name="userid" placeholder="아이디를 입력하세요" required>
                 <button type="button" id="submit-nickname">닉네임 등록</button>
             </form>
             <button id="start-test">시험 시작</button>
-            <script>
-                function startTest() {
-                    const startTime = new Date().toISOString();
-                    localStorage.setItem('startTime', startTime);
-                    console.log(localStorage.getItem('startTime')); // 저장된 값을 콘솔에서 확인
-                    // alert('Button clicked!');
-                    window.location.href = '/quiz';
-                }
-                document.getElementById('start-test').addEventListener('click', startTest);
-            </script>
             <button id="result">결과 확인</button>
-            <script>
-                document.getElementById('submit-nickname').addEventListener('click', function() {
-                var userid = document.getElementById('userid').value.trim();
+            </div>
+         <script>
+            function startTest() {
+                const startTime = new Date().toISOString();
+                localStorage.setItem('startTime', startTime);
+                console.log(localStorage.getItem('startTime')); // 저장된 값을 콘솔에서 확인
+                // alert('Button clicked!');
+                window.location.href = '/quiz';
+            }
+            document.getElementById('start-test').addEventListener('click', startTest);
+        </script>
+        <script>
+            document.getElementById('submit-nickname').addEventListener('click', function() {
+            var userid = document.getElementById('userid').value.trim();
 
-                 // 입력 값이 비어 있는지 확인
-                 if (!userid) {
-                    alert('닉네임을 입력해주세요.'); // 또는 사용자에게 보여줄 다른 형태의 경고 메시지
-                    return; // 함수 실행을 여기서 중단
+             // 입력 값이 비어 있는지 확인
+             if (!userid) {
+                alert('닉네임을 입력해주세요.'); // 또는 사용자에게 보여줄 다른 형태의 경고 메시지
+                return; // 함수 실행을 여기서 중단
+            }
+
+            fetch('/users/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userid: userid })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('닉네임이 이미 사용 중입니다.');
                 }
-
-                fetch('/users/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ userid: userid })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('닉네임이 이미 사용 중입니다.');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    localStorage.setItem('userid', data.userid);
-                    console.log('userid 저장됨:', data.userid);
-                    alert('등록 성공! 환영합니다, ' + data.userid);
-                    // 여기서 추가적인 행동을 취할 수 있습니다. 예를 들면 다른 페이지로 리다이렉트:
-                    // window.location.href = '/another-page';
-                })
-                .catch(error => {
-                    alert(error.message);
-                });
+                return response.json();
+            })
+            .then(data => {
+                localStorage.setItem('userid', data.userid);
+                console.log('userid 저장됨:', data.userid);
+                alert('등록 성공! 환영합니다, ' + data.userid);
+                // 여기서 추가적인 행동을 취할 수 있습니다. 예를 들면 다른 페이지로 리다이렉트:
+                // window.location.href = '/another-page';
+            })
+            .catch(error => {
+                alert(error.message);
             });
-            </script>
-            <script>
-                function testResult() {
-                    //alert('Button clicked!');
-                    window.location.href = '/result'; // 결과 확인 페이지로 이동
-                }
-                document.getElementById('result').addEventListener('click', testResult);
-            </script>
-        </div>
-    </div>
-</body>
-</html>
+        });
+        </script>
+        <script>
+            function testResult() {
+                //alert('Button clicked!');
+                window.location.href = '/result'; // 결과 확인 페이지로 이동
+            }
+            document.getElementById('result').addEventListener('click', testResult);
+        </script>
+         
+     </div>
+     
+     <!-- JavaScript 코드 -->
+     <script>
+        // 페이지 스크롤 스크립트
+        $(document).ready(function() {
+            var $html = $("html, body");
+            var page = 1;
+            var lastPage = $(".section").length;
 
+            $(window).on("wheel", function(e) {
+                if($html.is(":animated")) return;
+
+                if(e.originalEvent.deltaY > 0) {
+                    if(page == lastPage) return;
+                    page++;
+                } else if(e.originalEvent.deltaY < 0) {
+                    if(page == 1) return;
+                    page--;
+                }
+                var posTop = (page-1) * $(window).height();
+
+                $html.animate({scrollTop: posTop}, 1200); 
+            });
+        });
+    </script>
+ </body>
+ </html>
+ 
