@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let questionDisplay = document.getElementById('question-display');
     let lastQuiz = false; // 마지막 퀴즈 여부를 저장하는 변수
     let userHasSelected = false;
+    let selectedAnswer = null;// 사용자가 선택한 답변을 임시 저장할 변수
 
     function loadNextQuestion() {
         currentQuestionNum++; // 문제 번호를 업데이트
@@ -31,10 +32,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         if (!lastQuiz) {
-            
+
+            sendAnswer(selectedAnswer, currentQuestionId); // 여기에서 선택한 답변을 전송
             loadNextQuestion(); // 다음 문제 로드
             resetSelection(); // 선택된 상태 초기화
             userHasSelected = false; // 사용자 선택 상태 초기화
+            selectedAnswer = null; // 선택한 답변 초기화
         }
     });
     //     if (!lastQuiz && !userHasSelected) {
@@ -60,14 +63,18 @@ document.addEventListener('DOMContentLoaded', function() {
     oButton.addEventListener('click', function() {
         if (!lastQuiz) {
             updateSelection(oButton);
-            sendAnswer(true, currentQuestionId); // 문제를 맞힘
+            selectedAnswer = true; // 사용자가 "O"를 선택한 것으로 저장
+            userHasSelected = true; // 답변이 선택되었다고 표시
+            // sendAnswer(true, currentQuestionId); // 문제를 맞힘
         }
     });
 
     xButton.addEventListener('click', function() {
         if (!lastQuiz) {
             updateSelection(xButton);
-            sendAnswer(false, currentQuestionId); // 문제를 틀림
+            // sendAnswer(false, currentQuestionId); // 문제를 틀림
+            selectedAnswer = false; // 사용자가 "X"를 선택한 것으로 저장
+            userHasSelected = true; // 답변이 선택되었다고 표시
         }
     });
 

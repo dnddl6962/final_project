@@ -26,16 +26,18 @@ header {
 }
   
   .box {
-    height: 120%;
+    height: 100%;
     width: 100vw;
-    position:relative;
+    position:relative; 
     top: 70px; 
     left: 0;
-    
+    background-image: url('/static/img/quiz.png');
+    background-size: cover;
     /* background-color: #A8EA66; 단일 배경색 사용 */
     /* OR */
-    background: #174031;
-    background: linear-gradient(324deg, #174031 28%, #2C7359 46%, #174031);
+    /* background: #174031;
+    background: linear-gradient(324deg, #174031 28%, #2C7359 46%, #174031); */
+
   }
   body, html {
     /*padding-top: 70px;  헤더 높이에 맞춰 조정 */
