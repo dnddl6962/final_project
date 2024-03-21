@@ -134,6 +134,8 @@ async def submit_answer(answer: Answer, response: Response, request: Request, db
     # 서버로부터 응답을 전송하는 로직
     est_theta, administered_items, responses, index, last_quiz = simulator_manager.simulator.recommend_next(answer.answer)
 
+    print(est_theta, administered_items, responses, index, last_quiz)
+
     # 사용자 id 가져오기
     user_id = decode_userid(request.cookies.get('userid'))
     
@@ -151,8 +153,8 @@ async def submit_answer(answer: Answer, response: Response, request: Request, db
     korean_start_time = start_time + timedelta(hours=9)
     formatted_start_time = korean_start_time.strftime('%Y-%m-%d %H:%M')
 
-    # 사용자의 학습 능력 가져오기
-    proficiency = request.cookies.get('est_theta')
+    # # 사용자의 학습 능력 가져오기
+    # proficiency = request.cookies.get('est_theta')
 
     # 문제 번호를 1씩 증가
     no += 1
@@ -164,7 +166,7 @@ async def submit_answer(answer: Answer, response: Response, request: Request, db
         correct=1 if answer.answer else 0, # 정답 여부에 따라 1 또는 0 저장
         no = no,
         datetime=formatted_start_time,  # 시험 시작 시간 사용
-        proficiency=proficiency if proficiency is not None else 0
+        proficiency=est_theta if est_theta is not None else 0
     )
     db.add(db_result)
     db.commit()
