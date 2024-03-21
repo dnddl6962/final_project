@@ -1,13 +1,11 @@
 from fastapi import FastAPI, HTTPException, APIRouter, Request, Depends, Response
 from fastapi.responses import HTMLResponse
-from pydantic import BaseModel
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from pydantic import BaseModel
 from sqlalchemy import text, func, Column, Integer, String, Float, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from database import SessionLocal
-import dotenv
-import os
 from database import check_userid_duplicate, sessionmaker, SessionLocal
 from sqlalchemy.orm import Session
 from load import load_data
@@ -18,8 +16,8 @@ from catsim.estimation import NumericalSearchEstimator
 from catsim.stopping import MinErrorStopper
 from simulator import Simulator
 from quiz import json_to_array, get_quiz
+from datetime import datetime, timedelta
 import base64
-import datetime
 
 
 app = FastAPI()
@@ -136,14 +134,6 @@ def decode_userid(encoded_userid: str) -> str:
     # Base64로 인코딩된 userid를 디코딩합니다.
     return base64.urlsafe_b64decode(encoded_userid.encode('ascii')).decode('utf-8')
 
-
-def encode_userid(userid: str) -> str:
-    # userid를 UTF-8로 인코딩한 다음, Base64 인코딩을 적용합니다.
-    return base64.urlsafe_b64encode(userid.encode('utf-8')).decode('ascii')
-def decode_userid(encoded_userid: str) -> str:
-    # Base64로 인코딩된 userid를 디코딩합니다.
-    return base64.urlsafe_b64decode(encoded_userid.encode('ascii')).decode('utf-8')
-
 @app.post("/users/")
 async def create_user(user_create: User, response: Response,  db: Session = Depends(get_db)):
     # 중복 검사
@@ -156,16 +146,6 @@ async def create_user(user_create: User, response: Response,  db: Session = Depe
     db.commit()
 
     return {"userid": user_create.userid}
-
-@app.get("/get-userid")
-async def get_userid(session_id: str, response: Response,  db: Session = Depends(get_db)):
-    # session_id로 사용자를 찾습니다.
-    db_user = db.query(User).filter(User.session_id == session_id).first()
-    if db_user is None:
-        raise HTTPException(status_code=404, detail="User not found")
-    # 찾은 사용자의 userid를 쿠키에 저장합니다.
-    response.set_cookie(key="userid", value=db_user.userid)
-    return {"userid": db_user.userid}
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
