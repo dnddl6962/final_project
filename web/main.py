@@ -43,6 +43,7 @@ def decode_userid(encoded_userid: str) -> str:
 
 @app.post("/users/")
 async def create_user(user_create: User, response: Response,  db: Session = Depends(get_db)):
+    
     # 중복 검사
     user = db.execute(text("SELECT * FROM id_test WHERE userid = :userid"), {'userid': user_create.userid}).fetchone()
     if user:
@@ -68,7 +69,10 @@ templates = Jinja2Templates(directory="templates")
 async def get_home_page(request: Request, response: Response):
 
     global simulator_manager
+    global no
+
     simulator_manager.initialize_simulator()
+    no = 0
 
     # est_theta 쿠키 초기화
     response.set_cookie(key="est_theta", value=0)
@@ -152,9 +156,6 @@ async def submit_answer(answer: Answer, response: Response, request: Request, db
     # UTC에서 9시간을 더해 서울 시간대로 변환
     korean_start_time = start_time + timedelta(hours=9)
     formatted_start_time = korean_start_time.strftime('%Y-%m-%d %H:%M')
-
-    # # 사용자의 학습 능력 가져오기
-    # proficiency = request.cookies.get('est_theta')
 
     # 문제 번호를 1씩 증가
     no += 1

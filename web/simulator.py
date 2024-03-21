@@ -9,7 +9,7 @@ from quiz import json_to_array, get_quiz
     
 initializer = FixedPointInitializer(0)
 selector = UrrySelector()
-estimator = NumericalSearchEstimator()
+estimator = NumericalSearchEstimator(precision=8, dodd=True, method='ternary')
 stopper = MinErrorStopper(0.6)
 
 json_data = load_data('mathcat-bucket', 'irt_result/yyyy=2024/mm=03/dd=13/irt_result.json')
@@ -88,7 +88,7 @@ class Simulator:
         else:
             self.est_theta = 0
             
-        if len(self.administered_items) == 15 or self.stopper.stop(administered_items=np.array(self.result_array)[self.administered_items], theta=self.est_theta):
+        if len(self.administered_items) == self.max_items or self.stopper.stop(administered_items=np.array(self.result_array)[self.administered_items], theta=self.est_theta):
             # 사용자의 학습 수준 출력
             print("시험 종료")
             print("Final estimated proficiency:", self.est_theta)
