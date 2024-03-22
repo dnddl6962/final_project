@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     // estimated_proficiency 값을 화면에 표시
                     const proficiency = document.getElementById('proficiency');
-                    proficiency.textContent = `proficiency: ${data.estimated_proficiency}`;
+                    proficiency.textContent = `현재 학습 능력: ${data.estimated_proficiency}`;
                     if(data.estimated_proficiency == 0){
                         proficiency.textContent = '초기 사용자 능력치 측정을 위한 문제입니다.'
                     };

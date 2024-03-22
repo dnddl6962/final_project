@@ -9,6 +9,7 @@ header {
   top: 0;
   z-index: 1000;
   overflow:hidden; /* 헤더 밖으로 이미지가 나가지 않도록 설정 */
+  background: black;
 }
 
 .header-container {
@@ -33,7 +34,8 @@ body, html {
   margin: 10px;
   align-items: center;
   justify-content: center;
-  background: rgb(224, 253, 198);
+  background: black;
+  /* background: rgb(224, 253, 198); */
   /* background: linear-gradient(324deg, rgb(235, 250, 230) 18%, rgb(220, 252, 188) 46%, rgb(255, 247, 171) 97%); */
 
   
@@ -41,7 +43,7 @@ body, html {
   canvas {
     height: auto;
     /* height: 75%; */
-    width: 80%;
+    width: 100vw;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -73,7 +75,7 @@ body, html {
   }
   h3 {
     font-size: 1em; /* 제목의 크기를 조정하세요 */
-    color: black; /* 제목의 색상을 조정하세요 */
+    color: white; /* 제목의 색상을 조정하세요 */
     margin-top: 1em;
     margin-bottom: 0.5em;
     font-weight: 500;
