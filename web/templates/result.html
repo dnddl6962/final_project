@@ -40,28 +40,27 @@
         return data;
     }
 
-
-        // CDF 계산 함수
-        function calculateCDF(value, mean, stdDev) {
-        return 0.5 * (1 + erf((value - mean) / (stdDev * Math.sqrt(2))));
+        // 누적 분포 함수 계산
+        function cumulativeDistribution(z) {
+            return (1 + erf(z / Math.sqrt(2))) / 2;
         }
 
         // 오차 함수 (erf) 계산 함수
         function erf(x) {
-        const a1 =  0.254829592;
-        const a2 = -0.284496736;
-        const a3 =  1.421413741;
-        const a4 = -1.453152027;
-        const a5 =  1.061405429;
-        const p  =  0.3275911;
+            const a1 =  0.254829592;
+            const a2 = -0.284496736;
+            const a3 =  1.421413741;
+            const a4 = -1.453152027;
+            const a5 =  1.061405429;
+            const p  =  0.3275911;
 
-        const sign = (x < 0) ? -1 : 1;
-        x = Math.abs(x);
+            const sign = (x < 0) ? -1 : 1;
+            x = Math.abs(x);
 
-        const t = 1.0 / (1.0 + p * x);
-        const y = ((((a5 * t + a4) * t) + a3) * t + a2) * t + a1;
+            const t = 1.0 / (1.0 + p * x);
+            const y = ((((a5 * t + a4) * t) + a3) * t + a2) * t + a1;
 
-        return sign * (1 - y * Math.exp(-x * x));
+            return sign * (1 - y * Math.exp(-x * x));
         }
 
         // 평균과 표준편차를 지정하여 정규분포 데이터 생성
@@ -94,6 +93,17 @@
             else {
                 specificValue = est_theta; // est_theta가 -3부터 3 사이에 있을 경우 그대로 사용
             }    
+
+            // 사용자의 위치에 따른 상위 백분율 계산 함수
+            function calculatePercentile(x) {
+                if (x === 3) {
+                    return 99.9;
+                } else if (x === -3) {
+                    return 0.1;
+                } else {
+                    return -16.667 * x + 50;
+                }
+            }
 
             // 학습 수준에 따른 해당 사용자의 위치
             const specificValueY = (1 / (stdDev * Math.sqrt(2 * Math.PI))) * Math.exp(-((specificValue - mean) ** 2) / (2 * stdDev ** 2));
@@ -140,9 +150,27 @@
                         x: {
                             type: 'linear',
                             position: 'bottom',
+                            title: {
+                                display: true,
+                                text: '상위 백분율', // x축 라벨 설정
+                                font: {
+                                    size: 20
+                                }
+                            },
                             ticks: {
                                 font: {
                                     size: 30
+                                },
+                                callback: function(value) {
+                                    let percentile;
+                                    if (value === -3) {
+                                        percentile = 99.9;
+                                    } else if (value === 3) {
+                                        percentile = 0.1;
+                                    } else {
+                                        percentile = -16.667 * value + 50; // 상위 백분율 계산
+                                    }
+                                    return `${percentile.toFixed(1)}%`;
                                 }
                             }
                         },
@@ -176,10 +204,17 @@
                                     return '';
                                 },
                                 label: function(context) {
-                                    const xValue = context.parsed.x; // 현재 점의 x값
-                                    const cdf = calculateCDF(context.parsed.x, mean, stdDev); // 현재 점에 대한 CDF 계산
-                                    const percentile = (1 - cdf) * 100; // 상위 백분율 계산
-                                    return `내 위치: 상위 ${(percentile).toFixed(2)}%`;
+                                    // 현재 점의 x값
+                                    const xValue = context.parsed.x;
+                                    let percentile;
+                                    if (xValue === -3) {
+                                        percentile = 99.9;
+                                    } else if (xValue === 3) {
+                                        percentile = 0.1;
+                                    } else {
+                                        percentile = -16.667 * xValue + 50;
+                                    }
+                                    return `내 위치: 상위 ${(percentile).toFixed(1)}%`;
                                 }
                             }
                         },
@@ -195,7 +230,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
           console.log('문서 로드 완료');
-          const userid = localStorage.getItem('userid'); // 또는 쿠키에서 읽기
+          const userid = localStorage.getItem('userid');
           console.log('userid:', userid);
           if (userid) {
             document.getElementById('userid-display').textContent = `사용자 ID: ${userid}`;

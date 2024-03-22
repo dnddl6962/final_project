@@ -92,7 +92,7 @@ class Simulator:
             # 사용자의 학습 수준 출력
             print("시험 종료")
             print("Final estimated proficiency:", self.est_theta)
-            return self.est_theta, self.administered_items, self.responses, self.index, True
+            return self.est_theta, self.administered_items, self.responses, self.index + 1, True
 
         self.index += 1
-        return self.est_theta, self.administered_items, self.responses, self.index, False
+        return self.est_theta, self.administered_items, self.responses, self.index + 1, False
