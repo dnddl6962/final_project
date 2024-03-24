@@ -1,6 +1,0 @@
-pandas
-sqlalchemy
-pymysql  # 또는 mysqlclient
-boto3
-numpy
-
