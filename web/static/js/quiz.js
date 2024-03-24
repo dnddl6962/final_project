@@ -5,10 +5,25 @@ document.addEventListener('DOMContentLoaded', function() {
     let lastQuiz = false; // 마지막 퀴즈 여부를 저장하는 변수
     let userHasSelected = false;
     let selectedAnswer = null;// 사용자가 선택한 답변을 임시 저장할 변수
+    let currentProficiency; // 현재 학습 능력을 임시 저장할 변수
 
     function loadNextQuestion() {
         currentQuestionNum++; // 문제 번호를 업데이트
         document.getElementById('question-number').textContent = `${currentQuestionNum}번째 문제`;
+
+        // 현재 학습 능력을 화면에 업데이트
+        if (currentProficiency !== undefined) {
+            const proficiency = document.getElementById('proficiency');
+            if(currentProficiency == 0){
+                proficiency.textContent = '초기 사용자 능력치 측정을 위한 문제입니다.'
+            }
+            else{
+                proficiency.textContent = `현재 학습 능력: ${currentProficiency}`;
+            }
+            currentProficiency = undefined; // 학습 능력치 초기화
+        }
+
+
         fetch('/get-question')
         .then(response => response.json())
         .then(data => {
@@ -22,6 +37,19 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.error('Error:', error));
     }
+    document.getElementById('submit-button').addEventListener('click', function() {
+         // 사용자가 선택하지 않았다면 경고를 표시하고 함수 종료.
+         if (!userHasSelected) {
+            alert('답변을 선택해주세요!');
+            return;
+        }
+        if (!lastQuiz) {
+            sendAnswer(selectedAnswer, currentQuestionId); // 여기에서 선택한 답변을 전송
+
+        }
+    }
+    );
+
 
     document.getElementById('next-button').addEventListener('click', function() {
         // 사용자가 선택하지 않았다면 경고를 표시하고 함수 종료.
@@ -31,7 +59,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         if (!lastQuiz) {
-            sendAnswer(selectedAnswer, currentQuestionId); // 여기에서 선택한 답변을 전송
             loadNextQuestion(); // 다음 문제 로드
             resetSelection(); // 선택된 상태 초기화
             userHasSelected = false; // 사용자 선택 상태 초기화
@@ -84,28 +111,30 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 console.log('Response:', data);
-                if (!data.error) {
-                    // 응답이 에러가 아닌 경우에만 처리
-                    if (data.message) {
-                        console.log(data.message); // 서버로부터 받은 메시지 출력
+                setTimeout(() => {
+                    if (!data.error) {
+                        // 응답이 에러가 아닌 경우에만 처리
+                        // 응답 성공 시, 현재 학습 능력치 업데이트
+                        currentProficiency = data.estimated_proficiency;
+                        if (data.message) {
+                            console.log(data.message); // 서버로부터 받은 메시지 출력
+                        }
+                        
+                        if (data.last_quiz) {
+                            // 마지막 퀴즈일 경우 다음 버튼 숨기기
+                            alert("테스트가 완료되었습니다!");
+                            window.location.href = '/result';
+                            document.getElementById('result').addEventListener('click', testResult);
+                        }
+                    } else {
+                        console.error('Error:', data.error); // 에러가 발생한 경우 에러 메시지 출력
                     }
-                    // estimated_proficiency 값을 화면에 표시
-                    const proficiency = document.getElementById('proficiency');
-                    proficiency.textContent = `현재 학습 능력: ${data.estimated_proficiency}`;
-                    if(data.estimated_proficiency == 0){
-                        proficiency.textContent = '초기 사용자 능력치 측정을 위한 문제입니다.'
-                    };
-                    if (data.last_quiz) {
-                        // 마지막 퀴즈일 경우 다음 버튼 숨기기
-                        alert("테스트가 완료되었습니다!");
-                        window.location.href = '/result';
-                        document.getElementById('result').addEventListener('click', testResult);
-                    }
-                } else {
-                    console.error('Error:', data.error); // 에러가 발생한 경우 에러 메시지 출력
-                }
+                }, 100);
             })
-            .catch(error => console.error('Error:', error)); // 네트워크 에러 등 예외 발생 시 에러 메시지 출력
+            .catch(error => {
+                console.error('Error:', error); // 네트워크 에러 등 예외 발생 시 에러 메시지 출력
+                setTimeout(hideLoadingIndicator, 100); 
+            }); // 예외 발생 시에도 로딩 종료 필요
         }
     }
 
@@ -114,7 +143,6 @@ document.addEventListener('DOMContentLoaded', function() {
         oButton.classList.remove('selected');
         xButton.classList.remove('selected');
     }
-
     // 페이지 로드 시 첫 번째 문제 로드
     loadNextQuestion();
 });
