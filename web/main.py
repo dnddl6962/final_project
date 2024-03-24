@@ -7,17 +7,15 @@ from sqlalchemy import text, Column, Integer, String, Float
 from sqlalchemy.ext.declarative import declarative_base
 from database import SessionLocal
 from sqlalchemy.orm import Session
-from simulator import SimulatorManager
+from simulator import SimulatorManager, json_data
 from datetime import datetime, timedelta
 import base64
-from load import load_data
-
 
 app = FastAPI()
 router = APIRouter()
 Base = declarative_base()
 
-json_data = load_data('mathcat-bucket', 'irt_result/yyyy=2024/mm=03/dd=13/irt_result.json')
+json_data = json_data
 
 def get_db():
     db = SessionLocal()

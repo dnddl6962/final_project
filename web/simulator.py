@@ -5,14 +5,21 @@ from catsim.estimation import NumericalSearchEstimator
 from catsim.stopping import MinErrorStopper
 from load import load_data
 from quiz import json_to_array, get_quiz
+import dotenv
+import os
 
+env_path = dotenv.find_dotenv()
+dotenv.load_dotenv(env_path)
+    
+bucket = os.environ.get("AWS_BUCKET_NAME")
+object_key = os.environ.get("AWS_OBJECT_KEY")
     
 initializer = FixedPointInitializer(0)
 selector = UrrySelector()
 estimator = NumericalSearchEstimator(precision=8, dodd=True, method='ternary')
 stopper = MinErrorStopper(0.6)
 
-json_data = load_data('mathcat-bucket', 'irt_result/yyyy=2024/mm=03/dd=13/irt_result.json')
+json_data = load_data(bucket, object_key)
 result_array = json_to_array(json_data)
 initial_item_ids = get_quiz(json_data, result_array)
 
