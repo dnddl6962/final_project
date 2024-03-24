@@ -22,7 +22,7 @@ class SimulatorManager:
         self.simulator = None
     
     def initialize_simulator(self):
-        self.simulator = Simulator(np.array(result_array), 4, 15, initializer, selector, estimator, stopper)
+        self.simulator = Simulator(np.array(result_array), 4, 12, initializer, selector, estimator, stopper)
 
 
 class Simulator:
