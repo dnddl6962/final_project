@@ -45,7 +45,7 @@ async def create_user(user_create: User, response: Response,  db: Session = Depe
     # 중복 검사
     user = db.execute(text("SELECT * FROM id_test WHERE userid = :userid"), {'userid': user_create.userid}).fetchone()
     if user:
-        raise HTTPException(status_code=400, detail="닉네임이 이미 사용 중입니다.")
+        raise HTTPException(status_code=400, detail="아이디가 이미 사용 중입니다.")
     
     # 새 사용자 추가
     db.execute(text("INSERT INTO id_test (userid) VALUES (:userid)"), {'userid': user_create.userid})

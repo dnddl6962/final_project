@@ -38,12 +38,16 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => console.error('Error:', error));
     }
     document.getElementById('submit-button').addEventListener('click', function() {
+        
          // 사용자가 선택하지 않았다면 경고를 표시하고 함수 종료.
          if (!userHasSelected) {
+            
             alert('답변을 선택해주세요!');
             return;
         }
         if (!lastQuiz) {
+            updateSelection(submitButton);
+            userHasSelected = true;
             sendAnswer(selectedAnswer, currentQuestionId); // 여기에서 선택한 답변을 전송
 
         }
@@ -66,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    const submitButton = document.getElementById('submit-button');
     const oButton = document.getElementById('o-button');
     const xButton = document.getElementById('x-button');
 
@@ -74,6 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 먼저 모든 버튼에서 'selected' 클래스 제거
         oButton.classList.remove('selected');
         xButton.classList.remove('selected');
+        submitButton.classList.remove('selected');
         
         // 선택된 버튼에만 'selected' 클래스 추가
         selectedButton.classList.add('selected');
@@ -142,6 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 모든 버튼에서 'selected' 클래스 제거
         oButton.classList.remove('selected');
         xButton.classList.remove('selected');
+        submitButton.classList.remove('selected');
     }
     // 페이지 로드 시 첫 번째 문제 로드
     loadNextQuestion();
