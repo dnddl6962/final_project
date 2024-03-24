@@ -95,7 +95,6 @@ async def get_next_question():
 
 @app.get("/get-question")
 async def get_question():
-    
     # 다음 문제 반환
     return await get_next_question()
 
