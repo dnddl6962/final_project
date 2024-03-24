@@ -2,31 +2,19 @@
 
   
   .box {
-    width: 100vw;       /* 화면의 전체 너비 */
-    height: 100vh;      /* 화면의 전체 높이 */
+    width: 100vw;  
+    height: 100vh; 
     position: absolute;
-    /*top: 70px;  */
     left: 0;
-    /* background-image: url('/static/img/back2.png');
-    background-size: 100%; /* 이미지가 화면을 꽉 채우도록 조정 */
-    /* background-position: center;  */
-    /* background: linear-gradient(324deg, rgb(238, 255, 233) 18%, rgb(228, 255, 200) 46%, rgb(255, 248, 188) 97%); */
-    /* background-color: white; */
-    /* OR */
     background: #00023B;
-    /* background: linear-gradient(324deg,#3da27d,#2d7c5f) ; */
-    /* background: linear-gradient(324deg, rgb(226, 252, 218) 18%, rgb(207, 251, 162) 46%, rgb(255, 243, 139) 97%); */
-    /* background: linear-gradient(324deg, rgba(234,255,214,1) 18%, rgba(124,207,42,1) 46%, rgba(254,237,96,1) 97%); */
-    background-size: cover; /* 이미지가 박스를 전체적으로 커버하도록 설정 */
-    background-position: center; /* 배경 이미지가 중앙에 위치하도록 설정 */
-    background-repeat: no-repeat; /* 배경 이미지가 반복되지 않도록 설정 */
-    height: 100vh; /* 또는 적절한 높이 설정 */
-    width: 100%; /* 박스가 화면 전체 너비를 차지하도록 설정 */
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    height: 100vh; 
+    width: 100%; 
   
   }
   body, html {
-    /* align-items: center; */
-    /* justify-content: center; */
     margin: 0; 
     font-family: "Nanum Gothic", sans-serif;
     
@@ -36,29 +24,25 @@
     background-image: url('/static/img/back3.png');
   }
   h1 {
-    font-size: 4em; /* 제목의 크기를 조정하세요 */
-    /* color: black; */
+    font-size: 4em;
     color: black; 
     margin-top: 3em;
     margin-bottom: 0.5em;
     font-weight: 700;
-    font-family: "Nanum Gothic", sans-serife; /* 이 폰트를 사용하여 스타일링 */
-    /* text-shadow: -2px -2px 0 #799260, 2px -2px 0 #799260, -2px 2px 0 #799260, 2px 2px 0 #799260; */
+    font-family: "Nanum Gothic", sans-serife; 
   }
   
   p {
-    font-size: 3em; /* 본문 텍스트의 크기를 조정하세요 */
-    color: black; /* 본문 텍스트의 색상을 조정하세요 */
+    font-size: 3em;
+    color: black;
     margin-top: 2em;
     margin-bottom: 1em;
     font-weight: 700;
     font-family: "Nanum Gothic", sans-serif;
-    /* text-shadow: -2px -2px 0 #ffffff, 2px -2px 0 #ffffff, -2px 2px 0 #ffffff, 2px 2px 0 #ffffff; */
-
   }
   
   button {
-    background-color: white; /* 버튼 배경 색상을 조정하세요 */
+    background-color: white; 
     border: none;
     color: #0D0D0D;
     border: 3px solid #B1C000;

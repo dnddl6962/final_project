@@ -33,11 +33,11 @@ class User(BaseModel):
     userid: str
 
 def encode_userid(userid: str) -> str:
-    # userid를 UTF-8로 인코딩한 다음, Base64 인코딩을 적용합니다.
+    # userid를 UTF-8로 인코딩한 다음, Base64 인코딩 적용
     return base64.urlsafe_b64encode(userid.encode('utf-8')).decode('ascii')
 
 def decode_userid(encoded_userid: str) -> str:
-    # Base64로 인코딩된 userid를 디코딩합니다.
+    # Base64로 인코딩된 userid 디코딩
     return base64.urlsafe_b64decode(encoded_userid.encode('ascii')).decode('utf-8')
 
 

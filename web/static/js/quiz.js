@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch('/get-question')
         .then(response => response.json())
         .then(data => {
-            console.log(data);  // 전체 데이터 구조 확인
             const nextItemId = data.item_id;
             if (data.last_quiz) {
                 lastQuiz = true;
@@ -25,14 +24,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     document.getElementById('next-button').addEventListener('click', function() {
-        // 사용자가 선택하지 않았다면 경고를 표시하고 함수를 종료합니다.
+        // 사용자가 선택하지 않았다면 경고를 표시하고 함수 종료.
         if (!userHasSelected) {
             alert('답변을 선택해주세요!');
             return;
         }
         
         if (!lastQuiz) {
-
             sendAnswer(selectedAnswer, currentQuestionId); // 여기에서 선택한 답변을 전송
             loadNextQuestion(); // 다음 문제 로드
             resetSelection(); // 선택된 상태 초기화
@@ -40,12 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
             selectedAnswer = null; // 선택한 답변 초기화
         }
     });
-    //     if (!lastQuiz && !userHasSelected) {
-    //         alert('답변을 선택해주세요!');
-    //         loadNextQuestion(); // 다음 문제 로드
-    //         resetSelection(); // 선택된 상태 초기화
-    //     }
-    // });
 
     const oButton = document.getElementById('o-button');
     const xButton = document.getElementById('x-button');
@@ -65,21 +57,19 @@ document.addEventListener('DOMContentLoaded', function() {
             updateSelection(oButton);
             selectedAnswer = true; // 사용자가 "O"를 선택한 것으로 저장
             userHasSelected = true; // 답변이 선택되었다고 표시
-            // sendAnswer(true, currentQuestionId); // 문제를 맞힘
         }
     });
 
     xButton.addEventListener('click', function() {
         if (!lastQuiz) {
             updateSelection(xButton);
-            // sendAnswer(false, currentQuestionId); // 문제를 틀림
             selectedAnswer = false; // 사용자가 "X"를 선택한 것으로 저장
             userHasSelected = true; // 답변이 선택되었다고 표시
         }
     });
 
     function sendAnswer(answer, questionId) {
-        if (!lastQuiz ) { // 마지막 퀴즈가 아닌 경우에만 응답을 전송합니다.
+        if (!lastQuiz ) { // 마지막 퀴즈가 아닌 경우에만 응답 전송.
             // 서버로 응답을 전송하는 로직
             fetch('/submit-answer', {
                 method: 'POST',
@@ -107,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     };
                     if (data.last_quiz) {
                         // 마지막 퀴즈일 경우 다음 버튼 숨기기
-                        //document.getElementById('next-button').style.display = 'none';
                         alert("테스트가 완료되었습니다!");
                         window.location.href = '/result';
                         document.getElementById('result').addEventListener('click', testResult);

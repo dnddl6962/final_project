@@ -2,53 +2,40 @@
 
 header {
   width: 100%;
-  /* 헤더 높이 설정 필요. 예를 들면, 70px */
   height: 80px;
-  /* background: linear-gradient(324deg, rgb(235, 250, 230) 18%, rgb(215, 250, 180) 46%, rgb(250, 240, 154) 97%); */
   position:absolute;
   top: 0;
   z-index: 1000;
-  overflow:hidden; /* 헤더 밖으로 이미지가 나가지 않도록 설정 */
+  overflow:hidden; 
   background: black;
 }
 
 .header-container {
-  /* .header-container에 관련된 나머지 스타일 */
-  position:relative; /* 이미지를 헤더 내부에서 절대 위치로 조정하기 위함 */
+  position:relative; 
 
 }
   
 .box {
-  width: 200vw;       /* 화면의 전체 너비 */
-  height: auto;      /* 화면의 전체 높이 */
-  position: fixed; /*
-  top: 70px; 
-  left: 0;
-
-  /* background-color: #A8EA66; 단일 배경색 사용 */
-  /* OR */
+  width: 200vw; 
+  height: auto;
+  position: fixed; 
 }
+
 body, html {
-  /*padding-top: 70px;  헤더 높이에 맞춰 조정 */
   height: auto;
   margin: 10px;
   align-items: center;
   justify-content: center;
   background: black;
-  /* background: rgb(224, 253, 198); */
-  /* background: linear-gradient(324deg, rgb(235, 250, 230) 18%, rgb(220, 252, 188) 46%, rgb(255, 247, 171) 97%); */
-
   
 }
   canvas {
     height: auto;
-    /* height: 75%; */
     width: 100vw;
     display: flex;
     align-items: center;
     justify-content: center;
     background: white;
-    /* background: linear-gradient(324deg, rgb(255, 255, 255) 18%, rgb(215, 250, 180) 46%, rgb(250, 240, 154) 97%); */
     font-family: "Nanum Gothic", sans-serif;
 
   }
@@ -56,45 +43,43 @@ body, html {
     text-align: center;
   }
   h1 {
-    font-size: 3em; /* 제목의 크기를 조정하세요 */
-    color: white; /* 제목의 색상을 조정하세요 */
+    font-size: 3em; 
+    color: white; 
     margin-top: 4em;
     margin-bottom: 0.5em;
     font-weight: 700;
-    font-family: "Nanum Gothic", sans-serif; /* 이 폰트를 사용하여 스타일링 */
-    /* text-shadow: -2px -2px 0 #799260, 2px -2px 0 #799260, -2px 2px 0 #799260, 2px 2px 0 #799260; */
+    font-family: "Nanum Gothic", sans-serif; 
   }
+
   h2{
-    font-size: 1em; /* 제목의 크기를 조정하세요 */
-    color: white; /* 제목의 색상을 조정하세요 */
+    font-size: 1em; 
+    color: white; 
     margin-top: 0.5em;
     margin-bottom: 0.5em;
     font-weight: 500;
-    font-family: "Nanum Gothic", sans-serif; /* 이 폰트를 사용하여 스타일링 */
-    /* text-shadow: -2px -2px 0 #799260, 2px -2px 0 #799260, -2px 2px 0 #799260, 2px 2px 0 #799260; */
+    font-family: "Nanum Gothic", sans-serif; 
   }
+
   h3 {
-    font-size: 1em; /* 제목의 크기를 조정하세요 */
-    color: white; /* 제목의 색상을 조정하세요 */
+    font-size: 1em; 
+    color: white; 
     margin-top: 1em;
     margin-bottom: 0.5em;
     font-weight: 500;
-    font-family: "Nanum Gothic", sans-serif; /* 이 폰트를 사용하여 스타일링 */
-    /* text-shadow: -2px -2px 0 #799260, 2px -2px 0 #799260, -2px 2px 0 #799260, 2px 2px 0 #799260; */
+    font-family: "Nanum Gothic", sans-serif; 
   }
+
   p {
-    font-size: 2em; /* 본문 텍스트의 크기를 조정하세요 */
-    color: white; /* 본문 텍스트의 색상을 조정하세요 */
+    font-size: 2em; 
+    color: white; 
     margin-top: 3em;
     margin-bottom: 2em;
     font-weight: 700;
     font-family: "Nanum Gothic", sans-serif;
-    /* text-shadow: -2px -2px 0 #ffffff, 2px -2px 0 #ffffff, -2px 2px 0 #ffffff, 2px 2px 0 #ffffff; */
-
   }
   
   button {
-    background-color: white; /* 버튼 배경 색상을 조정하세요 */
+    background-color: white; 
     border: none;
     color: #799260;
     padding: 15px 27px;
@@ -109,15 +94,13 @@ body, html {
     font-family: "Nanum Gothic", sans-serif;
   }    
   .cute-cat-image {
-    max-height: 75px; /* 헤더의 높이와 일치하도록 설정 */
-    width: auto; /* 이미지의 원래 가로 세로 비율을 유지하면서 높이에 맞춤 */
-    height: auto; /* 이미지의 원래 가로 세로 비율을 유지하면서 높이에 맞춤 */
+    max-height: 75px; 
+    width: auto; 
+    height: auto; 
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%);
-    /* 애니메이션 및 기타 스타일 */
-    /* 이미지의 중심을 정확히 중앙에 배치 */
     animation: moveLeftRight 7s infinite alternate;
 }
   
@@ -126,26 +109,21 @@ body, html {
       left: 0;
     }
     to {
-      left: 100%; /* 이미지를 헤더의 오른쪽 끝까지 이동 */
+      left: 100%;
     }
 }
 #userid-display {
   font-family: "Nanum Gothic", sans-serif;
   font-size: 30px;
-  /* position: relative; /* 상대 위치 
-  width: 100%; /* 전체 너비를 채우도록 설정 
-  top: 70px; /* 헤더 높이에 따라 조정 
-  z-index: 10; 헤더보다 앞에 오도록 z-index 값을 높게 설정 */
-  text-align: center; /* 내용을 중앙으로 정렬 */
-  /*box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-  border-radius: 5px; /* 모서리를 둥글게 */
+  text-align: center;
+  border-radius: 5px;
 }
 
 .chart-container {
   display: flex;
   flex-direction: column;
-  align-items: center; /* 콘텐츠를 중앙에 정렬 */
-  justify-content: center; /* 콘텐츠를 중앙에 정렬 */
+  align-items: center; 
+  justify-content: center; 
   height: auto; 
   margin-top: 70px;
   margin-bottom: 10px;

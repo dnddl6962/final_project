@@ -24,7 +24,6 @@
                     <div id="question-display"></div>
                     <div id="userid-display"></div>
                     <div id="proficiency"></div>
-                    <!-- 기존의 O/X 버튼에 각각 고유한 ID를 추가하지 않고, class로 이벤트를 추가하겠습니다. -->
                     <button id="o-button">O</button>
                     <button id="x-button">X</button>
                     <button id="next-button">다음</button>
@@ -40,16 +39,16 @@
     document.addEventListener('DOMContentLoaded', function() {
       const startTimeString = localStorage.getItem('startTime');
       if (startTimeString) {
-        // ISO 문자열에서 Date 객체를 생성합니다.
+        // ISO 문자열에서 Date 객체 생성.
         const startTime = new Date(startTimeString);
-        // 날짜 포맷을 '년-월-일 시:분' 형식으로 설정합니다.
+        // 날짜 포맷을 '년-월-일 시:분' 형식으로 설정.
         const formattedTime = startTime.getFullYear() + '-' + 
             ('0' + (startTime.getMonth() + 1)).slice(-2) + '-' + 
             ('0' + startTime.getDate()).slice(-2) + ' ' + 
             ('0' + startTime.getHours()).slice(-2) + ':' + 
             ('0' + startTime.getMinutes()).slice(-2);
         
-        // ID가 'display-start-time'인 요소에 포맷팅된 시간을 표시합니다.
+        // ID가 'display-start-time'인 요소에 포맷팅된 시간을 표시.
         document.getElementById('display-start-time').textContent = `시작 시간: ${formattedTime}`;
       }
     });
