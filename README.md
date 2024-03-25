@@ -44,9 +44,24 @@ IRT 모델을 기반으로 한 CAT 알고리즘 구현
 2. 5번째 문제부터는 추정된 학습 능력에 따라 다른 문제가 추천되고 최대 12문제를 풀게 됩니다.
 3. 시험이 종료되면 자신의 위치를 그래프 상에서 상위 백분율로 확인할 수 있습니다.
 
-### 개발 Part
-아키텍처 구성도 넣을까 말까요?
+### 개발 Part(아키텍처 구성도)
+<details>
+  <summary><b> ✔️ IRT 모델 PIPELINE </b></summary>
+ <img src= "https://github.com/dnddl6962/final_project/assets/62236700/f0b596a7-7932-40f9-a0a5-d3fff6199128" width="543px"> 
+</p>
+</details>
 
+<details>
+  <summary><b> ✔️ CI/CD PIPELINE </b></summary>
+<img src= "https://github.com/dnddl6962/final_project/assets/62236700/1d9f2c54-4fdd-49ca-9209-ff81ca21c158" width="543px"> 
+</p>
+</details>
+
+<details>
+  <summary><b> ✔️ WEB PIPELINE </b></summary>
+<img src= "https://github.com/dnddl6962/final_project/assets/62236700/5df72ae3-9bc6-4ab5-8e7c-56885f957186" width="543px"> 
+</p>
+</details>
 <br/>
 
 ## 🖥️ Stack & Tool
