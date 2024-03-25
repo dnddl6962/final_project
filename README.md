@@ -23,7 +23,7 @@
     <td height="140px" align="center"> <a href="https://github.com/dnddl6962"><img src="https://github.com/dnddl6962/final_project/assets/96913965/8357ae40-f148-429f-bfb1-d4c30389f02f" width="140px" alt="웅" /><br/></a></td>
     <td height="140px" align="center"> <a href="https://github.com/allsilver00"><img src="https://github.com/dnddl6962/final_project/assets/96913965/52c6a1d7-7552-41d1-9cac-f520043067a4" width="140px" /><br/></a></td>
     <td height="140px" align="center"> <a href="https://github.com/dony1220"><img src="https://github.com/dnddl6962/final_project/assets/96913965/638c17e4-af01-44ed-b65e-e97d56726fb4" width="140px" /><br/></a></td>
-    <td height="140px" align="center"> <a href="https://github.com/yewchung56"><img src="https://avatars.githubusercontent.com/u/62236700?s=460&v=4" width="140px" /><br/></a></td>
+    <td height="140px" align="center"> <a href="[https://github.com/yewchung56"><img src="https://github.com/dnddl6962/final_project/assets/96913965/fe1a71d7-e423-47bf-961a-2266efc0e88e" width="140px" /><br/></a></td>
     <td height="140px" align="center"> <a href="https://github.com/GaYeon-Alice"><img src="https://github.com/dnddl6962/final_project/assets/96913965/a1b4f68b-af7e-49c1-be04-c2ac66cbec6d" width="140px" /><br/></a></td>
   </tr>
   <tr>
