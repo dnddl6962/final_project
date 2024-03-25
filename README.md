@@ -5,72 +5,31 @@
   <img src= "https://github.com/dnddl6962/final_project/assets/96913965/1e9dbf9e-e35d-4159-bc5d-2a21bbbaf408" width="743px"> 
 </p>
 
-## 🕒 개발 기간
+## 🕒 개발 기간 및 R&R
 **2024.02.05 - 2024.03.26**
-
-
+<p align = 'left'>
+  <img src= "https://github.com/dnddl6962/final_project/assets/62236700/7f2d0b0e-b8bb-43e4-8a2a-32267b2a3bab" width="743px"> 
+</p>
 
 </br>
 
-## 🧑🏻‍💻 팀원 소개 및 R&R
+## 🧑🏻‍💻 팀원 소개 
 <table>
   <tr>
-    <td align="center">
-    <a href="https://github.com/dnddl6962">
-    <img src="https://github.com/dnddl6962/final_project/assets/96913965/8357ae40-f148-429f-bfb1-d4c30389f02f" width="150px;" alt="웅"/>
-    <br />
-    <sub>
-    <b>장 웅</b><br>
-    <b> :bulb: AWS 파이프라인 구축</b>
-    </sub>
-    </a>
-    <br />
-    <td align="center">
-    <a href="https://github.com/allsilver00">
-    <img src="https://github.com/dnddl6962/final_project/assets/96913965/52c6a1d7-7552-41d1-9cac-f520043067a4" width="150px;" alt="김다은"/>
-    <br />
-    <sub>
-    <b>김다은</b><br>
-    <b> :bulb: AWS 파이프라인 구축</b>
-    </sub>
-    </a>
-    <td align="center">
-    <a href="https://github.com/dony1220">
-    <img src="https://github.com/dnddl6962/final_project/assets/96913965/638c17e4-af01-44ed-b65e-e97d56726fb4" width="150px;" alt="도현"/>
-    <br />
-    <sub>
-    <b>김도현</b><br>
-    <b>🌟 데이터 처리 및 알고리즘 개발</b>
-    </sub>
-    </a>
-    <br />
-    </td>
-    <td align="center">
-    <a href="https://github.com/yewchung56">
-    <img src="https://github.com/dnddl6962/final_project/assets/96913965/fe1a71d7-e423-47bf-961a-2266efc0e88e" width="150px;" alt="지원"/>
-    <br />
-    <sub>
-    <b>양지원</b><br>
-    <b>🌟 데이터 전처리 및 웹 개발</b>
-    </sub>
-    </a>
-    <br />
-    <td align='center'>
-    <a href = 'https://github.com/GaYeon-Alice'>
-    <img src = 'https://github.com/dnddl6962/final_project/assets/96913965/a1b4f68b-af7e-49c1-be04-c2ac66cbec6d' width='150px;' alt='가연'/>
-    <br />
-    <sub>
-    <b>강가연</b><br>
-    <b>🌟 데이터 전처리 및 웹 개발</b>
-    </sub>
-    </td>
+    <td height="140px" align="center"> <a href="https://github.com/dnddl6962"><img src="https://github.com/dnddl6962/final_project/assets/96913965/8357ae40-f148-429f-bfb1-d4c30389f02f" width="140px" alt="웅" /><br/></a></td>
+    <td height="140px" align="center"> <a href="https://github.com/allsilver00"><img src="https://github.com/dnddl6962/final_project/assets/96913965/52c6a1d7-7552-41d1-9cac-f520043067a4" width="140px" /><br/></a></td>
+    <td height="140px" align="center"> <a href="https://github.com/dony1220"><img src="https://github.com/dnddl6962/final_project/assets/96913965/638c17e4-af01-44ed-b65e-e97d56726fb4" width="140px" /><br/></a></td>
+    <td height="140px" align="center"> <a href="https://github.com/yewchung56"><img src="https://avatars.githubusercontent.com/u/62236700?s=460&v=4" width="140px" /><br/></a></td>
+    <td height="140px" align="center"> <a href="https://github.com/GaYeon-Alice"><img src="https://github.com/dnddl6962/final_project/assets/96913965/a1b4f68b-af7e-49c1-be04-c2ac66cbec6d" width="140px" /><br/></a></td>
+  </tr>
+  <tr>
+      <td align="center">장 웅<br/>:bulb: AWS 파이프라인 구축<br/></td>
+      <td align="center">김다은<br/>:bulb: AWS 파이프라인 구축<br/></td>
+      <td align="center">김도현<br/>🌟 데이터 처리 및 알고리즘 개발<br/></td>
+      <td align="center">양지원<br/>🌟 데이터 전처리 및 웹 개발<br/></td>
+      <td align="center">강가연<br/>🌟 데이터 전처리 및 웹 개발<br/></td>
   </tr>
 </table>
-
-
-
-</p>
-<br/>
 
 
 ## 🐈 프로젝트 소개
